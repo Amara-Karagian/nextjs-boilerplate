@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MUN OS — Delegate Warfare Platform</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080c14;--bg2:#0f1623;--bg3:#1a2235;--bg4:#222d42;
+  --border:#2a3550;--gold:#c9a227;--gold2:#e8bc3d;
+  --text:#dde4f0;--text2:#7f8fa6;
+  --red:#e84545;--green:#27c96a;--blue:#4299e1;--purple:#9f7aea;--orange:#f97316;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;display:flex;overflow:hidden;font-size:14px}
+
+/* SIDEBAR */
+#sidebar{width:228px;min-width:228px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;z-index:10}
+.slogo{padding:16px 16px 12px;border-bottom:1px solid var(--border)}
+.slogo .t{font-size:18px;font-weight:900;color:var(--gold);letter-spacing:4px}
+.slogo .s{font-size:9px;color:var(--text2);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.ngl{padding:10px 16px 3px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);margin-top:6px}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 14px 8px 16px;cursor:pointer;font-size:12.5px;color:var(--text2);transition:all .12s;border-left:2px solid transparent;user-select:none}
+.ni:hover{background:var(--bg3);color:var(--text)}
+.ni.active{background:var(--bg3);color:var(--gold);border-left-color:var(--gold)}
+.ni .ico{font-size:13px;width:18px;text-align:center;flex-shrink:0}
+
+/* MAIN */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+
+/* TOPBAR */
+#topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:7px 18px;display:flex;align-items:center;gap:10px;flex-shrink:0;flex-wrap:wrap}
+.tbi{display:flex;align-items:center;gap:6px}
+.tbl{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;white-space:nowrap}
+.tbin{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:5px 9px;border-radius:5px;font-size:12px;width:155px}
+.tbin:focus{outline:none;border-color:var(--gold)}
+.tbsep{width:1px;height:22px;background:var(--border);margin:0 2px}
+.apig{margin-left:auto;display:flex;align-items:center;gap:8px}
+.adot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0;transition:background .3s}
+.adot.on{background:var(--green)}
+.msel{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:5px 8px;border-radius:5px;font-size:11px}
+
+/* CONTENT */
+#content{flex:1;overflow-y:auto;padding:22px 26px}
+
+/* PANELS */
+.panel{display:none;animation:fi .15s ease}
+.panel.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.ph{margin-bottom:20px}
+.ph h2{font-size:21px;font-weight:800;color:var(--gold2);margin-bottom:3px}
+.ph p{font-size:12.5px;color:var(--text2)}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:17px 20px;margin-bottom:14px}
+.ct{font-size:11px;font-weight:700;color:var(--gold);margin-bottom:11px;text-transform:uppercase;letter-spacing:.5px}
+
+/* FORMS */
+.fg{margin-bottom:13px}
+.fg label{display:block;font-size:10px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.fg input,.fg textarea,.fg select{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:6px;font-size:13px;font-family:inherit}
+.fg input:focus,.fg textarea:focus,.fg select:focus{outline:none;border-color:var(--gold)}
+.fg textarea{resize:vertical;min-height:85px;line-height:1.6}
+.fg select option{background:var(--bg3)}
+.row{display:flex;gap:12px}
+.row .fg{flex:1}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 15px;border-radius:6px;border:none;cursor:pointer;font-size:12.5px;font-weight:600;font-family:inherit;transition:all .12s}
+.bgold{background:var(--gold);color:#000}
+.bgold:hover{background:var(--gold2)}
+.bout{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.bout:hover{border-color:var(--gold);color:var(--gold)}
+.bred{background:var(--red);color:#fff}
+.bgrn{background:var(--green);color:#000}
+.bblu{background:var(--blue);color:#fff}
+.bgh{background:var(--bg3);border:1px solid var(--border);color:var(--text)}
+.bgh:hover{border-color:var(--gold);color:var(--gold)}
+.bsm{padding:4px 11px;font-size:11.5px}
+.blg{padding:10px 22px;font-size:14px}
+.bg{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* OUTPUT */
+.out{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px 15px;margin-top:10px;font-size:13px;line-height:1.75;white-space:pre-wrap;min-height:60px;position:relative}
+.out.empty{color:var(--text2);font-style:italic}
+.out.loading{color:var(--gold)}
+.out.loading::after{content:' ▋';animation:blink .8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.out-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.out-lbl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+/* TAGS */
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.tally{background:rgba(39,201,106,.15);color:var(--green);border:1px solid rgba(39,201,106,.3)}
+.tenemy{background:rgba(232,69,69,.15);color:var(--red);border:1px solid rgba(232,69,69,.3)}
+.tneut{background:rgba(127,143,166,.15);color:var(--text2);border:1px solid rgba(127,143,166,.3)}
+
+/* DASHBOARD */
+.dg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.db{background:var(--bg3);border-radius:8px;padding:13px 15px}
+.db .dl{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.db .dv{font-size:15px;font-weight:700;color:var(--gold2)}
+.db .dv.em{color:var(--text2);font-weight:400;font-style:italic;font-size:12px}
+
+/* TIMER */
+#tdisp{font-size:90px;font-weight:900;color:var(--gold);text-align:center;padding:28px;font-family:'Courier New',monospace;letter-spacing:8px;transition:color .3s}
+#tdisp.warn{color:var(--orange)}
+#tdisp.danger{color:var(--red);animation:blink .5s infinite}
+
+/* STT */
+#sttbox{background:var(--bg);border:2px solid var(--border);border-radius:10px;padding:16px;min-height:170px;font-size:14px;line-height:1.8;transition:border-color .3s}
+#sttbox.listening{border-color:var(--red)}
+.ldot{width:10px;height:10px;border-radius:50%;background:var(--red);display:inline-block}
+.ldot.active{animation:pd 1s infinite}
+@keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+
+/* DETECTION */
+.detm{height:16px;background:var(--bg3);border-radius:8px;overflow:hidden;margin:8px 0}
+.detf{height:100%;border-radius:8px;transition:width .6s ease}
+.dlow{background:var(--green)}
+.dmed{background:var(--orange)}
+.dhigh{background:var(--red)}
+
+/* VOCAB */
+.vrow{display:flex;align-items:center;gap:10px;padding:7px 10px;background:var(--bg3);border-radius:6px;margin-bottom:5px;font-size:12.5px}
+.vbad{color:var(--red);font-weight:600;min-width:115px;text-decoration:line-through}
+.varr{color:var(--text2)}
+.vgood{color:var(--green);font-weight:600;flex:1}
+.vctx{color:var(--text2);font-size:11px;margin-left:auto}
+
+/* PROCEDURE */
+.pri{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .12s}
+.pri:hover{border-color:var(--gold)}
+.pri:active{transform:scale(.98)}
+.prt{font-size:13px;font-weight:700;color:var(--gold2);margin-bottom:3px}
+.prp{font-size:12px;color:var(--text2);font-style:italic}
+.prn{font-size:11px;color:var(--blue);margin-top:4px}
+
+/* RESOLUTION */
+.crow{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:6px;margin-bottom:5px;font-size:13px}
+.ctype{color:var(--gold);font-weight:700;min-width:155px;font-size:12px}
+.ctext{flex:1;line-height:1.5}
+.cdel{background:none;border:none;color:var(--text2);cursor:pointer;font-size:17px;padding:0;line-height:1;flex-shrink:0}
+.cdel:hover{color:var(--red)}
+
+/* ALLY */
+.arow{background:var(--bg3);border-radius:8px;padding:12px 14px;margin-bottom:8px}
+.aname{font-size:14px;font-weight:700;color:var(--gold2)}
+.apos{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5}
+
+/* EVIDENCE */
+.evit{border-left:3px solid var(--blue);background:var(--bg3);border-radius:0 8px 8px 0;padding:11px 14px;margin-bottom:7px}
+.evn{font-size:13px;font-weight:700;color:var(--blue)}
+.evd{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.5}
+.evc{font-size:10px;color:var(--text2);margin-top:5px;font-style:italic}
+
+/* COUNTRY DB */
+.cdc{background:var(--bg3);border-radius:10px;padding:15px}
+.cdhdr{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.cdflag{font-size:26px}
+.cdname{font-size:15px;font-weight:800}
+.cdr{display:flex;gap:6px;margin-bottom:6px;align-items:flex-start}
+.cdl{font-size:10px;color:var(--text2);min-width:95px;padding-top:2px;text-transform:uppercase;letter-spacing:.5px}
+.cdv{font-size:12.5px;line-height:1.5}
+
+/* MISC */
+.sin{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 13px;border-radius:8px;font-size:13px;margin-bottom:14px;font-family:inherit}
+.sin:focus{outline:none;border-color:var(--gold)}
+#notes-ta{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:15px;border-radius:10px;font-size:14px;line-height:1.7;min-height:450px;resize:vertical;font-family:inherit}
+#notes-ta:focus{outline:none;border-color:var(--gold)}
+.div{height:1px;background:var(--border);margin:14px 0}
+#notif{position:fixed;bottom:18px;right:18px;padding:9px 18px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;font-size:13px;z-index:999;transform:translateY(80px);transition:transform .3s;pointer-events:none}
+#notif.show{transform:translateY(0)}
+#notif.ok{border-color:var(--green);color:var(--green)}
+#notif.err{border-color:var(--red);color:var(--red)}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="slogo"><div class="t">MUN OS</div><div class="s">Delegate Warfare Platform</div></div>
+  <div class="ngl">Intelligence</div>
+  <div class="ni active" data-p="dashboard"><span class="ico">🏛</span>Dashboard</div>
+  <div class="ni" data-p="country-intel"><span class="ico">🌍</span>Country Intel</div>
+  <div class="ni" data-p="ally-system"><span class="ico">🤝</span>Ally System</div>
+  <div class="ni" data-p="bloc-builder"><span class="ico">📊</span>Bloc Builder</div>
+  <div class="ni" data-p="evidence-db"><span class="ico">📂</span>Evidence DB</div>
+  <div class="ngl">AI Weapons</div>
+  <div class="ni" data-p="speech-gen"><span class="ico">🎤</span>Speech Generator</div>
+  <div class="ni" data-p="humanizer"><span class="ico">🧠</span>AI Humanizer</div>
+  <div class="ni" data-p="attack-gen"><span class="ico">⚔️</span>Attack Generator</div>
+  <div class="ni" data-p="defense-gen"><span class="ico">🛡</span>Defense Generator</div>
+  <div class="ni" data-p="rebuttal-gen"><span class="ico">🗣</span>Rebuttal Generator</div>
+  <div class="ni" data-p="poi-gen"><span class="ico">🔥</span>POI Generator</div>
+  <div class="ngl">Committee Tools</div>
+  <div class="ni" data-p="motion-builder"><span class="ico">📝</span>Motion Builder</div>
+  <div class="ni" data-p="resolution-builder"><span class="ico">📜</span>Resolution Builder</div>
+  <div class="ni" data-p="amendment-builder"><span class="ico">🛠</span>Amendment Builder</div>
+  <div class="ni" data-p="procedure"><span class="ico">✋</span>Procedure Helper</div>
+  <div class="ni" data-p="timer"><span class="ico">⏱</span>Debate Timer</div>
+  <div class="ngl">Live Session</div>
+  <div class="ni" data-p="stt"><span class="ico">🎙</span>Speech to Text</div>
+  <div class="ni" data-p="notes"><span class="ico">📋</span>Notes</div>
+  <div class="ni" data-p="vocab-bank"><span class="ico">📚</span>Vocab Bank</div>
+  <div class="ni" data-p="country-db"><span class="ico">🗂</span>Country Database</div>
+</nav>
+
+<!-- MAIN -->
+<main id="main">
+  <!-- TOPBAR -->
+  <div id="topbar">
+    <div class="tbi"><span class="tbl">Committee</span><input class="tbin" id="tb-comm" placeholder="e.g. CCPCJ"></div>
+    <div class="tbi"><span class="tbl">Agenda</span><input class="tbin" id="tb-agenda" placeholder="Agenda item..." style="width:210px"></div>
+    <div class="tbi"><span class="tbl">Country</span><input class="tbin" id="tb-country" placeholder="Your country..."></div>
+    <div class="tbsep"></div>
+    <div class="tbi"><span class="tbl">Stage</span>
+      <select class="tbin" id="tb-stage" style="width:170px">
+        <option>General Speakers List</option>
+        <option>Moderated Caucus</option>
+        <option>Unmoderated Caucus</option>
+        <option>Voting Procedure</option>
+        <option>Crisis Mode</option>
+      </select>
+    </div>
+    <div class="apig">
+      <span class="tbl">API Key</span>
+      <input class="tbin" id="api-key" type="password" placeholder="sk-ant-..." style="width:195px">
+      <span class="adot" id="adot"></span>
+      <select class="msel" id="msel">
+        <option value="claude-haiku-4-5-20251001">Haiku (Fast)</option>
+        <option value="claude-sonnet-4-6" selected>Sonnet (Smart)</option>
+        <option value="claude-opus-4-8">Opus (Best)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="content">
+
+    <!-- DASHBOARD -->
+    <div class="panel active" id="p-dashboard">
+      <div class="ph"><h2>🏛 Dashboard</h2><p>Your command center. Set committee, agenda, and country above.</p></div>
+      <div class="dg">
+        <div class="db"><div class="dl">Committee</div><div class="dv em" id="d-comm">Not set</div></div>
+        <div class="db"><div class="dl">Your Country</div><div class="dv em" id="d-country">Not set</div></div>
+        <div class="db"><div class="dl">Debate Stage</div><div class="dv" id="d-stage">GSL</div></div>
+      </div>
+      <div class="card"><div class="ct">Current Agenda</div><div id="d-agenda" style="font-size:15px;color:var(--text2);font-style:italic">No agenda set.</div></div>
+      <div class="g2">
+        <div class="card"><div class="ct">Active Allies</div><div id="d-allies"><span class="tag tneut">No allies yet</span></div></div>
+        <div class="card"><div class="ct">Quick Notes</div><textarea style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px;border-radius:6px;font-size:12px;min-height:70px;resize:none;font-family:inherit" placeholder="Quick strategic notes..."></textarea></div>
+      </div>
+      <div class="card"><div class="ct">Quick Actions</div>
+        <div class="bg">
+          <button class="btn bgold" onclick="show('speech-gen')">🎤 Generate Speech</button>
+          <button class="btn bgh" onclick="show('poi-gen')">🔥 Generate POI</button>
+          <button class="btn bgh" onclick="show('timer')">⏱ Open Timer</button>
+          <button class="btn bgh" onclick="show('motion-builder')">📝 Build Motion</button>
+          <button class="btn bgh" onclick="show('attack-gen')">⚔️ Attack Clause</button>
+          <button class="btn bgh" onclick="show('rebuttal-gen')">🗣 Quick Rebuttal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- COUNTRY INTEL -->
+    <div class="panel" id="p-country-intel">
+      <div class="ph"><h2>🌍 Country Intelligence</h2><p>AI-powered country profile for any agenda.</p></div>
+      <div class="card">
+        <div class="row">
+          <div class="fg"><label>Country Name</label><input type="text" id="ci-country" placeholder="e.g. Japan, Brazil, Iran..."></div>
+          <div class="fg"><label>Focus Topic (optional override)</label><input type="text" id="ci-topic" placeholder="Uses current agenda if empty"></div>
+        </div>
+        <button class="btn bgold" onclick="genCountryIntel()">🌍 Generate Intel Profile</button>
+      </div>
+      <div class="out-hdr"><span class="out-lbl">Intelligence Report</span><button class="btn bout bsm" onclick="copyOut('ci-out')">Copy</button></div>
+      <div class="out empty" id="ci-out">Enter a country name and click Generate.</div>
+    </div>
+
+    <!-- ALLY SYSTEM -->
+    <div class="panel" id="p-ally-system">
+      <div class="ph"><h2>🤝 Ally Intelligence System</h2><p>Track what allies are saying and their positions.</p></div>
+      <div class="card">
+        <div class="ct">Add Ally</div>
+        <div class="row">
+          <div class="fg"><label>Country</label><input type="text" id="ally-cn" placeholder="Country name..."></div>
+          <div class="fg"><label>Position / What they said</label><input type="text" id="ally-pos" placeholder="e.g. Supports sanctions, opposes weak enforcement..."></div>
+        </div>
+        <button class="btn bgold" onclick="addAlly()">+ Add Ally</button>
+      </div>
+      <div class="card">
+        <div class="ct">Ally Database</div>
+        <input class="sin" placeholder="Search allies..." oninput="filterAllies(this.value)" style="margin-bottom:10px">
+        <div id="ally-list"></div>
+      </div>
+    </div>
+
+    <!-- BLOC BUILDER -->
+    <div class="panel" id="p-bloc-builder">
+      <div class="ph"><h2>📊 Bloc Builder</h2><p>Analyze your support coalition and opposition.</p></div>
+      <div class="card">
+        <div class="fg"><label>Countries to analyze (comma-separated)</label><textarea id="bb-countries" placeholder="USA, UK, France, Germany, Japan, India, Brazil, Russia, China, South Africa..."></textarea></div>
+        <div class="fg"><label>Your position / resolution summary</label><textarea id="bb-position" placeholder="Describe what your resolution supports..."></textarea></div>
+        <button class="btn bgold" onclick="buildBloc()">📊 Analyze Bloc</button>
+      </div>
+      <div class="out-hdr"><span class="out-lbl">Bloc Analysis</span><button class="btn bout bsm" onclick="copyOut('bb-out')">Copy</button></div>
+      <div class="out empty" id="bb-out">Enter countries and your position to analyze bloc dynamics.</div>
+    </div>
+
+    <!-- EVIDENCE DB -->
+    <div class="panel" id="p-evidence-db">
+      <div class="ph"><h2>📂 Evidence Database</h2><p>Key UN documents and reports for citations.</p></div>
+      <input class="sin" placeholder="Search documents..." oninput="filterEv(this.value)">
+      <div id="ev-list"></div>
+    </div>
+
+    <!-- SPEECH GENERATOR -->
+    <div class="panel" id="p-speech-gen">
+      <div class="ph"><h2>🎤 Speech Generator</h2><p>AI-written speeches that sound human. No AI patterns.</p></div>
+      <div class="card">
+        <div class="row">
+          <div class="fg"><label>Country (or use topbar)</label><input type="text" id="sg-country" placeholder="Override country..."></div>
+          <div class="fg"><label>Speech Type</label>
+            <select id="sg-type">
+              <option>Opening Speech</option>
+              <option>GSL Speech</option>
+              <option>Moderated Caucus Speech</option>
+              <option>Unmoderated Caucus Talking Points</option>
+              <option>Closing Speech</option>
+              <option>Defense Speech</option>
+              <option>Crisis Response Speech</option>
+              <option>Right of Reply</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="fg"><label>Tone</label>
+            <select id="sg-tone">
+              <option>Diplomatic</option>
+              <option>Assertive</option>
+              <option>Aggressive</option>
+              <option>Humanitarian</option>
+              <option>Neutral / Balanced</option>
+              <option>Urgent / Crisis</option>
+            </select>
+          </div>
+          <div class="fg"><label>Focus Topic (optional)</label><input type="text" id="sg-topic" placeholder="Specific angle or talking point..."></div>
+        </div>
+        <div class="fg"><label>Additional Instructions (optional)</label><input type="text" id="sg-extra" placeholder="e.g. mention specific resolution, attack delegate X's clause..."></div>
+        <button class="btn bgold blg" onclick="genSpeech()">🎤 Generate Speech</button>
+      </div>
+      <div class="out-hdr"><span class="out-lbl">Generated Speech</span><button class="btn bout bsm" onclick="copyOut('sg-out')">Copy</button></div>
+      <div class="out empty" id="sg-out">Fill in the form and generate your speech.</div>
+    </div>
+
+    <!-- HUMANIZER -->
+    <div class="panel" id="p-humanizer">
+      <div class="ph"><h2>🧠 AI Humanizer + Detector</h2><p>Paste any text. Detect AI patterns. Rewrite to sound human.</p></div>
+      <div class="card">
+        <div class="fg"><label>Paste Text Here</label><textarea id="hum-in" placeholder="Paste speech or text to analyze..." style="min-height:130px" oninput="liveDetect(this.value)"></textarea></div>
+        <div style="margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+            <span style="color:var(--text2)">AI Detection Risk</span>
+            <span id="det-score" style="font-weight:700">0%</span>
+          </div>
+          <div class="detm"><div class="detf dlow" id="det-fill" style="width:0%"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text2)"><span>Safe</span><span>Risky</span><span>Detected</span></div>
+        </div>
+        <div class="bg">
+          <button class="btn bgold" onclick="humanize()">🧠 Humanize Text</button>
+          <button class="btn bgh" onclick="analyzeOnly()">🔍 Analyze Patterns</button>
+        </div>
+      </div>
+      <div class="out-hdr"><span class="out-lbl">Humanized Output</span><button class="btn bout bsm" onclick="copyOut('hum-out')">Copy</button></div>
+      <div class="out empty" id="hum-out">Humanized text will appear here.</div>
+    </div>
+
+    <!-- ATTACK GENERATOR -->
+    <div class="panel" id="p-attack-gen">
+      <div class="ph"><h2>⚔️ Attack Generator</h2><p>Paste an enemy clause or position. AI generates attacks.</p></div>
+      <div class="card">
+        <div class="fg"><label>Enemy Clause / Position to Attack</label><textarea id="atk-in" placeholder="Paste the clause or delegate position you want to attack..."></textarea></div>
+        <div class="row">
+          <div class="fg"><label>Attack Style</label>
+            <select id="atk-style">
+              <option>Balanced (Logical + Procedural)</option>
+              <option>Full Aggressive</option>
+              <option>Technical / Implementation flaws</option>
+              <option>Human Rights angle</option>
+              <option>Economic feasibility</option>
+              <option>Sovereignty concerns</option>
+            </select>
+          </div>
+          <div class="fg"><label>Number of Attack Points</label>
+            <select id="atk-num">
+              <option>3 attacks</option>
+              <option>5 attacks</option>
+              <option>7 attacks</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn bgold" onclick="genAttack()">⚔️ Generate Attacks</button>
+      </div>
+      <div class="out-hdr"><span class="out-lbl">Attack Arguments</span><button class="btn bout bsm" onclick="copyOut('atk-out')">Copy</button></div>
+      <div class="out empty" id="atk-out">Paste a clause above to generate attacks.</div>
+    </div>
+
+    <!-- DEFENSE GENERATOR -->
+    <div class="panel" id="p-defense-gen">
+      <div class="ph"><h2>🛡 Defense Generator</h2><p>Paste YOUR clause. AI generates defensive arguments.</p></div>
+      <div class="card">
+        <div class="fg"><label>Your Clause / Position to Defend</label><textarea id="def-in" placeholder="Paste your clause or position..."></textarea></div>
+        <div class="fg"><label>Anticipated Attack (optional)</label><input type="text" id="def-atk" placeholder="What argument are you expecting against this?"></div>
+        <button class="btn bgold" onclick="genDefense()">🛡 Generate Defense</button>
+      </div>
+      <div class="out-hdr"><span class="out-lbl">Defense Arguments</span><button class="btn bout bsm" onclick="copyOut('def-out')">Copy</button></div>
+      <div class="out empty" id="def-out">Paste your clause above to generate defenses.</div>
+    </div>
+
+    <!-- REBUTTAL GENERATOR -->
+    <div class="panel" id="p-rebuttal-gen">
+      <div class="ph"><h2>🗣 Rebuttal Generator</h2><p>Someone attacked you. Type what they said. AI counters immediately.</p></div>
+      <div class="card">
+        <div class="fg"><label>What They Said (attack against you)</label><textarea id="reb-in" placeholder="e.g. Japan's proposal is too expensive and ignores developing nations..."></textarea></div>
+        <div class="row">
+          <div class="fg"><label>Your Position / What you're defending</label><input type="text" id="reb-pos" placeholder="Brief summary of your position..."></div>
+          <div class="fg"><label>Rebuttal Tone</label>
+            <select id="reb-tone">
+              <option>Sharp but professional</option>
+              <option>Aggressive counter</option>
+              <option>Diplomatic redirect</option>
+              <option>Factual dismantling</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn bgold" onclick="genRebuttal()">🗣 Generate Rebuttal</button>
+      </div>
+      <div class="out-hdr"><span class="out-lbl">Rebuttal</span><button class="btn bout bsm" onclick="copyOut('reb-out')">Copy</button></div>
+      <div class="out empty" id="reb-out">Enter the attack above to generate your rebuttal.</div>
+    </div>
+
+    <!-- POI GENERATOR -->
+    <div class="panel" id="p-poi-gen">
+      <div class="ph"><h2>🔥 Point of Information Generator</h2><p>Generates sharp, targeted questions to trap delegates.</p></div>
+      <div class="card">
+        <div class="fg"><label>Context — What did the delegate just say?</label><textarea id="poi-in" placeholder="Summarize what the delegate said, or paste their position..."></textarea></div>
+        <div class="row">
+          <div class="fg"><label>POI Type</label>
+            <select id="poi-type">
+              <option>Trap Question (expose contradiction)</option>
+              <option>Implementation challenge</option>
+              <option>Funding / feasibility</option>
+              <option>Human rights concern</option>
+              <option>Developing nations impact</option>
+              <option>Sovereignty question</option>
+              <option>Aggressive pressure</option>
+              <option>Diplomatic clarification</option>
+            </select>
+          </div>
+          <div class="fg"><label>Number of POIs</label>
+            <select id="poi-num">
+              <option>3 POIs</option>
+              <option>5 POIs</option>
+              <option>7 POIs</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn bgold" onclick="genPOI()">🔥 Generate POIs</button>
+      </div>
+      <div class="out-hdr"><span class="out-lbl">Generated POIs</span><button class="btn bout bsm" onclick="copyOut('poi-out')">Copy</button></div>
+      <div class="out empty" id="poi-out">Enter context above to generate POIs.</div>
+    </div>
+
+    <!-- MOTION BUILDER -->
+    <div class="panel" id="p-motion-builder">
+      <div class="ph"><h2>📝 Motion Builder</h2><p>Formally worded motions ready to read aloud.</p></div>
+      <div class="card">
+        <div class="row">
+          <div class="fg"><label>Motion Type</label>
+            <select id="mot-type">
+              <option>Moderated Caucus</option>
+              <option>Unmoderated Caucus</option>
+              <option>Extension of Moderated Caucus</option>
+              <option>Extension of Unmoderated Caucus</option>
+              <option>Suspension of Meeting</option>
+              <option>Adjournment of Debate</option>
+              <option>Closure of Debate</option>
+              <option>Right of Reply</option>
+              <option>Division of the Question</option>
+              <option>Reconsideration</option>
+            </select>
+          </div>
+          <div class="fg"><label>Total Time</label>
+            <select id="mot-time">
+              <option>5 minutes</option><option>10 minutes</option><option>15 minutes</option>
+              <option>20 minutes</option><option>30 minutes</option><option>45 minutes</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="fg"><label>Speaking Time (per delegate)</label>
+            <select id="mot-spktime">
+              <option>30 seconds</option><option>45 seconds</option><option>1 minute</option>
+              <option>90 seconds</option><option>2 minutes</option>
+            </select>
+          </div>
+          <div class="fg"><label>Topic Focus</label><input type="text" id="mot-topic" placeholder="e.g. victim protection mechanisms..."></div>
+        </div>
+        <div class="bg">
+          <button class="btn bgold" onclick="genMotion()">📝 Generate Motion</button>
+          <button class="btn bgh" onclick="quickMotion()">⚡ Quick Template</button>
+        </div>
+      </div>
+      <div class="out-hdr"><span class="out-lbl">Motion Text</span><button class="btn bout bsm" onclick="copyOut('mot-out')">Copy</button></div>
+      <div class="out empty" id="mot-out">Select motion type and generate.</div>
+    </div>
+
+    <!-- RESOLUTION BUILDER -->
+    <div class="panel" id="p-resolution-builder">
+      <div class="ph"><h2>📜 Resolution Builder</h2><p>Build a complete UN-style resolution clause by clause.</p></div>
+      <div class="g2">
+        <div class="card">
+          <div class="ct">Add Preambulatory Clause</div>
+          <div class="fg"><label>Keyword</label>
+            <select id="pre-kw">
+              <option>Affirming</option><option>Alarmed by</option><option>Aware of</option>
+              <option>Bearing in mind</option><option>Cognizant of</option><option>Concerned</option>
+              <option>Convinced</option><option>Deeply concerned</option><option>Deeply disturbed</option>
+              <option>Emphasizing</option><option>Guided by</option><option>Mindful of</option>
+              <option>Noting</option><option>Noting with concern</option><option>Noting with regret</option>
+              <option>Reaffirming</option><option>Realizing</option><option>Recalling</option>
+              <option>Recognizing</option><option>Regretting</option><option>Welcoming</option>
+            </select>
+          </div>
+          <div class="fg"><label>Clause Text</label><textarea id="pre-text" placeholder="...the increasing prevalence of trafficking in conflict zones..." style="min-height:70px"></textarea></div>
+          <button class="btn bgold bsm" onclick="addClause('preamb')">+ Add Preambulatory</button>
+        </div>
+        <div class="card">
+          <div class="ct">Add Operative Clause</div>
+          <div class="fg"><label>Keyword</label>
+            <select id="op-kw">
+              <option>Calls upon</option><option>Calls for</option><option>Encourages</option>
+              <option>Urges</option><option>Requests</option><option>Recommends</option>
+              <option>Decides</option><option>Declares</option><option>Demands</option>
+              <option>Strongly condemns</option><option>Condemns</option><option>Endorses</option>
+              <option>Expresses</option><option>Further invites</option><option>Further recommends</option>
+              <option>Further requests</option><option>Invites</option><option>Notes</option>
+              <option>Supports</option><option>Welcoming</option><option>Acknowledges</option>
+            </select>
+          </div>
+          <div class="fg"><label>Clause Text</label><textarea id="op-text" placeholder="...all member states to establish national task forces for..." style="min-height:70px"></textarea></div>
+          <button class="btn bgold bsm" onclick="addClause('oper')">+ Add Operative</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="out-hdr" style="margin-bottom:8px"><span class="ct" style="margin:0">Preambulatory Clauses</span><button class="btn bout bsm" onclick="aiSuggestClauses('preamb')">AI Suggest</button></div>
+        <div id="res-preamb"></div>
+        <div class="div"></div>
+        <div class="out-hdr" style="margin-bottom:8px"><span class="ct" style="margin:0">Operative Clauses</span><button class="btn bout bsm" onclick="aiSuggestClauses('oper')">AI Suggest</button></div>
+        <div id="res-oper"></div>
+        <div class="div"></div>
+        <div class="bg">
+          <button class="btn bgold" onclick="exportRes()">📋 Export Resolution</button>
+          <button class="btn bgh" onclick="clearRes()">🗑 Clear All</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AMENDMENT BUILDER -->
+    <div class="panel" id="p-amendment-builder">
+      <div class="ph"><h2>🛠 Amendment Builder</h2><p>Draft friendly or unfriendly amendments.</p></div>
+      <div class="card">
+        <div class="row">
+          <div class="fg"><label>Amendment Type</label>
+            <select id="am-type">
+              <option>Friendly Amendment — Add Clause</option>
+              <option>Friendly Amendment — Modify Clause</option>
+              <option>Unfriendly Amendment — Delete Clause</option>
+              <option>Unfriendly Amendment — Replace Clause</option>
+              <option>Friendly Amendment — Add Subclause</option>
+            </select>
+          </div>
+          <div class="fg"><label>Clause Reference</label><input type="text" id="am-ref" placeholder="e.g. Clause 3, Operative Paragraph 4..."></div>
+        </div>
+        <div class="fg"><label>Existing Clause (if modifying/deleting)</label><textarea id="am-existing" placeholder="Paste existing clause text..." style="min-height:70px"></textarea></div>
+        <div class="fg"><label>Proposed Change / New Language</label><textarea id="am-change" placeholder="Proposed new wording or addition..."></textarea></div>
+        <div class="fg"><label>Justification</label><input type="text" id="am-just" placeholder="Brief reason for amendment..."></div>
+        <button class="btn bgold" onclick="genAmendment()">🛠 Draft Amendment</button>
+      </div>
+      <div class="out-hdr"><span class="out-lbl">Amendment Draft</span><button class="btn bout bsm" onclick="copyOut('am-out')">Copy</button></div>
+      <div class="out empty" id="am-out">Fill in amendment details above.</div>
+    </div>
+
+    <!-- PROCEDURE HELPER -->
+    <div class="panel" id="p-procedure">
+      <div class="ph"><h2>✋ Parliamentary Procedure Helper</h2><p>Click any point — text copies automatically.</p></div>
+      <div class="g2">
+        <div>
+          <div class="ct" style="color:var(--text2);margin-bottom:8px">POINTS</div>
+          <div class="pri" onclick="procCopy('Point of Personal Privilege','The delegation of [COUNTRY] would like to raise a point of personal privilege. Could the delegate please speak louder / Could the room temperature be adjusted?','Used when a delegate cannot physically participate')">
+            <div class="prt">Point of Personal Privilege</div>
+            <div class="prp">"The delegation would like to raise a point of personal privilege..."</div>
+            <div class="prn">Physical comfort — always in order</div>
+          </div>
+          <div class="pri" onclick="procCopy('Point of Order','The delegation of [COUNTRY] rises to a point of order. The chair's ruling on [MATTER] appears inconsistent with the rules of procedure as outlined in [RULE].','Challenges procedure, not substance')">
+            <div class="prt">Point of Order</div>
+            <div class="prp">"The delegation rises to a point of order..."</div>
+            <div class="prn">Challenges rules of procedure</div>
+          </div>
+          <div class="pri" onclick="procCopy('Point of Parliamentary Inquiry','The delegation of [COUNTRY] would like to raise a point of parliamentary inquiry. Could the chair clarify the procedure for [SPECIFIC QUESTION]?','Ask the chair to clarify procedure')">
+            <div class="prt">Point of Parliamentary Inquiry</div>
+            <div class="prp">"Could the chair clarify the procedure for..."</div>
+            <div class="prn">Ask for procedural clarification</div>
+          </div>
+          <div class="pri" onclick="procCopy('Right of Reply','The delegation of [COUNTRY] requests the right of reply. The previous speaker made a direct and personal attack against this delegation that must be addressed.','Personal/national attacks only')">
+            <div class="prt">Right of Reply</div>
+            <div class="prp">"The delegation requests the right of reply..."</div>
+            <div class="prn">Personal/national insult only</div>
+          </div>
+        </div>
+        <div>
+          <div class="ct" style="color:var(--text2);margin-bottom:8px">MOTIONS</div>
+          <div class="pri" onclick="procCopy('Motion to Open Moderated Caucus','The delegation of [COUNTRY] moves to open a moderated caucus for a total time of [X] minutes with a speaking time of [Y] seconds per delegate on the topic of [TOPIC].','Requires simple majority')">
+            <div class="prt">Motion — Moderated Caucus</div>
+            <div class="prp">"...moves to open a moderated caucus..."</div>
+            <div class="prn">Simple majority to pass</div>
+          </div>
+          <div class="pri" onclick="procCopy('Motion to Open Unmoderated Caucus','The delegation of [COUNTRY] moves to open an unmoderated caucus for a total time of [X] minutes for the purpose of delegate consultation and bloc formation.','Requires simple majority')">
+            <div class="prt">Motion — Unmoderated Caucus</div>
+            <div class="prp">"...moves to open an unmoderated caucus..."</div>
+            <div class="prn">Simple majority to pass</div>
+          </div>
+          <div class="pri" onclick="procCopy('Motion to Extend','The delegation of [COUNTRY] moves to extend the current moderated/unmoderated caucus by an additional [X] minutes.','Max one extension usually')">
+            <div class="prt">Motion to Extend</div>
+            <div class="prp">"...moves to extend the current caucus..."</div>
+            <div class="prn">Usually max one extension allowed</div>
+          </div>
+          <div class="pri" onclick="procCopy('Motion to Suspend Meeting','The delegation of [COUNTRY] moves to suspend the meeting.','Adjourns for a break')">
+            <div class="prt">Motion to Suspend Meeting</div>
+            <div class="prp">"...moves to suspend the meeting..."</div>
+            <div class="prn">Calls a break</div>
+          </div>
+          <div class="pri" onclick="procCopy('Motion to Close Debate','The delegation of [COUNTRY] moves for the closure of debate on the current resolution and calls for an immediate vote.','Requires 2/3 majority')">
+            <div class="prt">Motion to Close Debate</div>
+            <div class="prp">"...moves for closure of debate..."</div>
+            <div class="prn">2/3 majority required</div>
+          </div>
+        </div>
+      </div>
+      <div class="div"></div>
+      <div class="card"><div class="ct">Last Copied</div><div id="proc-copied" style="color:var(--text2);font-style:italic;font-size:13px">Click any procedure above to copy its text.</div></div>
+    </div>
+
+    <!-- TIMER -->
+    <div class="panel" id="p-timer">
+      <div class="ph"><h2>⏱ Debate Timer</h2><p>Track speaking times. Red flash under 10 seconds.</p></div>
+      <div id="tdisp">00:00</div>
+      <div class="bg" style="justify-content:center;margin-bottom:14px">
+        <button class="btn bgold blg" onclick="setT(30)">30s</button>
+        <button class="btn bgold blg" onclick="setT(45)">45s</button>
+        <button class="btn bgold blg" onclick="setT(60)">1 min</button>
+        <button class="btn bgold blg" onclick="setT(90)">90s</button>
+        <button class="btn bgold blg" onclick="setT(120)">2 min</button>
+        <button class="btn bgold blg" onclick="setT(180)">3 min</button>
+      </div>
+      <div class="bg" style="justify-content:center;margin-bottom:14px">
+        <button class="btn bgold blg" id="t-start" onclick="toggleTimer()">▶ Start</button>
+        <button class="btn bgh blg" onclick="resetTimer()">↺ Reset</button>
+        <button class="btn bgh blg" onclick="addTime(30)">+30s</button>
+        <button class="btn bgh blg" onclick="addTime(60)">+1m</button>
+      </div>
+      <div class="card">
+        <div class="ct">Custom Time</div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <input type="number" id="t-custom-m" placeholder="Min" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:6px;width:90px;font-size:14px">
+          <span style="color:var(--text2)">:</span>
+          <input type="number" id="t-custom-s" placeholder="Sec" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:6px;width:90px;font-size:14px">
+          <button class="btn bgold" onclick="setCustomTime()">Set</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPEECH TO TEXT -->
+    <div class="panel" id="p-stt">
+      <div class="ph"><h2>🎙 Live Speech to Text</h2><p>Converts committee speeches to text in real-time. Chrome only.</p></div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <button class="btn bgold" id="listen-btn" onclick="toggleListen()">🎙 Start Listening</button>
+          <span class="ldot" id="ldot"></span>
+          <span id="stt-status" style="font-size:12px;color:var(--text2)">Ready. Click start to listen.</span>
+        </div>
+        <div id="sttbox">Speech will appear here as it's spoken...</div>
+        <div class="bg" style="margin-top:10px">
+          <button class="btn bgh" onclick="summarizeSTT()">📋 Summarize What Was Said</button>
+          <button class="btn bgh" onclick="clearSTT()">🗑 Clear</button>
+          <button class="btn bout" onclick="copyOut2('sttbox')">Copy Text</button>
+        </div>
+      </div>
+      <div class="out-hdr"><span class="out-lbl">AI Summary</span><button class="btn bout bsm" onclick="copyOut('stt-sum')">Copy</button></div>
+      <div class="out empty" id="stt-sum">Summary will appear after clicking Summarize.</div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="panel" id="p-notes">
+      <div class="ph"><h2>📋 Notes</h2><p>Auto-saves locally. Never lost between sessions.</p></div>
+      <textarea id="notes-ta" placeholder="Your notes here...&#10;&#10;• Delegates to watch&#10;• Key clauses&#10;• Ally positions&#10;• Strategic reminders..."></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+        <span id="notes-status" style="font-size:11px;color:var(--text2)">Auto-saved</span>
+        <button class="btn bout bsm" onclick="copyOut2('notes-ta')">Copy Notes</button>
+      </div>
+    </div>
+
+    <!-- VOCAB BANK -->
+    <div class="panel" id="p-vocab-bank">
+      <div class="ph"><h2>📚 UN Vocabulary Bank</h2><p>Upgrade your language instantly. Formal diplomatic vocabulary.</p></div>
+      <input class="sin" placeholder="Search words..." oninput="filterVocab(this.value)">
+      <div id="vocab-list"></div>
+    </div>
+
+    <!-- COUNTRY DATABASE -->
+    <div class="panel" id="p-country-db">
+      <div class="ph"><h2>🗂 Country Database</h2><p>Quick profiles for all major powers. Use Country Intel for AI-generated deep profiles.</p></div>
+      <input class="sin" placeholder="Search countries..." oninput="filterCDB(this.value)">
+      <div class="g2" id="cdb-list"></div>
+    </div>
+
+  </div><!-- end #content -->
+</main>
+
+<div id="notif"></div>
+
+<script>
+/* ==================== STATE ==================== */
+const S = {
+  apiKey: '',
+  model: 'claude-sonnet-4-6',
+  allies: [],
+  resolution: { preamb: [], oper: [] },
+  timer: null,
+  timerSec: 0,
+  timerRunning: false,
+  recognition: null,
+  listening: false,
+  transcript: ''
+};
+
+/* ==================== INIT ==================== */
+document.addEventListener('DOMContentLoaded', () => {
+  S.apiKey = localStorage.getItem('mun_key') || '';
+  S.allies = JSON.parse(localStorage.getItem('mun_allies') || '[]');
+  S.model = localStorage.getItem('mun_model') || 'claude-sonnet-4-6';
+
+  const akEl = document.getElementById('api-key');
+  const msel = document.getElementById('msel');
+  if (akEl) akEl.value = S.apiKey;
+  if (msel) msel.value = S.model;
+
+  document.getElementById('notes-ta').value = localStorage.getItem('mun_notes') || '';
+  updateDot();
+  updateDash();
+  renderAllies();
+  renderResolution();
+  renderVocab();
+  renderCDB();
+  renderEv();
+  setTimerDisplay();
+
+  document.querySelectorAll('.ni').forEach(n => n.addEventListener('click', () => show(n.dataset.p)));
+
+  document.getElementById('api-key').addEventListener('input', e => {
+    S.apiKey = e.target.value;
+    localStorage.setItem('mun_key', S.apiKey);
+    updateDot();
+  });
+  document.getElementById('msel').addEventListener('change', e => {
+    S.model = e.target.value;
+    localStorage.setItem('mun_model', S.model);
+  });
+  ['tb-comm','tb-agenda','tb-country','tb-stage'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateDash);
+    document.getElementById(id).addEventListener('change', updateDash);
+  });
+  document.getElementById('notes-ta').addEventListener('input', e => {
+    localStorage.setItem('mun_notes', e.target.value);
+    document.getElementById('notes-status').textContent = 'Saved ' + new Date().toLocaleTimeString();
+  });
+});
+
+/* ==================== NAVIGATION ==================== */
+function show(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  const p = document.getElementById('p-' + name);
+  const n = document.querySelector(`[data-p="${name}"]`);
+  if (p) p.classList.add('active');
+  if (n) n.classList.add('active');
+}
+
+/* ==================== DASHBOARD ==================== */
+function updateDash() {
+  const comm = document.getElementById('tb-comm').value;
+  const agenda = document.getElementById('tb-agenda').value;
+  const country = document.getElementById('tb-country').value;
+  const stage = document.getElementById('tb-stage').value;
+
+  const dc = document.getElementById('d-comm');
+  dc.textContent = comm || 'Not set';
+  dc.className = 'dv' + (comm ? '' : ' em');
+  const dco = document.getElementById('d-country');
+  dco.textContent = country || 'Not set';
+  dco.className = 'dv' + (country ? '' : ' em');
+  document.getElementById('d-stage').textContent = stage;
+  const da = document.getElementById('d-agenda');
+  da.textContent = agenda || 'No agenda set.';
+  da.style.fontStyle = agenda ? 'normal' : 'italic';
+  da.style.color = agenda ? 'var(--text)' : 'var(--text2)';
+
+  S.committee = comm; S.agenda = agenda; S.country = country; S.stage = stage;
+}
+
+function ctx() {
+  return `Committee: ${S.committee || 'General Assembly'}
+Agenda: ${S.agenda || 'Not specified'}
+Delegate Country: ${S.country || 'Not specified'}
+Debate Stage: ${S.stage || 'General Speakers List'}`;
+}
+
+/* ==================== API ==================== */
+async function ai(prompt, outId, maxTokens = 1200) {
+  if (!S.apiKey) { notif('Enter your Anthropic API key in the top bar', 'err'); return null; }
+  const el = document.getElementById(outId);
+  el.className = 'out loading';
+  el.textContent = 'Generating';
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': S.apiKey,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: S.model,
+        max_tokens: maxTokens,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const d = await r.json();
+    if (d.error) throw new Error(d.error.message);
+    const text = d.content[0].text;
+    el.className = 'out';
+    el.textContent = text;
+    return text;
+  } catch(e) {
+    el.className = 'out';
+    el.textContent = '⚠ Error: ' + e.message;
+    notif('API Error: ' + e.message, 'err');
+    return null;
+  }
+}
+
+/* ==================== FEATURES ==================== */
+
+// Country Intel
+async function genCountryIntel() {
+  const country = document.getElementById('ci-country').value.trim();
+  if (!country) { notif('Enter a country name', 'err'); return; }
+  const topic = document.getElementById('ci-topic').value.trim();
+  const agenda = topic || S.agenda || 'international affairs';
+  await ai(`Generate a comprehensive Model UN intelligence profile for ${country} on this topic: "${agenda}"
+
+Context:
+${ctx()}
+
+Write the profile in this exact format:
+
+🇺🇳 ${country.toUpperCase()} — INTELLIGENCE PROFILE
+
+POLITICAL POSITION
+What does this country typically advocate for in international forums? What is their ideological stance?
+
+ECONOMY & POWER STATUS
+[Rich/Developing/Conflict state/Regional power — explain briefly]
+
+POSITION ON: ${agenda}
+What specific position does ${country} take on this agenda? What do they support or oppose?
+
+CHALLENGES & VULNERABILITIES
+What domestic or international challenges make this country's position complex?
+
+LIKELY ALLIES
+Which countries vote similarly on this issue and why?
+
+LIKELY OPPONENTS
+Which countries actively oppose their position?
+
+SPEECH STYLE
+[Aggressive/Diplomatic/Humanitarian/Technical] — describe how they typically present
+
+RED LINES — Will NEVER support:
+• List 3-4 things this country absolutely refuses
+• Be specific to this agenda
+
+TALKING POINTS TO ATTACK THEM WITH
+• 2-3 specific vulnerabilities in their position you can exploit in debate
+
+INTELLIGENCE ASSESSMENT
+One paragraph summary of their overall strategy and how to work with or against them.
+
+Be specific, accurate, and useful for a live MUN debate.`, 'ci-out', 1500);
+}
+
+// Speech Generator
+async function genSpeech() {
+  const country = document.getElementById('sg-country').value.trim() || S.country || 'the delegation';
+  const type = document.getElementById('sg-type').value;
+  const tone = document.getElementById('sg-tone').value;
+  const topic = document.getElementById('sg-topic').value.trim();
+  const extra = document.getElementById('sg-extra').value.trim();
+  const wordLimit = type === 'Opening Speech' ? '280-350' : type === 'Moderated Caucus Speech' ? '120-160' : '150-220';
+
+  await ai(`Write a ${type} for the delegate of ${country} at a Model UN conference.
+
+Context:
+${ctx()}
+${topic ? 'Specific Focus: ' + topic : ''}
+${extra ? 'Additional Instructions: ' + extra : ''}
+
+TONE: ${tone}
+WORD COUNT: ${wordLimit} words
+
+CRITICAL RULES for this speech:
+1. Write like a skilled human debater, NOT like AI
+2. Vary sentence length dramatically — mix short punchy sentences with longer flowing ones
+3. NEVER use these AI phrases: "Furthermore", "Additionally", "Moreover", "It is worth noting", "It should be noted", "plays a crucial role", "in conclusion"
+4. Use specific concrete details, not vague generalities
+5. Include rhetorical questions or strong statements depending on tone
+6. Don't start with "Honorable Chair" as literally the first word — vary it
+7. Show genuine perspective — this country has REAL positions, not generic diplomatic language
+8. ${tone === 'Aggressive' ? 'Be sharp and confrontational. Call out other positions directly.' : tone === 'Humanitarian' ? 'Focus on human impact and moral urgency.' : tone === 'Assertive' ? 'Be firm and confident. State positions clearly without hedging.' : 'Balance diplomacy with clear position-taking.'}
+
+Write the speech only. No title, no notes.`, 'sg-out', 1500);
+}
+
+// Humanizer
+function liveDetect(text) {
+  const score = detectAI(text);
+  updateDetMeter(score);
+}
+
+function detectAI(text) {
+  if (!text || text.length < 50) return 0;
+  let score = 0;
+  const w = text.toLowerCase();
+  ['furthermore', 'additionally', 'moreover', 'it is worth noting', 'it should be noted',
+   'it is important to', 'plays a crucial role', 'plays an important role', 'in order to ensure',
+   'with regard to', 'in light of the foregoing', 'it is essential to note', 'a multitude of',
+   'harnessing the power', 'leveraging', 'it is imperative', 'needless to say',
+   'last but not least', 'in conclusion,', 'to summarize,', 'in summary,'].forEach(p => {
+    if (w.includes(p)) score += 6;
+  });
+  const passive = (text.match(/\b(is|are|was|were|be|been|being)\s+\w+ed\b/gi) || []).length;
+  score += Math.min(passive * 4, 20);
+  const sents = text.split(/[.!?]+/).filter(s => s.trim().length > 10);
+  if (sents.length >= 3) {
+    const lens = sents.map(s => s.trim().split(/\s+/).length);
+    const avg = lens.reduce((a,b) => a+b, 0) / lens.length;
+    const variance = lens.reduce((a,b) => a + Math.pow(b - avg, 2), 0) / lens.length;
+    if (variance < 15) score += 15;
+  }
+  if (!/\b(can't|won't|don't|isn't|aren't|doesn't|didn't|couldn't|we're|they're|it's|that's)\b/i.test(text)) score += 8;
+  const avgWords = sents.reduce((a,s) => a + s.trim().split(/\s+/).length, 0) / (sents.length || 1);
+  if (avgWords > 28) score += 10;
+  if ((text.match(/\b(significant|substantial|critical|essential|crucial|fundamental|imperative)\b/gi) || []).length > 3) score += 8;
+  return Math.min(score, 100);
+}
+
+function updateDetMeter(score) {
+  const fill = document.getElementById('det-fill');
+  const label = document.getElementById('det-score');
+  if (!fill || !label) return;
+  fill.style.width = score + '%';
+  fill.className = 'detf ' + (score < 30 ? 'dlow' : score < 60 ? 'dmed' : 'dhigh');
+  label.textContent = score + '%';
+  label.style.color = score < 30 ? 'var(--green)' : score < 60 ? 'var(--orange)' : 'var(--red)';
+}
+
+async function humanize() {
+  const text = document.getElementById('hum-in').value.trim();
+  if (!text) { notif('Paste text to humanize', 'err'); return; }
+  await ai(`Rewrite this text to sound like it was written by a skilled human debater, not AI.
+
+ORIGINAL TEXT:
+${text}
+
+RULES:
+1. Keep ALL the same arguments and information
+2. Dramatically vary sentence length — some should be very short and punchy
+3. Remove ALL AI phrases: Furthermore, Additionally, Moreover, "it is worth noting", "plays a crucial role", etc.
+4. Add natural imperfections — a contraction here, a direct statement there
+5. Use active voice predominantly
+6. Include genuine rhetorical flourishes that humans use
+7. The result should sound like a passionate, intelligent person wrote it
+8. Target reading level: educated adult, not academic paper
+
+Return ONLY the rewritten text. No explanations.`, 'hum-out', 1200);
+}
+
+async function analyzeOnly() {
+  const text = document.getElementById('hum-in').value.trim();
+  if (!text) { notif('Paste text to analyze', 'err'); return; }
+  const score = detectAI(text);
+  await ai(`Analyze this text for AI writing patterns and provide a detailed report.
+
+TEXT:
+${text}
+
+ESTIMATED AI DETECTION SCORE: ${score}%
+
+Identify:
+1. Specific AI phrases found (quote them)
+2. Sentence structure issues (too uniform? too long?)
+3. Vocabulary that sounds artificial
+4. Missing human elements (contractions, rhetorical questions, personality)
+5. Overall assessment and top 3 fixes
+
+Be specific and direct.`, 'hum-out', 800);
+}
+
+// Attack Generator
+async function genAttack() {
+  const clause = document.getElementById('atk-in').value.trim();
+  if (!clause) { notif('Paste a clause to attack', 'err'); return; }
+  const style = document.getElementById('atk-style').value;
+  const num = document.getElementById('atk-num').value;
+  await ai(`You are a sharp MUN delegate preparing to attack this clause/position in committee debate.
+
+Context:
+${ctx()}
+
+CLAUSE/POSITION TO ATTACK:
+"${clause}"
+
+ATTACK STYLE: ${style}
+NUMBER OF ATTACKS: ${num}
+
+Generate numbered attack arguments. For each attack:
+- State the core argument in 1 sentence (make it quotable and sharp)
+- Explain the logic in 1-2 sentences
+- Suggest the exact wording to say in committee
+
+Make each attack distinct. Go for real weaknesses: implementation gaps, cost, sovereignty, precedent, developing nation impact, legal issues.
+
+Format as numbered list. Be specific. Be ruthless.`, 'atk-out', 1000);
+}
+
+// Defense Generator
+async function genDefense() {
+  const clause = document.getElementById('def-in').value.trim();
+  if (!clause) { notif('Paste your clause to defend', 'err'); return; }
+  const atk = document.getElementById('def-atk').value.trim();
+  await ai(`You are defending your position in a Model UN committee.
+
+Context:
+${ctx()}
+
+YOUR CLAUSE/POSITION:
+"${clause}"
+
+${atk ? 'ANTICIPATED ATTACK: ' + atk : ''}
+
+Generate 4-5 strong defensive arguments. For each:
+- State the defense argument clearly (1 sentence, quotable)
+- Support it with logic or evidence (1-2 sentences)
+- Include the exact language to say in committee
+
+Also provide: one pre-emptive argument that takes the offensive while defending.
+
+Be confident, not apologetic. Strong defenses go on the attack.`, 'def-out', 1000);
+}
+
+// Rebuttal Generator
+async function genRebuttal() {
+  const attack = document.getElementById('reb-in').value.trim();
+  if (!attack) { notif('Enter the attack you received', 'err'); return; }
+  const pos = document.getElementById('reb-pos').value.trim();
+  const tone = document.getElementById('reb-tone').value;
+  await ai(`Generate an immediate rebuttal for a MUN delegate.
+
+Context:
+${ctx()}
+
+THE ATTACK MADE AGAINST US:
+"${attack}"
+
+${pos ? 'OUR POSITION: ' + pos : ''}
+REBUTTAL TONE: ${tone}
+
+Write a powerful rebuttal speech segment (60-100 words). Rules:
+1. Directly address what was said — don't dodge
+2. Flip their argument back at them if possible
+3. Use the tone specified
+4. End with a definitive statement that closes the door on further attacks
+5. Sound like a human, not a robot
+6. Start with something other than "The delegation..."
+
+Then provide 2-3 alternative shorter rebuttal lines they can use.`, 'reb-out', 800);
+}
+
+// POI Generator
+async function genPOI() {
+  const ctx_text = document.getElementById('poi-in').value.trim();
+  if (!ctx_text) { notif('Describe what the delegate said', 'err'); return; }
+  const type = document.getElementById('poi-type').value;
+  const num = document.getElementById('poi-num').value;
+  await ai(`Generate Points of Information (POIs) for a MUN delegate to ask.
+
+Conference Context:
+${ctx()}
+
+WHAT THE DELEGATE JUST SAID:
+"${ctx_text}"
+
+POI TYPE: ${type}
+NUMBER: ${num}
+
+For each POI:
+- Write the exact question to ask (should sound natural when spoken aloud)
+- Note what weakness or contradiction it targets (in brackets after)
+
+Rules:
+- Questions must be answerable — no impossible demands
+- Best POIs either expose a contradiction, reveal a gap, or make the speaker commit to something problematic
+- Trap questions should appear innocent but lead to a corner
+- Keep each question under 35 words
+- Number each one clearly`, 'poi-out', 900);
+}
+
+// Motion Builder
+async function genMotion() {
+  const type = document.getElementById('mot-type').value;
+  const time = document.getElementById('mot-time').value;
+  const spktime = document.getElementById('mot-spktime').value;
+  const topic = document.getElementById('mot-topic').value.trim();
+  const country = S.country || '[COUNTRY]';
+  await ai(`Generate the formal motion text for a Model UN committee.
+
+Conference Context:
+${ctx()}
+
+MOTION TYPE: ${type}
+TOTAL TIME: ${time}
+SPEAKING TIME PER DELEGATE: ${spktime}
+TOPIC/PURPOSE: ${topic || S.agenda || 'current agenda item'}
+DELEGATE COUNTRY: ${country}
+
+Write:
+1. The exact formal motion text to say aloud in committee (in quotes)
+2. The motion details (total time, speaking time, topic — formatted for chair to announce)
+3. A one-sentence note on when this motion is strategically useful
+
+Use proper MUN formal language. Be precise.`, 'mot-out', 600);
+}
+
+function quickMotion() {
+  const type = document.getElementById('mot-type').value;
+  const time = document.getElementById('mot-time').value;
+  const spktime = document.getElementById('mot-spktime').value;
+  const topic = document.getElementById('mot-topic').value.trim() || S.agenda || '[TOPIC]';
+  const country = S.country || '[YOUR COUNTRY]';
+  let text = '';
+  if (type.includes('Moderated')) {
+    text = `"The delegation of ${country} moves to open a moderated caucus for a total time of ${time} with a speaking time of ${spktime} per delegate on the topic of ${topic}."`;
+  } else if (type.includes('Unmoderated')) {
+    text = `"The delegation of ${country} moves to open an unmoderated caucus for a total time of ${time} for the purpose of delegate consultation."`;
+  } else if (type.includes('Extension')) {
+    text = `"The delegation of ${country} moves to extend the current caucus by an additional ${time}."`;
+  } else if (type.includes('Suspension')) {
+    text = `"The delegation of ${country} moves to suspend the meeting."`;
+  } else if (type.includes('Closure') || type.includes('Adjournment')) {
+    text = `"The delegation of ${country} moves for the closure of debate and calls for an immediate vote on the draft resolution."`;
+  } else {
+    text = `"The delegation of ${country} moves for ${type.toLowerCase()}."`;
+  }
+  const el = document.getElementById('mot-out');
+  el.className = 'out';
+  el.textContent = text;
+}
+
+// Resolution Builder
+function addClause(type) {
+  const kw = document.getElementById(type === 'preamb' ? 'pre-kw' : 'op-kw').value;
+  const text = document.getElementById(type === 'preamb' ? 'pre-text' : 'op-text').value.trim();
+  if (!text) { notif('Enter clause text', 'err'); return; }
+  S.resolution[type].push({ kw, text });
+  document.getElementById(type === 'preamb' ? 'pre-text' : 'op-text').value = '';
+  renderResolution();
+  notif('Clause added', 'ok');
+}
+
+function removeClause(type, i) {
+  S.resolution[type].splice(i, 1);
+  renderResolution();
+}
+
+function renderResolution() {
+  const preEl = document.getElementById('res-preamb');
+  const opEl = document.getElementById('res-oper');
+  if (!preEl || !opEl) return;
+  preEl.innerHTML = S.resolution.preamb.length
+    ? S.resolution.preamb.map((c, i) => `<div class="crow"><span class="ctype">${c.kw}</span><span class="ctext">${c.text},</span><button class="cdel" onclick="removeClause('preamb',${i})">×</button></div>`).join('')
+    : '<div style="color:var(--text2);font-size:12px;padding:6px">No preambulatory clauses yet.</div>';
+  opEl.innerHTML = S.resolution.oper.length
+    ? S.resolution.oper.map((c, i) => `<div class="crow"><span class="ctype">${c.kw}</span><span class="ctext">${c.text};</span><button class="cdel" onclick="removeClause('oper',${i})">×</button></div>`).join('')
+    : '<div style="color:var(--text2);font-size:12px;padding:6px">No operative clauses yet.</div>';
+}
+
+async function aiSuggestClauses(type) {
+  const agenda = S.agenda || 'current agenda item';
+  const country = S.country || 'your delegation';
+  const existing = S.resolution[type].map(c => c.kw + ' ' + c.text).join('\n') || 'None yet';
+  const typeName = type === 'preamb' ? 'preambulatory' : 'operative';
+  const kwOptions = type === 'preamb'
+    ? 'Recalling, Recognizing, Deeply concerned, Reaffirming, Noting with concern'
+    : 'Calls upon, Encourages, Urges, Further recommends, Requests';
+
+  const prompt = `Suggest 3 strong ${typeName} clauses for a UN resolution on: "${agenda}"
+
+Delegate: ${country}
+Committee: ${S.committee || 'General Assembly'}
+Existing clauses:\n${existing}
+
+Use keywords from: ${kwOptions}
+
+Format each suggestion as:
+[KEYWORD] [clause text]
+
+Make clauses specific, actionable, and diplomatically viable. Short enough to be readable aloud.`;
+
+  const el = document.getElementById('res-preamb');
+  if (!S.apiKey) { notif('Enter API key for AI suggestions', 'err'); return; }
+  el.innerHTML = '<div style="color:var(--gold)">Generating suggestions...</div>';
+  const result = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'x-api-key': S.apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json', 'anthropic-dangerous-direct-browser-access': 'true' },
+    body: JSON.stringify({ model: S.model, max_tokens: 600, messages: [{ role: 'user', content: prompt }] })
+  }).then(r => r.json()).then(d => d.content[0].text).catch(() => null);
+
+  renderResolution();
+  if (result) {
+    const sugEl = document.getElementById(type === 'preamb' ? 'res-preamb' : 'res-oper');
+    sugEl.innerHTML += `<div style="background:rgba(201,162,39,.1);border:1px solid rgba(201,162,39,.3);border-radius:6px;padding:10px;margin-top:8px;font-size:12px;white-space:pre-wrap">${result}</div>`;
+  }
+}
+
+function exportRes() {
+  const comm = S.committee || 'COMMITTEE';
+  const country = S.country || 'DELEGATION';
+  const agenda = S.agenda || 'AGENDA ITEM';
+  let text = `DRAFT RESOLUTION\n\nCommittee: ${comm}\nSponsored by: ${country}\nRe: ${agenda}\n\nTHE ${comm.toUpperCase()},\n\n`;
+  S.resolution.preamb.forEach(c => text += `${c.kw} ${c.text},\n\n`);
+  if (S.resolution.oper.length) {
+    text += '\n';
+    S.resolution.oper.forEach((c, i) => text += `${i + 1}. ${c.kw} ${c.text};\n\n`);
+  }
+  copy(text);
+}
+
+function clearRes() {
+  S.resolution = { preamb: [], oper: [] };
+  renderResolution();
+  notif('Resolution cleared', 'ok');
+}
+
+// Amendment Builder
+async function genAmendment() {
+  const type = document.getElementById('am-type').value;
+  const ref = document.getElementById('am-ref').value.trim();
+  const existing = document.getElementById('am-existing').value.trim();
+  const change = document.getElementById('am-change').value.trim();
+  const just = document.getElementById('am-just').value.trim();
+  await ai(`Draft a formal UN amendment document.
+
+Context:
+${ctx()}
+
+AMENDMENT TYPE: ${type}
+CLAUSE REFERENCE: ${ref || 'Clause [X]'}
+${existing ? 'EXISTING CLAUSE:\n"' + existing + '"' : ''}
+${change ? 'PROPOSED CHANGE:\n"' + change + '"' : ''}
+${just ? 'JUSTIFICATION: ' + just : ''}
+
+Write:
+1. The formal amendment heading (Delegation, type, clause reference)
+2. The amendment text (exact formal language)
+3. ${type.includes('Friendly') ? 'Note: label as FRIENDLY AMENDMENT (requires sponsor agreement)' : 'Note: label as UNFRIENDLY AMENDMENT (requires 2/3 majority if contested)'}
+4. A one-sentence justification speech line to read aloud
+
+Use proper UN resolution language.`, 'am-out', 700);
+}
+
+// Procedure Copy
+function procCopy(title, text, note) {
+  copy(text);
+  const el = document.getElementById('proc-copied');
+  el.style.fontStyle = 'normal';
+  el.style.color = 'var(--text)';
+  el.innerHTML = `<strong style="color:var(--gold)">${title}</strong><br><span style="font-size:12px;color:var(--text2)">${text}</span>`;
+  notif(title + ' copied!', 'ok');
+}
+
+// Timer
+function setT(sec) {
+  clearInterval(S.timer);
+  S.timerRunning = false;
+  S.timerSec = sec;
+  setTimerDisplay();
+  document.getElementById('t-start').textContent = '▶ Start';
+}
+
+function toggleTimer() {
+  if (S.timerRunning) {
+    clearInterval(S.timer);
+    S.timerRunning = false;
+    document.getElementById('t-start').textContent = '▶ Resume';
+  } else {
+    if (S.timerSec <= 0) return;
+    S.timerRunning = true;
+    document.getElementById('t-start').textContent = '⏸ Pause';
+    S.timer = setInterval(() => {
+      S.timerSec--;
+      setTimerDisplay();
+      if (S.timerSec <= 0) {
+        clearInterval(S.timer);
+        S.timerRunning = false;
+        document.getElementById('t-start').textContent = '▶ Start';
+        document.getElementById('tdisp').className = 'danger';
+      }
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  clearInterval(S.timer);
+  S.timerRunning = false;
+  S.timerSec = 0;
+  setTimerDisplay();
+  document.getElementById('t-start').textContent = '▶ Start';
+}
+
+function addTime(sec) { S.timerSec += sec; setTimerDisplay(); }
+
+function setTimerDisplay() {
+  const m = Math.floor(S.timerSec / 60);
+  const s = S.timerSec % 60;
+  const el = document.getElementById('tdisp');
+  if (!el) return;
+  el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  el.className = S.timerSec <= 0 && S.timerRunning ? 'danger' : S.timerSec <= 10 && S.timerSec > 0 ? 'danger' : S.timerSec <= 30 && S.timerSec > 0 ? 'warn' : '';
+}
+
+function setCustomTime() {
+  const m = parseInt(document.getElementById('t-custom-m').value) || 0;
+  const s = parseInt(document.getElementById('t-custom-s').value) || 0;
+  setT(m * 60 + s);
+}
+
+// Speech to Text
+function initSTT() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    document.getElementById('stt-status').textContent = 'Not supported. Use Chrome browser.';
+    return false;
+  }
+  S.recognition = new SR();
+  S.recognition.continuous = true;
+  S.recognition.interimResults = true;
+  S.recognition.lang = 'en-US';
+  S.recognition.onresult = e => {
+    let final = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) final += e.results[i][0].transcript + ' ';
+    }
+    S.transcript += final;
+    document.getElementById('sttbox').textContent = S.transcript;
+  };
+  S.recognition.onend = () => { if (S.listening) S.recognition.start(); };
+  S.recognition.onerror = () => stopListen();
+  return true;
+}
+
+function toggleListen() {
+  if (S.listening) stopListen();
+  else startListen();
+}
+
+function startListen() {
+  if (!S.recognition && !initSTT()) return;
+  S.listening = true;
+  S.recognition.start();
+  document.getElementById('sttbox').classList.add('listening');
+  document.getElementById('ldot').classList.add('active');
+  document.getElementById('listen-btn').textContent = '⏹ Stop';
+  document.getElementById('listen-btn').className = 'btn bred';
+  document.getElementById('stt-status').textContent = 'Listening...';
+}
+
+function stopListen() {
+  S.listening = false;
+  try { S.recognition.stop(); } catch(e) {}
+  document.getElementById('sttbox').classList.remove('listening');
+  document.getElementById('ldot').classList.remove('active');
+  document.getElementById('listen-btn').textContent = '🎙 Start Listening';
+  document.getElementById('listen-btn').className = 'btn bgold';
+  document.getElementById('stt-status').textContent = 'Stopped.';
+}
+
+async function summarizeSTT() {
+  const text = document.getElementById('sttbox').textContent.trim();
+  if (!text || text.startsWith('Speech')) { notif('No transcript to summarize', 'err'); return; }
+  await ai(`Summarize what this delegate said in committee. Extract:
+1. Their main position (1-2 sentences)
+2. Key arguments made (bullet points)
+3. Any specific clauses or proposals mentioned
+4. Tone (aggressive/diplomatic/defensive/etc.)
+
+TRANSCRIPT:
+${text}
+
+Be concise. This is for real-time committee intelligence.`, 'stt-sum', 600);
+}
+
+function clearSTT() {
+  S.transcript = '';
+  document.getElementById('sttbox').textContent = 'Speech will appear here as it\'s spoken...';
+  document.getElementById('stt-sum').className = 'out empty';
+  document.getElementById('stt-sum').textContent = 'Summary will appear after clicking Summarize.';
+}
+
+// Ally System
+function renderAllies() {
+  const list = document.getElementById('ally-list');
+  if (!list) return;
+  list.innerHTML = S.allies.length
+    ? S.allies.map((a, i) => `<div class="arow">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div><div class="aname">${a.country}</div><div class="apos">${a.position || 'No position recorded'}</div></div>
+          <button class="btn bout bsm" onclick="removeAlly(${i})">✕</button>
+        </div>
+      </div>`).join('')
+    : '<div style="color:var(--text2);font-size:13px;padding:6px">No allies added yet.</div>';
+  const da = document.getElementById('d-allies');
+  if (da) da.innerHTML = S.allies.length
+    ? S.allies.map(a => `<span class="tag tally">${a.country}</span>`).join('')
+    : '<span class="tag tneut">No allies yet</span>';
+}
+
+function addAlly() {
+  const cn = document.getElementById('ally-cn').value.trim();
+  const pos = document.getElementById('ally-pos').value.trim();
+  if (!cn) { notif('Enter country name', 'err'); return; }
+  S.allies.push({ country: cn, position: pos });
+  localStorage.setItem('mun_allies', JSON.stringify(S.allies));
+  document.getElementById('ally-cn').value = '';
+  document.getElementById('ally-pos').value = '';
+  renderAllies();
+  notif(cn + ' added', 'ok');
+}
+
+function removeAlly(i) {
+  const name = S.allies[i].country;
+  S.allies.splice(i, 1);
+  localStorage.setItem('mun_allies', JSON.stringify(S.allies));
+  renderAllies();
+  notif(name + ' removed', 'ok');
+}
+
+function filterAllies(q) {
+  document.querySelectorAll('.arow').forEach(r => {
+    r.style.display = (!q || r.textContent.toLowerCase().includes(q.toLowerCase())) ? '' : 'none';
+  });
+}
+
+// Bloc Builder
+async function buildBloc() {
+  const countries = document.getElementById('bb-countries').value.trim();
+  const position = document.getElementById('bb-position').value.trim();
+  if (!countries) { notif('Enter countries to analyze', 'err'); return; }
+  await ai(`Analyze bloc dynamics for a Model UN conference.
+
+Context:
+${ctx()}
+
+COUNTRIES TO ANALYZE:
+${countries}
+
+${position ? 'OUR POSITION/RESOLUTION:\n' + position : ''}
+
+Provide:
+
+LIKELY SUPPORTERS (green bloc):
+- List countries that would likely vote YES and why
+
+LIKELY OPPOSITION (red bloc):
+- List countries that would likely vote NO and why
+
+SWING STATES (persuadable):
+- Countries that could go either way — what would win their vote?
+
+BLOC STRATEGY:
+- Which alliances to form first
+- Which countries to target in unmoderated caucus
+- Key opposition to neutralize or isolate
+
+VOTE COUNT ESTIMATE:
+Rough tally of where votes stand right now.
+
+Be specific and strategic. This is for real committee use.`, 'bb-out', 1200);
+}
+
+// Evidence DB
+const EVIDENCE = [
+  { name: 'Palermo Protocol (2000)', cat: 'UN Treaty', desc: 'UN Protocol to Prevent, Suppress and Punish Trafficking in Persons, especially Women and Children', cite: 'GA Res 55/25, Annex II (2000)' },
+  { name: 'ICCPR (1966)', cat: 'UN Treaty', desc: 'International Covenant on Civil and Political Rights — core civil rights framework', cite: 'GA Res 2200A (XXI), 16 Dec 1966' },
+  { name: 'ICESCR (1966)', cat: 'UN Treaty', desc: 'International Covenant on Economic, Social and Cultural Rights', cite: 'GA Res 2200A (XXI), 16 Dec 1966' },
+  { name: 'Geneva Conventions (1949)', cat: 'IHL', desc: 'Four treaties establishing international humanitarian law standards in armed conflict', cite: 'ICRC, 12 August 1949' },
+  { name: 'UDHR (1948)', cat: 'Declaration', desc: 'Universal Declaration of Human Rights — foundational human rights document', cite: 'GA Res 217A, 10 Dec 1948' },
+  { name: 'CRC — Convention on the Rights of the Child', cat: 'UN Treaty', desc: 'Rights of children globally, including protection from trafficking and exploitation', cite: 'GA Res 44/25, 20 Nov 1989' },
+  { name: 'CEDAW (1979)', cat: 'UN Treaty', desc: 'Convention on the Elimination of All Forms of Discrimination Against Women', cite: 'GA Res 34/180, 18 Dec 1979' },
+  { name: 'Rome Statute — ICC (1998)', cat: 'Criminal Law', desc: 'Establishes the International Criminal Court — crimes against humanity, war crimes', cite: 'A/CONF.183/9, 17 July 1998' },
+  { name: 'UN Charter (1945)', cat: 'Foundational', desc: 'Founding document of the United Nations — sovereignty, collective security, human rights', cite: 'Signed 26 June 1945, San Francisco' },
+  { name: 'SDGs — 2030 Agenda', cat: 'UN Framework', desc: '17 Sustainable Development Goals. SDG 5 (gender equality), SDG 8 (decent work), SDG 16 (peace)', cite: 'GA Res 70/1, 25 Sep 2015' },
+  { name: 'Paris Agreement (2015)', cat: 'Environment', desc: 'International climate treaty — 1.5°C target, nationally determined contributions', cite: 'FCCC/CP/2015/L.9/Rev.1, 12 Dec 2015' },
+  { name: 'UNODC World Drug Report', cat: 'UN Report', desc: 'Annual global drug trends, trafficking routes, organized crime linkages', cite: 'UNODC, annual publication' },
+  { name: 'UNHCR Global Trends Report', cat: 'UN Report', desc: 'Annual report on forced displacement, refugees, asylum seekers, stateless persons', cite: 'UNHCR, annual publication' },
+  { name: 'WHO Global Health Report', cat: 'UN Report', desc: 'Annual global health statistics, disease burden, health systems capacity', cite: 'WHO, annual publication' },
+  { name: 'UNICEF State of the World\'s Children', cat: 'UN Report', desc: 'Annual report on child welfare, education, protection, development indicators', cite: 'UNICEF, annual publication' },
+  { name: 'ILO Global Employment Trends', cat: 'UN Report', desc: 'World employment and labor market data, forced labor estimates (40M people)', cite: 'ILO, annual publication' },
+  { name: 'Responsibility to Protect (R2P)', cat: 'UN Doctrine', desc: 'Doctrine allowing international intervention when states fail to protect citizens from atrocities', cite: 'GA Res 60/1, 2005 World Summit Outcome' },
+  { name: 'Vienna Programme of Action (1993)', cat: 'Declaration', desc: 'Affirms universality, indivisibility and interdependence of human rights', cite: 'World Conference on Human Rights, Vienna 1993' },
+  { name: 'Cartagena Declaration (1984)', cat: 'Regional', desc: 'Broader refugee definition for Latin America beyond 1951 Convention', cite: 'OAS, Cartagena 1984' },
+  { name: 'Convention Against Torture (1984)', cat: 'UN Treaty', desc: 'CAT — prohibits torture and cruel treatment, requires states to prevent and prosecute', cite: 'GA Res 39/46, 10 Dec 1984' },
+];
+
+function renderEv() {
+  const el = document.getElementById('ev-list');
+  if (!el) return;
+  el.innerHTML = EVIDENCE.map(e => `
+    <div class="evit" data-name="${e.name.toLowerCase()}">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="evn">${e.name}</span>
+        <span style="font-size:10px;background:rgba(66,153,225,.15);color:var(--blue);padding:2px 8px;border-radius:12px">${e.cat}</span>
+      </div>
+      <div class="evd">${e.desc}</div>
+      <div class="evc">${e.cite} — <button class="btn bout bsm" style="padding:2px 8px;font-size:10px" onclick="copy('${e.cite.replace(/'/g,"\\'")}')">Copy Citation</button></div>
+    </div>`).join('');
+}
+
+function filterEv(q) {
+  document.querySelectorAll('.evit').forEach(e => {
+    e.style.display = (!q || e.dataset.name.includes(q.toLowerCase()) || e.textContent.toLowerCase().includes(q.toLowerCase())) ? '' : 'none';
+  });
+}
+
+// Vocab Bank
+const VOCAB = [
+  ['bad','counterproductive','Outcome or policy'],
+  ['harmful','detrimental','Effects/impacts'],
+  ['help','facilitate','Process/support'],
+  ['help','bolster','Strength/capacity'],
+  ['problem','impediment','Blocking progress'],
+  ['problem','challenge','General issue'],
+  ['important','paramount','Highest priority'],
+  ['important','imperative','Urgent necessity'],
+  ['show','demonstrate','Prove/evidence'],
+  ['use','utilize','Apply/employ'],
+  ['use','leverage','Strategic use'],
+  ['make','establish','Create formally'],
+  ['make','foster','Nurture/develop'],
+  ['need','require','Formal necessity'],
+  ['need','necessitate','Makes necessary'],
+  ['want','seek','Pursue/aim'],
+  ['stop','prevent','Stop before occurring'],
+  ['stop','curtail','Reduce/limit'],
+  ['reduce','mitigate','Lessen severity'],
+  ['start','initiate','Begin formally'],
+  ['start','commence','Begin process'],
+  ['end','conclude','Finish formally'],
+  ['end','resolve','Fix permanently'],
+  ['big','substantial','Size/amount'],
+  ['big','significant','Importance'],
+  ['many','numerous','Quantity'],
+  ['many','a multitude of','Very many'],
+  ['change','reform','Systematic change'],
+  ['change','transform','Fundamental change'],
+  ['say','assert','Claim confidently'],
+  ['say','contend','Argue a position'],
+  ['say','posit','Put forward an idea'],
+  ['think','consider','Reflect upon'],
+  ['think','assess','Evaluate formally'],
+  ['agree','concur','Share a view'],
+  ['agree','endorse','Formally support'],
+  ['disagree','contest','Challenge/dispute'],
+  ['disagree','refute','Prove wrong'],
+  ['fail','fall short','Not achieve target'],
+  ['fail','prove inadequate','Insufficient'],
+  ['work with','collaborate with','Joint effort'],
+  ['work with','engage with','Build partnership'],
+  ['deal with','address','Confront directly'],
+  ['deal with','tackle','Work on solution'],
+  ['look at','examine','Study closely'],
+  ['look at','review','Formally consider'],
+  ['worried about','concerned regarding','Formal concern'],
+  ['talk about','discuss','Formal dialogue'],
+  ['very bad','egregious','Shockingly bad'],
+  ['very important','critical','High stakes'],
+  ['very urgent','exigent','Requires immediate'],
+  ['worldwide','global','International scope'],
+  ['fight against','combat','Active opposition'],
+  ['link','nexus','Connection point'],
+  ['weak','inadequate','Not enough'],
+  ['weak','insufficient','Falls short'],
+  ['strong','robust','Solid/effective'],
+  ['make sure','ensure','Guarantee formally'],
+  ['keep','maintain','Continue preserving'],
+  ['ask for','request','Formal ask'],
+  ['tell','urge','Strongly advise'],
+];
+
+function renderVocab() {
+  const el = document.getElementById('vocab-list');
+  if (!el) return;
+  el.innerHTML = VOCAB.map(([bad, good, ctx]) =>
+    `<div class="vrow"><span class="vbad">${bad}</span><span class="varr">→</span><span class="vgood">${good}</span><span class="vctx">${ctx}</span></div>`
+  ).join('');
+}
+
+function filterVocab(q) {
+  document.querySelectorAll('.vrow').forEach(r => {
+    r.style.display = (!q || r.textContent.toLowerCase().includes(q.toLowerCase())) ? '' : 'none';
+  });
+}
+
+// Country Database
+const CDB = [
+  { flag:'🇺🇸', name:'United States', economy:'Rich / Global Superpower', position:'Liberal democratic leadership, promotes human rights, free markets, rule of law', allies:'UK, France, Germany, Japan, Canada, Australia, South Korea', enemies:'Russia, China, Iran, North Korea', style:'Assertive / Confident', redlines:'Undermining sovereignty of allies, anti-market measures, ICC jurisdiction over US nationals' },
+  { flag:'🇷🇺', name:'Russia', economy:'Major Regional Power', position:'Sovereign state rights, opposes Western hegemony, non-interference doctrine', allies:'China, Belarus, Syria, Iran, North Korea', enemies:'USA, UK, Ukraine, Baltic states, NATO members', style:'Confrontational / Obstructionist', redlines:'NATO expansion, Western sanctions, ICC jurisdiction, any humanitarian intervention doctrine' },
+  { flag:'🇨🇳', name:'China', economy:'Rich / Global Power', position:'Non-interference, sovereignty absolute, South-South cooperation, development over rights', allies:'Russia, Pakistan, Cambodia, African bloc, Gulf states', enemies:'USA, Japan, India, Taiwan, Australia', style:'Diplomatic but firm / Long-term strategic', redlines:'Taiwan, Tibet, Xinjiang, Tiananmen, ICC jurisdiction, any mechanism that could target China' },
+  { flag:'🇬🇧', name:'United Kingdom', economy:'Rich / P5 Power', position:'Strong human rights framework, international law, NATO solidarity, transatlantic partnerships', allies:'USA, France, Germany, Australia, Canada', enemies:'Russia, Iran', style:'Professional / Diplomatic', redlines:'Undermining UN Charter, weak international law, unilateral action without UN authority' },
+  { flag:'🇫🇷', name:'France', economy:'Rich / P5 Power', position:'Multilateralism, European sovereignty, cultural diplomacy, strong human rights record', allies:'Germany, EU, USA, African Francophone states', enemies:'Russia, Islamist states', style:'Eloquent / Principled', redlines:'Weakening EU institutions, ICC challenges, undermining French influence in Africa' },
+  { flag:'🇩🇪', name:'Germany', economy:'Rich / European Power', position:'Multilateralism, rule of law, EU integration, strong humanitarian commitments', allies:'France, EU, USA, NATO', enemies:'Russia', style:'Technical / Fact-based', redlines:'Military adventurism, undermining EU, historical revisionism on WWII' },
+  { flag:'🇯🇵', name:'Japan', economy:'Rich / Regional Power', position:'Rule-based international order, free trade, strong legal frameworks, victim protection', allies:'USA, South Korea, Australia, UK, EU', enemies:'North Korea, China (contested)', style:'Diplomatic / Precise', redlines:'Nuclear weapons proliferation, weak legal enforcement, undermining free navigation' },
+  { flag:'🇮🇳', name:'India', economy:'Developing / Emerging Power', position:'Strategic autonomy, non-alignment, development focus, multi-polar world', allies:'Russia (historically), USA (growing), Japan, ASEAN', enemies:'Pakistan, China', style:'Humanitarian / Independent', redlines:'Kashmir internationalization, ICC jurisdiction without UNSC reform, Western lectures on rights' },
+  { flag:'🇧🇷', name:'Brazil', economy:'Developing / Regional Power', position:'Non-interference, multilateralism, environmental leadership, social development', allies:'MERCOSUR, African bloc, Global South', enemies:'None major', style:'Diplomatic / Constructive', redlines:'Amazon sovereignty interference, forced developed-nation targets, political pressure' },
+  { flag:'🇿🇦', name:'South Africa', economy:'Developing / African Power', position:'African solutions, ICC (but also tension), historical injustice lens, development', allies:'African bloc, BRICS, Global South', enemies:'None major', style:'Moderate / Rights-focused', redlines:'Western neo-colonialism narratives, unilateral intervention in Africa, sanctions politics' },
+  { flag:'🇸🇦', name:'Saudi Arabia', economy:'Rich / Gulf Power', position:'Arab solidarity, anti-Iran, Islamic leadership, development, anti-terrorism', allies:'UAE, Bahrain, Egypt, USA, Jordan', enemies:'Iran, Qatar (historically), Yemen Houthis', style:'Formal / Traditional', redlines:'Iranian influence, criticism of Islamic governance, terrorism financing accusations' },
+  { flag:'🇮🇱', name:'Israel', economy:'Rich / Regional Power', position:'Security focus, anti-terrorism, self-defense doctrine, US alliance', allies:'USA, EU (partial), Gulf states (Abraham Accords)', enemies:'Iran, Syria, Hezbollah, Hamas', style:'Assertive / Security-focused', redlines:'Hamas legitimization, Iran nuclear capacity, calls to dismantle settlements without peace framework' },
+  { flag:'🇹🇷', name:'Turkey', economy:'Developing / Regional Power', position:'NATO member but independent, Muslim world leadership, regional mediator', allies:'NATO, Azerbaijan, African partners', enemies:'Greece, Armenia, Kurdish groups, Egypt (tension)', style:'Assertive / Transactional', redlines:'Kurdish state recognition, Armenian genocide resolution, Cyprus issues' },
+  { flag:'🇮🇷', name:'Iran', economy:'Developing / Sanctioned Regional Power', position:'Anti-Western hegemony, anti-Israel, Islamic solidarity, resistance bloc', allies:'Russia, China, Syria, Hezbollah, Houthis', enemies:'USA, Israel, Saudi Arabia, Gulf states', style:'Confrontational / Ideological', redlines:'Nuclear program restrictions, JCPOA conditions, Western sanctions, Israel normalization' },
+  { flag:'🇰🇷', name:'South Korea', economy:'Rich / Regional Power', position:'Rule of law, human rights, denuclearization, alliance with USA', allies:'USA, Japan, EU, Australia', enemies:'North Korea', style:'Professional / Technical', redlines:'North Korean normalization without denuclearization, weakening of US alliance' },
+  { flag:'🇵🇰', name:'Pakistan', economy:'Developing / Nuclear State', position:'Islamic solidarity, Kashmir, anti-India, development assistance', allies:'China, Saudi Arabia, Gulf states, OIC', enemies:'India, Afghanistan', style:'Diplomatic / Emotional on Kashmir', redlines:'Indian control over Kashmir, any anti-Islamic measures, drone strikes sovereignty' },
+  { flag:'🇳🇬', name:'Nigeria', economy:'Developing / African Powerhouse', position:'African leadership, anti-terrorism (Boko Haram), development, anti-corruption', allies:'African bloc, ECOWAS, USA (security)', enemies:'None major', style:'Moderate / Constructive', redlines:'Foreign interference in African affairs, unfair trade terms, sovereign debt restructuring' },
+  { flag:'🇦🇺', name:'Australia', economy:'Rich / Pacific Power', position:'Indo-Pacific security, rule of law, human rights, US alliance', allies:'USA, UK, Japan, New Zealand, Canada', enemies:'China (tension)', style:'Professional / Pragmatic', redlines:'Weakening AUKUS, Chinese expansionism normalization, weakening Pacific Island sovereignty' },
+  { flag:'🇨🇦', name:'Canada', economy:'Rich / G7 Member', position:'Multilateralism, humanitarian leadership, LGBTQ+ rights, indigenous rights, peacekeeping', allies:'USA, UK, France, EU, NATO', enemies:'Russia, Iran', style:'Diplomatic / Humanitarian', redlines:'Undermining multilateral institutions, gender rights rollback, indigenous rights violations' },
+  { flag:'🇺🇦', name:'Ukraine', economy:'Developing / Conflict State', position:'Sovereignty, territorial integrity, Western integration, war crimes accountability', allies:'USA, EU, UK, NATO members, G7', enemies:'Russia', style:'Urgent / Emotional / Powerful', redlines:'Any peace plan ceding territory, impunity for Russian war crimes, weakening Western support' },
+  { flag:'🇸🇪', name:'Sweden', economy:'Rich / Nordic Power', position:'Human rights leadership, gender equality, peacekeeping, development aid, new NATO member', allies:'EU, Nordic bloc, USA, NATO', enemies:'Russia', style:'Principled / Fact-based', redlines:'Gender rights undermining, environmental backsliding, weakening peacekeeping mandates' },
+  { flag:'🇳🇱', name:'Netherlands', economy:'Rich / EU Member', position:'International law (home of ICC/ICJ), trade, development, human rights', allies:'EU, USA, NATO, Belgium, Germany', enemies:'Russia', style:'Legal / Precise', redlines:'Undermining international courts, impunity for war crimes, trade restrictions' },
+  { flag:'🇨🇺', name:'Cuba', economy:'Developing / Sanctioned', position:'Anti-imperialism, South-South solidarity, healthcare diplomacy, non-interference absolute', allies:'Venezuela, Bolivia, Nicaragua, China, Russia', enemies:'USA', style:'Rhetorical / Ideological', redlines:'US blockade justification, any criticism of Cuban government, interference in sovereignty' },
+  { flag:'🇻🇪', name:'Venezuela', economy:'Developing / Conflict State', position:'Anti-US imperialism, ALBA bloc solidarity, Bolivarian revolution, resource sovereignty', allies:'Cuba, Russia, China, Bolivia, Nicaragua', enemies:'USA, Colombia', style:'Confrontational / Anti-Western', redlines:'US sanctions justification, humanitarian intervention doctrine, political opposition support' },
+  { flag:'🇪🇬', name:'Egypt', economy:'Developing / Regional Power', position:'Arab solidarity, anti-Islamist extremism, Nile water rights, Palestinian cause', allies:'Saudi Arabia, UAE, USA (security), Jordan', enemies:'Turkey (tension), Qatar (tension)', style:'Formal / Traditional', redlines:'Ethiopian Nile dam, Muslim Brotherhood legitimization, Israeli normalization conditions' },
+  { flag:'🇮🇩', name:'Indonesia', economy:'Developing / ASEAN Power', position:'Non-alignment, ASEAN centrality, moderate Islam, development, human rights', allies:'ASEAN bloc, USA, Australia, Japan', enemies:'None major', style:'Diplomatic / Consensus-seeking', redlines:'Forced intervention in ASEAN region, Papua independence moves, Islamic governance criticism' },
+  { flag:'🇲🇽', name:'Mexico', economy:'Developing / Regional Power', position:'Non-intervention absolute, migration dignity, drug war frustration, development', allies:'USA (economic), Latin America', enemies:'None formal', style:'Principled / Non-interference focused', redlines:'US intervention in migration policy, criminalization of migrants, interference in internal affairs' },
+  { flag:'🇦🇷', name:'Argentina', economy:'Developing / Regional Power', position:'Malvinas sovereignty, G20 member, debt restructuring, human rights (strong record)', allies:'MERCOSUR, Latin America, EU (partial)', enemies:'UK (Falklands)', style:'Passionate / Rights-focused', redlines:'Falklands/Malvinas issue, predatory lending conditions, anti-Peronist narratives' },
+  { flag:'🇮🇶', name:'Iraq', economy:'Developing / Conflict Recovery', position:'Sovereignty restoration, anti-ISIS, Shia-Sunni reconciliation, reconstruction', allies:'USA (security), Iran (tension), Arab League', enemies:'ISIS, Kurdish separatism', style:'Cautious / Reconstruction-focused', redlines:'Foreign military presence, Kurdish independence, Iranian interference questions' },
+  { flag:'🇸🇾', name:'Syria', economy:'Conflict State', position:'Assad government sovereignty, anti-intervention, Russian alliance, reconstruction', allies:'Russia, Iran, Hezbollah', enemies:'USA, Turkey, rebel groups', style:'Defensive / Sovereignty-focused', redlines:'Assad legitimacy challenges, Western-backed rebel support, ICC referrals for regime' },
+  { flag:'🇰🇵', name:'North Korea', economy:'Conflict/Isolated State', position:'Nuclear deterrent sovereignty, anti-imperialism, self-reliance (Juche)', allies:'China (reluctantly), Russia', enemies:'USA, South Korea, Japan', style:'Defiant / Rigid', redlines:'Denuclearization preconditions, Korean reunification on South Korean terms, sanctions justification' },
+  { flag:'🇵🇸', name:'Palestine', economy:'Occupied / Developing', position:'Self-determination, two-state solution, international recognition, ICC referrals', allies:'Arab League, OIC, Global South, South Africa', enemies:'Israel, USA (partial)', style:'Urgent / Rights-focused', redlines:'Jerusalem capital recognition for Israel, settlement expansion, occupation normalization' },
+];
+
+function renderCDB() {
+  const el = document.getElementById('cdb-list');
+  if (!el) return;
+  el.innerHTML = CDB.map(c => `
+    <div class="cdc" data-name="${c.name.toLowerCase()}">
+      <div class="cdhdr"><span class="cdflag">${c.flag}</span><span class="cdname">${c.name}</span></div>
+      <div class="cdr"><span class="cdl">Economy</span><span class="cdv">${c.economy}</span></div>
+      <div class="cdr"><span class="cdl">Position</span><span class="cdv">${c.position}</span></div>
+      <div class="cdr"><span class="cdl">Allies</span><span class="cdv" style="color:var(--green)">${c.allies}</span></div>
+      <div class="cdr"><span class="cdl">Opponents</span><span class="cdv" style="color:var(--red)">${c.enemies}</span></div>
+      <div class="cdr"><span class="cdl">Style</span><span class="cdv" style="color:var(--gold)">${c.style}</span></div>
+      <div class="cdr"><span class="cdl">Red Lines</span><span class="cdv" style="color:var(--text2)">${c.redlines}</span></div>
+    </div>`).join('');
+}
+
+function filterCDB(q) {
+  document.querySelectorAll('.cdc').forEach(c => {
+    c.style.display = (!q || c.dataset.name.includes(q.toLowerCase()) || c.textContent.toLowerCase().includes(q.toLowerCase())) ? '' : 'none';
+  });
+}
+
+/* ==================== UTILITIES ==================== */
+function copy(text) {
+  navigator.clipboard.writeText(text).then(() => notif('Copied!', 'ok')).catch(() => notif('Copy failed', 'err'));
+}
+
+function copyOut(id) {
+  const el = document.getElementById(id);
+  if (el) copy(el.textContent);
+}
+
+function copyOut2(id) {
+  const el = document.getElementById(id);
+  if (el) copy(el.value || el.textContent);
+}
+
+function notif(msg, type = '') {
+  const el = document.getElementById('notif');
+  el.textContent = msg;
+  el.className = 'show' + (type === 'ok' ? ' ok' : type === 'err' ? ' err' : '');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.className = ''; }, 2400);
+}
+
+function updateDot() {
+  document.getElementById('adot').className = 'adot' + (S.apiKey ? ' on' : '');
+}
+</script>
+</body>
+</html>
