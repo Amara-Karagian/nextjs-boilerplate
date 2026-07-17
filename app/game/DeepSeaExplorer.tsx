@@ -16,6 +16,15 @@ import {
 import { zoneAtDepth } from "./world";
 import type { Creature, LogEntry, Vec } from "./types";
 import { drawCoral, drawCreature, drawDoor, drawLog, drawSub } from "./creatures";
+import { audio } from "./audio";
+import {
+  clearProgress,
+  hasProgress,
+  loadSave,
+  saveMuted,
+  writeSave,
+  type SaveData,
+} from "./save";
 
 type Phase = "title" | "playing" | "paused" | "log" | "epilogue";
 
@@ -46,6 +55,8 @@ export default function DeepSeaExplorer() {
   const [codex, setCodex] = useState<Set<string>>(new Set());
   const [codexOpen, setCodexOpen] = useState(false);
   const [activeLog, setActiveLog] = useState<LogEntry | null>(null);
+  const [muted, setMuted] = useState(false);
+  const [save, setSaveState] = useState<SaveData | null>(null);
 
   // --- Mutable game state (never triggers React re-render) -----------------
   const phaseRef = useRef<Phase>("title");
@@ -65,34 +76,112 @@ export default function DeepSeaExplorer() {
   const fadeRef = useRef(0); // resurface fade 0..1
   const messageTimerRef = useRef(0);
   const hudMessageRef = useRef("");
+  const deepestRef = useRef(0);
+  const warnTimerRef = useRef(0);
+  const depthAudioTimerRef = useRef(0);
+  const mutedRef = useRef(false);
+
+  // Build a save snapshot from the world (the source of truth) and persist it.
+  const persist = useCallback(() => {
+    const world = worldRef.current;
+    if (!world) return;
+    const scanned = Array.from(
+      new Set(world.creatures.filter((c) => c.scanned).map((c) => c.def.id)),
+    );
+    writeSave({
+      version: 1,
+      codex: scanned,
+      logs: world.logs.filter((l) => l.found).map((l) => l.id),
+      door: {
+        cleared: world.door.cleared,
+        opened: world.door.opened,
+        coral: world.coral.map((c) => c.cleared),
+      },
+      deepestDepth: Math.round(deepestRef.current),
+      muted: mutedRef.current,
+    });
+  }, []);
+
+  const toggleMute = useCallback(() => {
+    setMuted((m) => {
+      const next = !m;
+      mutedRef.current = next;
+      audio.setMuted(next);
+      saveMuted(next);
+      return next;
+    });
+  }, []);
 
   const setMessage = useCallback((m: string) => {
     hudMessageRef.current = m;
     messageTimerRef.current = 4.5;
   }, []);
 
-  const startGame = useCallback(() => {
-    worldRef.current = generateWorld();
-    playerRef.current = {
-      pos: { x: WORLD_WIDTH / 2, y: 30 },
-      vel: { x: 0, y: 0 },
-      facing: { x: 0, y: 1 },
-    };
-    resRef.current = { oxygen: 100, power: 100 };
-    camRef.current = { x: WORLD_WIDTH / 2, y: 0 };
-    particlesRef.current = Array.from({ length: 260 }, () => ({
-      x: Math.random() * WORLD_WIDTH,
-      y: Math.random() * WORLD_HEIGHT,
-      z: 0.3 + Math.random() * 0.7,
-      r: 0.6 + Math.random() * 1.8,
-      drift: (Math.random() - 0.5) * 6,
-    }));
-    setCodex(new Set());
-    setActiveLog(null);
-    setCodexOpen(false);
-    phaseRef.current = "playing";
-    setPhase("playing");
+  // Load persisted progress + settings once on mount.
+  useEffect(() => {
+    const s = loadSave();
+    setSaveState(s);
+    setMuted(s.muted);
+    mutedRef.current = s.muted;
+    audio.setMuted(s.muted);
   }, []);
+
+  const startGame = useCallback(
+    (continueProgress: boolean) => {
+      // First gesture into the game — safe to start audio here.
+      audio.init();
+      audio.startAmbient();
+      audio.setMuted(mutedRef.current);
+      audio.ui();
+
+      const world = generateWorld();
+      const saved = continueProgress ? loadSave() : clearProgress();
+
+      if (continueProgress) {
+        const codexSet = new Set(saved.codex);
+        for (const c of world.creatures) {
+          if (codexSet.has(c.def.id)) {
+            c.scanned = true;
+            c.scanProgress = 1;
+          }
+        }
+        const logSet = new Set(saved.logs);
+        for (const l of world.logs) if (logSet.has(l.id)) l.found = true;
+        world.door.cleared = saved.door.cleared;
+        world.door.opened = saved.door.opened;
+        world.coral.forEach((cr, i) => {
+          if (saved.door.coral[i]) cr.cleared = true;
+        });
+        setCodex(codexSet);
+        deepestRef.current = saved.deepestDepth;
+      } else {
+        setCodex(new Set());
+        deepestRef.current = 0;
+      }
+
+      worldRef.current = world;
+      setSaveState(saved);
+      playerRef.current = {
+        pos: { x: WORLD_WIDTH / 2, y: 30 },
+        vel: { x: 0, y: 0 },
+        facing: { x: 0, y: 1 },
+      };
+      resRef.current = { oxygen: 100, power: 100 };
+      camRef.current = { x: WORLD_WIDTH / 2, y: 0 };
+      particlesRef.current = Array.from({ length: 260 }, () => ({
+        x: Math.random() * WORLD_WIDTH,
+        y: Math.random() * WORLD_HEIGHT,
+        z: 0.3 + Math.random() * 0.7,
+        r: 0.6 + Math.random() * 1.8,
+        drift: (Math.random() - 0.5) * 6,
+      }));
+      setActiveLog(null);
+      setCodexOpen(false);
+      phaseRef.current = "playing";
+      setPhase("playing");
+    },
+    [],
+  );
 
   // Keep phaseRef in sync so the loop can read it cheaply.
   useEffect(() => {
@@ -119,6 +208,7 @@ export default function DeepSeaExplorer() {
         e.preventDefault();
       keysRef.current.add(k);
       if (k === "c") setCodexOpen((o) => !o);
+      if (k === "m") toggleMute();
       if (k === "escape" || k === "p") {
         setPhase((p) => {
           if (p === "playing") {
@@ -151,7 +241,7 @@ export default function DeepSeaExplorer() {
       window.removeEventListener("keydown", down);
       window.removeEventListener("keyup", up);
     };
-  }, []);
+  }, [toggleMute]);
 
   // --- Main loop -----------------------------------------------------------
   useEffect(() => {
@@ -206,7 +296,11 @@ export default function DeepSeaExplorer() {
           oxygen: resRef.current.oxygen,
           power: resRef.current.power,
           scanned: worldRef.current
-            ? worldRef.current.creatures.filter((c) => c.scanned).length
+            ? new Set(
+                worldRef.current.creatures
+                  .filter((c) => c.scanned)
+                  .map((c) => c.def.id),
+              ).size
             : 0,
           message: messageTimerRef.current > 0 ? hudMessageRef.current : "",
         });
@@ -252,6 +346,14 @@ export default function DeepSeaExplorer() {
       if (p.pos.x <= 24 || p.pos.x >= WORLD_WIDTH - 24) p.vel.x *= -0.4;
 
       const depth = depthAt(p.pos.y);
+      if (depth > deepestRef.current) deepestRef.current = depth;
+
+      // Feed depth to the ambient bed a few times a second.
+      depthAudioTimerRef.current -= dt;
+      if (depthAudioTimerRef.current <= 0) {
+        depthAudioTimerRef.current = 0.4;
+        audio.setDepth(depth);
+      }
 
       // --- Resources ---
       if (depth < 25) {
@@ -266,6 +368,17 @@ export default function DeepSeaExplorer() {
           100,
         );
       }
+
+      // Low-oxygen warning pulse (roughly every 1.6s while critical).
+      if (res.oxygen > 0 && res.oxygen < 25 && fadeRef.current === 0) {
+        warnTimerRef.current -= dt;
+        if (warnTimerRef.current <= 0) {
+          warnTimerRef.current = 1.6;
+          audio.warn();
+        }
+      } else {
+        warnTimerRef.current = 0;
+      }
       if (res.oxygen <= 0 && fadeRef.current === 0) {
         fadeRef.current = 0.001;
       }
@@ -279,6 +392,7 @@ export default function DeepSeaExplorer() {
           res.power = 100;
           fadeRef.current = 0;
           setMessage("Reserves ran dry — you surfaced to resupply. Codex kept.");
+          persist();
         }
       }
 
@@ -325,17 +439,21 @@ export default function DeepSeaExplorer() {
       // --- Scanning ---
       scanTargetRef.current = nearest;
       const scanning = keys.has(" ") || keys.has("j");
-      if (nearest && scanning && res.power > 0) {
+      if (nearest && scanning && res.power > 0 && !nearest.scanned) {
         nearest.scanProgress = clamp(nearest.scanProgress + dt * 0.6, 0, 1);
         res.power = clamp(res.power - 2 * dt, 0, 100);
+        audio.scanTick(nearest.scanProgress);
         if (nearest.scanProgress >= 1) {
           nearest.scanned = true;
+          const doc = nearest;
           setCodex((prev) => {
             const next = new Set(prev);
-            next.add(nearest!.def.id);
+            next.add(doc.def.id);
             return next;
           });
-          setMessage(`Documented: ${nearest.def.name} (${nearest.def.rarity})`);
+          setMessage(`Documented: ${doc.def.name} (${doc.def.rarity})`);
+          audio.discover();
+          persist();
         }
       } else if (nearest) {
         nearest.scanProgress = Math.max(0, nearest.scanProgress - dt * 0.4);
@@ -350,6 +468,8 @@ export default function DeepSeaExplorer() {
           phaseRef.current = "log";
           setActiveLog(log);
           setPhase("log");
+          audio.logFound();
+          persist();
           if (log.id === "final") {
             setTimeout(() => {
               phaseRef.current = "epilogue";
@@ -368,13 +488,19 @@ export default function DeepSeaExplorer() {
             if (cr.progress >= 1) {
               cr.cleared = true;
               world.door.cleared++;
+              const opening = world.door.cleared >= world.door.needed;
               setMessage(
-                world.door.cleared >= world.door.needed
+                opening
                   ? "The coral gives way. The ancient door grinds open…"
                   : `Coral cleared (${world.door.cleared}/${world.door.needed}). The door still holds.`,
               );
-              if (world.door.cleared >= world.door.needed)
+              if (opening) {
                 world.door.opened = true;
+                audio.door();
+              } else {
+                audio.coral();
+              }
+              persist();
             }
           }
         }
@@ -615,7 +741,7 @@ export default function DeepSeaExplorer() {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
     };
-  }, [setMessage]);
+  }, [setMessage, persist]);
 
   // Pause the loop's phase gate when a log/epilogue is showing.
   useEffect(() => {
@@ -655,6 +781,15 @@ export default function DeepSeaExplorer() {
             <div className="mt-1 text-[10px] text-cyan-100/40">press C</div>
           </div>
 
+          {/* Mute toggle */}
+          <button
+            onClick={toggleMute}
+            className="pointer-events-auto absolute right-4 top-24 rounded-full border border-white/15 bg-black/40 px-3 py-1.5 text-xs text-cyan-100/70 backdrop-blur-sm transition hover:bg-white/10"
+            aria-label={muted ? "Unmute" : "Mute"}
+          >
+            {muted ? "🔇" : "🔊"}
+          </button>
+
           {/* Bottom bars */}
           <div className="absolute bottom-4 left-4 w-56 space-y-2">
             <Bar label="O₂" value={hud.oxygen} color="#6be3ff" warn={25} />
@@ -673,7 +808,7 @@ export default function DeepSeaExplorer() {
             <div>WASD / arrows — move</div>
             <div>hold Shift — boost</div>
             <div>hold Space — scan · E — interact</div>
-            <div>C — codex · Esc — pause</div>
+            <div>C — codex · M — mute · Esc — pause</div>
           </div>
         </div>
       )}
@@ -690,15 +825,46 @@ export default function DeepSeaExplorer() {
             A signal has been rising from beneath the shelf for eleven days.
             Descend, document what you find, and follow it all the way down.
           </p>
+
+          {save && hasProgress(save) ? (
+            <>
+              <button
+                onClick={() => startGame(true)}
+                className="pointer-events-auto rounded-full border border-cyan-300/50 bg-cyan-400/10 px-8 py-3 text-lg tracking-widest text-cyan-100 transition hover:bg-cyan-400/25"
+              >
+                CONTINUE DIVE
+              </button>
+              <div className="mt-3 text-center text-[11px] text-cyan-100/45">
+                {save.codex.length}/{TOTAL_CREATURES} creatures documented ·
+                deepest {Math.round(save.deepestDepth)}m
+                {save.door.opened ? " · city reached" : ""}
+              </div>
+              <button
+                onClick={() => startGame(false)}
+                className="pointer-events-auto mt-4 rounded-full border border-white/15 px-6 py-2 text-xs tracking-widest text-cyan-100/60 transition hover:bg-white/10"
+              >
+                NEW DIVE (reset progress)
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={() => startGame(false)}
+              className="pointer-events-auto rounded-full border border-cyan-300/50 bg-cyan-400/10 px-8 py-3 text-lg tracking-widest text-cyan-100 transition hover:bg-cyan-400/25"
+            >
+              BEGIN DESCENT
+            </button>
+          )}
+
           <button
-            onClick={startGame}
-            className="pointer-events-auto rounded-full border border-cyan-300/50 bg-cyan-400/10 px-8 py-3 text-lg tracking-widest text-cyan-100 transition hover:bg-cyan-400/25"
+            onClick={toggleMute}
+            className="pointer-events-auto mt-6 rounded-full border border-white/15 px-4 py-1.5 text-xs tracking-widest text-cyan-100/60 transition hover:bg-white/10"
           >
-            BEGIN DESCENT
+            {muted ? "🔇 SOUND OFF" : "🔊 SOUND ON"}
           </button>
-          <div className="mt-8 text-center text-[11px] leading-relaxed text-cyan-100/35">
+
+          <div className="mt-6 text-center text-[11px] leading-relaxed text-cyan-100/35">
             WASD / arrows to move · Shift to boost · hold Space to scan
-            creatures · E to interact · C for codex
+            creatures · E to interact · C for codex · M to mute
           </div>
         </Overlay>
       )}
@@ -759,10 +925,22 @@ export default function DeepSeaExplorer() {
             creatures)
           </p>
           <button
-            onClick={startGame}
+            onClick={() => startGame(true)}
             className="pointer-events-auto rounded-full border border-cyan-300/50 bg-cyan-400/10 px-8 py-3 tracking-widest text-cyan-100 hover:bg-cyan-400/25"
           >
             DIVE AGAIN
+          </button>
+          <button
+            onClick={() => {
+              clearProgress();
+              setSaveState(loadSave());
+              setCodex(new Set());
+              phaseRef.current = "title";
+              setPhase("title");
+            }}
+            className="pointer-events-auto mt-4 rounded-full border border-white/15 px-6 py-2 text-xs tracking-widest text-cyan-100/60 hover:bg-white/10"
+          >
+            RESET & RETURN TO TITLE
           </button>
         </Overlay>
       )}
