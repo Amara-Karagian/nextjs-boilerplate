@@ -14,6 +14,19 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={dir}>
+      <head>
+        {/* Prevent dark mode flash on load */}
+        <script dangerouslySetInnerHTML={{ __html: `
+(function(){
+  try {
+    var t = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var theme = t || (prefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch(e) {}
+})();
+        ` }} />
+      </head>
       <body className="antialiased">
         <NextIntlClientProvider messages={messages}>
           {children}
