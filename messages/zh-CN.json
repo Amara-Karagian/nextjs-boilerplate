@@ -1,0 +1,15 @@
+{
+  "site": { "name": "SafeHer", "tagline": "因为每一位女性都值得安全与尊严", "description": "为全球女性提供支持、资源和社区" },
+  "nav": { "home": "首页", "emergency": "紧急求助", "hotlines": "求助热线", "resources": "资源", "safety": "安全提示", "safety_plan": "安全计划", "legal": "法律权利", "community": "社区" },
+  "emergency": { "banner": "您现在有危险吗？", "title": "紧急帮助", "subtitle": "如果您处于紧急危险中，请拨打您所在国家的紧急服务电话", "international": "国际求助：112", "crisis_line": "危机热线", "safe_word": "安全暗语", "safe_word_desc": "与信任的人商定一个暗语，在无法明说的情况下发出求救信号" },
+  "hero": { "title": "你并不孤单", "subtitle": "全球数百万女性每天都在面对性别暴力。SafeHer 为各地女性提供真实的紧急电话、资源和支持——支持每一种语言。", "cta_emergency": "我现在需要帮助", "cta_resources": "浏览资源", "stat_1_label": "女性遭受暴力", "stat_1_value": "每3人中有1人", "stat_2_label": "个拥有热线的国家", "stat_2_value": "80+", "stat_3_label": "种支持语言", "stat_3_value": "200+" },
+  "hotlines": { "title": "在您所在国家寻求帮助", "subtitle": "覆盖80多个国家的真实紧急号码和求助热线" },
+  "resources": { "title": "资源与支持", "subtitle": "在您附近寻求帮助", "domestic_violence": "家庭暴力支持", "domestic_violence_desc": "为家庭暴力幸存者提供庇护所、热线和法律援助", "sexual_assault": "性暴力支持", "sexual_assault_desc": "保密支持、咨询和举报资源", "mental_health": "心理健康", "mental_health_desc": "咨询、心理治疗资源和互助支持小组", "legal_aid": "法律援助", "legal_aid_desc": "申请保护令和权利的免费及低价法律援助", "shelter": "安全庇护所", "shelter_desc": "为女性和儿童提供紧急和过渡性住所", "economic": "经济赋能", "economic_desc": "财务援助、职业培训和经济独立资源", "learn_more": "了解更多" },
+  "safety": { "title": "安全提示", "subtitle": "知识就是力量——保护自己，也保护他人", "digital_title": "数字安全", "digital_1": "使用强密码和唯一密码，并开启双因素认证", "digital_2": "在社交媒体上分享位置时要谨慎", "digital_3": "学会快速清除浏览记录", "digital_4": "用加密通讯软件（Signal、微信）进行敏感对话", "digital_5": "定期检查设备上是否有追踪软件", "digital_6": "查询求助信息时使用隐私浏览或无痕模式", "physical_title": "人身安全", "physical_1": "相信直觉——如果感到不对劲，很可能确实有问题", "physical_2": "外出时与信任的人分享您的位置", "physical_3": "记住紧急电话号码，不要只存在手机里", "physical_4": "规划并练习从家和工作场所的逃脱路线", "physical_5": "在家外安全的地方保存重要文件的副本", "physical_6": "准备好紧急背包，放置必需品，随时可以带走" },
+  "safety_plan": { "title": "制定您的个人安全计划", "subtitle": "一步步引导您制定自己的安全计划。您的回答仅保存在浏览器中——不会上传到任何服务器。" },
+  "legal": { "title": "了解您的权利", "subtitle": "法律保护措施为您而设——了解它们是什么", "protection_orders": "保护令", "protection_orders_desc": "在大多数国家，您有权申请针对施害者的限制令或保护令", "workplace": "工作场所权利", "workplace_desc": "性别骚扰和歧视在大多数国家属于违法行为——您可以举报", "immigration": "移民与庇护", "immigration_desc": "基于性别的迫害和家庭暴力可能使您有资格申请庇护或特殊签证保护", "child_custody": "子女监护", "child_custody_desc": "您作为母亲的权利受到保护——了解监护权及如何保障子女安全", "find_lawyer": "寻找律师", "un_rights": "联合国妇女权利" },
+  "community": { "title": "这里属于你", "subtitle": "与其他女性建立联系，分享您的故事，在社区中找到力量", "forum": "支持论坛", "forum_desc": "一个安全、有人管理的空间，分享经历、获得支持", "stories": "幸存者故事", "stories_desc": "阅读来自世界各地女性的力量与韧性故事", "volunteer": "志愿者", "volunteer_desc": "通过贡献时间、技能或资源帮助其他女性", "donate": "捐款", "donate_desc": "支持在全球保护和赋能女性的组织", "join": "加入我们的社区" },
+  "footer": { "crisis": "处于危机中？请拨打112（国际）或当地紧急电话", "privacy": "隐私政策", "terms": "使用条款", "contact": "联系我们", "mission": "SafeHer 致力于支持全球面临性别暴力和困境的女性。每一位女性都值得安全。", "rights": "版权所有", "escape_tip": "随时按 Escape 键快速离开此网站" },
+  "language": { "select": "选择语言", "search": "搜索语言..." },
+  "a11y": { "skip_to_content": "跳至主要内容", "menu_open": "打开导航菜单", "menu_close": "关闭导航菜单" }
+}

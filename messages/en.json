@@ -1,0 +1,126 @@
+{
+  "site": {
+    "name": "SafeHer",
+    "tagline": "Because every woman deserves safety and dignity",
+    "description": "Support, resources, and community for women worldwide"
+  },
+  "nav": {
+    "home": "Home",
+    "emergency": "Emergency",
+    "hotlines": "Hotlines",
+    "resources": "Resources",
+    "safety": "Safety Tips",
+    "safety_plan": "Safety Plan",
+    "legal": "Legal Rights",
+    "community": "Community"
+  },
+  "emergency": {
+    "banner": "Are you in danger right now?",
+    "title": "Emergency Help",
+    "subtitle": "If you are in immediate danger, call emergency services in your country",
+    "international": "International: 112",
+    "crisis_line": "Crisis Hotline",
+    "safe_word": "Safe Word",
+    "safe_word_desc": "Use a code word with a trusted person to signal you need help without being overheard"
+  },
+  "hero": {
+    "title": "You Are Not Alone",
+    "subtitle": "Millions of women worldwide face gender-based violence every day. SafeHer provides real emergency numbers, resources, and support for women everywhere — in every language.",
+    "cta_emergency": "I Need Help Now",
+    "cta_resources": "Browse Resources",
+    "stat_1_label": "women experience violence",
+    "stat_1_value": "1 in 3",
+    "stat_2_label": "countries with hotlines",
+    "stat_2_value": "80+",
+    "stat_3_label": "languages supported",
+    "stat_3_value": "200+"
+  },
+  "hotlines": {
+    "title": "Find Help in Your Country",
+    "subtitle": "Real emergency numbers and helplines for 80+ countries"
+  },
+  "resources": {
+    "title": "Resources & Support",
+    "subtitle": "Find help near you",
+    "domestic_violence": "Domestic Violence Support",
+    "domestic_violence_desc": "Shelters, hotlines, and legal aid for survivors of domestic abuse",
+    "sexual_assault": "Sexual Assault Support",
+    "sexual_assault_desc": "Confidential support, counseling, and reporting resources",
+    "mental_health": "Mental Health",
+    "mental_health_desc": "Counseling, therapy resources, and peer support groups",
+    "legal_aid": "Legal Aid",
+    "legal_aid_desc": "Free and low-cost legal assistance for protection orders and rights",
+    "shelter": "Safe Shelters",
+    "shelter_desc": "Emergency and transitional housing for women and children",
+    "economic": "Economic Empowerment",
+    "economic_desc": "Financial assistance, job training, and economic independence resources",
+    "learn_more": "Learn More"
+  },
+  "safety": {
+    "title": "Safety Tips",
+    "subtitle": "Knowledge is power — protect yourself and others",
+    "digital_title": "Digital Safety",
+    "digital_1": "Use strong, unique passwords and enable two-factor authentication",
+    "digital_2": "Be cautious about sharing your location on social media",
+    "digital_3": "Know how to quickly delete your browsing history",
+    "digital_4": "Use encrypted messaging apps (Signal, WhatsApp) for sensitive conversations",
+    "digital_5": "Check your devices regularly for tracking or spy software",
+    "digital_6": "Use a private browser window or incognito mode when researching help",
+    "physical_title": "Physical Safety",
+    "physical_1": "Trust your instincts — if something feels wrong, it probably is",
+    "physical_2": "Share your location with a trusted friend or family member when going out",
+    "physical_3": "Keep emergency numbers memorized, not just saved in your phone",
+    "physical_4": "Plan and practise escape routes from your home and workplace",
+    "physical_5": "Keep copies of important documents in a safe place outside your home",
+    "physical_6": "Prepare an emergency bag with essentials you can grab quickly"
+  },
+  "safety_plan": {
+    "title": "Build Your Personal Safety Plan",
+    "subtitle": "A step-by-step guide to creating your own safety plan. Your answers stay in your browser only — nothing is saved to any server."
+  },
+  "legal": {
+    "title": "Know Your Rights",
+    "subtitle": "Legal protections exist for you — learn what they are",
+    "protection_orders": "Protection Orders",
+    "protection_orders_desc": "You have the right to seek a restraining order or protection order against an abuser in most countries",
+    "workplace": "Workplace Rights",
+    "workplace_desc": "Harassment and discrimination based on gender is illegal in most countries — you can report it",
+    "immigration": "Immigration & Asylum",
+    "immigration_desc": "Gender-based persecution and domestic violence may qualify you for asylum or special visa protections",
+    "child_custody": "Child Custody",
+    "child_custody_desc": "Your rights as a parent are protected — learn about custody rights and how to keep children safe",
+    "find_lawyer": "Find a Lawyer",
+    "un_rights": "UN Women's Rights"
+  },
+  "community": {
+    "title": "You Belong Here",
+    "subtitle": "Connect with other women, share your story, find strength in community",
+    "forum": "Support Forum",
+    "forum_desc": "A safe, moderated space to share experiences and find support from others who understand",
+    "stories": "Survivor Stories",
+    "stories_desc": "Read stories of strength and resilience from women around the world",
+    "volunteer": "Volunteer",
+    "volunteer_desc": "Help other women by volunteering your time, skills, or resources",
+    "donate": "Donate",
+    "donate_desc": "Support organizations that protect and empower women worldwide",
+    "join": "Join Our Community"
+  },
+  "footer": {
+    "crisis": "In crisis? Call 112 (international) or your local emergency number",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "contact": "Contact",
+    "mission": "SafeHer is dedicated to supporting women facing gender-based violence and hardship worldwide. Every woman deserves safety.",
+    "rights": "All rights reserved",
+    "escape_tip": "Press Escape at any time to quickly leave this site"
+  },
+  "language": {
+    "select": "Select Language",
+    "search": "Search languages..."
+  },
+  "a11y": {
+    "skip_to_content": "Skip to main content",
+    "menu_open": "Open navigation menu",
+    "menu_close": "Close navigation menu"
+  }
+}
