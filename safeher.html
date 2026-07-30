@@ -1,0 +1,1781 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SafeHer — Because every woman deserves safety and dignity</title>
+<style>
+/* ── Tokens ──────────────────────────────────────────── */
+:root {
+  --plum:        #2a1750;
+  --plum-mid:    #5b2fa0;
+  --violet:      #7c3aed;
+  --violet-lt:   #a78bfa;
+  --rose:        #d63b63;
+  --rose-dk:     #b02f52;
+  --rose-lt:     #fce7ee;
+
+  --bg:          #fbf9fd;
+  --bg-alt:      #f3f0f9;
+  --bg-card:     #ffffff;
+  --bg-hero:     #2a1750;
+
+  --border:      #e2dced;
+  --border-alt:  #ccc6dd;
+
+  --text:        #1a1230;
+  --text-mid:    #4a3f6e;
+  --text-muted:  #7b6f99;
+  --text-faint:  #b0a8c4;
+
+  --link:        #6d28d9;
+
+  --shadow-sm:   0 1px 3px rgba(42,23,80,.08), 0 1px 2px rgba(42,23,80,.06);
+  --shadow-md:   0 4px 16px rgba(42,23,80,.10);
+  --shadow-lg:   0 12px 40px rgba(42,23,80,.14);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:         #0a0812;
+    --bg-alt:     #100c1e;
+    --bg-card:    #160f28;
+    --bg-hero:    #0d0920;
+    --border:     #2a1f45;
+    --border-alt: #3a2d5c;
+    --text:       #f0eaf8;
+    --text-mid:   #c4b8e0;
+    --text-muted: #8b7eb0;
+    --text-faint: #5a4e7a;
+    --link:       #a78bfa;
+    --shadow-sm:  0 1px 3px rgba(0,0,0,.4);
+    --shadow-md:  0 4px 16px rgba(0,0,0,.5);
+    --shadow-lg:  0 12px 40px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"] {
+  --bg:         #0a0812;
+  --bg-alt:     #100c1e;
+  --bg-card:    #160f28;
+  --bg-hero:    #0d0920;
+  --border:     #2a1f45;
+  --border-alt: #3a2d5c;
+  --text:       #f0eaf8;
+  --text-mid:   #c4b8e0;
+  --text-muted: #8b7eb0;
+  --text-faint: #5a4e7a;
+  --link:       #a78bfa;
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.4);
+  --shadow-md:  0 4px 16px rgba(0,0,0,.5);
+  --shadow-lg:  0 12px 40px rgba(0,0,0,.6);
+}
+:root[data-theme="light"] {
+  --plum:        #2a1750;
+  --bg:          #fbf9fd;
+  --bg-alt:      #f3f0f9;
+  --bg-card:     #ffffff;
+  --bg-hero:     #2a1750;
+  --border:      #e2dced;
+  --border-alt:  #ccc6dd;
+  --text:        #1a1230;
+  --text-mid:    #4a3f6e;
+  --text-muted:  #7b6f99;
+  --text-faint:  #b0a8c4;
+  --link:        #6d28d9;
+  --shadow-sm:   0 1px 3px rgba(42,23,80,.08), 0 1px 2px rgba(42,23,80,.06);
+  --shadow-md:   0 4px 16px rgba(42,23,80,.10);
+  --shadow-lg:   0 12px 40px rgba(42,23,80,.14);
+}
+
+/* ── Reset ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  transition: background .2s, color .2s;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--link); }
+button { cursor: pointer; font: inherit; }
+
+/* ── Typography ──────────────────────────────────────── */
+.display {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  text-wrap: balance;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+.serif { font-family: Georgia, 'Times New Roman', serif; }
+
+/* ── Skip link ───────────────────────────────────────── */
+.skip { position: absolute; top: -100%; left: 0; z-index: 9999; padding: .75rem 1.5rem; background: var(--violet); color: #fff; font-weight: 700; text-decoration: none; border-radius: 0 0 .5rem 0; }
+.skip:focus { top: 0; }
+
+/* ── Emergency Bar ───────────────────────────────────── */
+.ebar {
+  background: var(--rose-dk);
+  color: #fff;
+  padding: .6rem 1rem;
+  text-align: center;
+  font-size: .8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+.ebar a {
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff;
+  text-decoration: none;
+  padding: .2rem .85rem;
+  border-radius: 100px;
+  font-size: .75rem;
+  font-weight: 700;
+  transition: background .15s;
+}
+.ebar a:hover { background: rgba(255,255,255,.3); }
+
+/* ── Header ──────────────────────────────────────────── */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--plum);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 2px 16px rgba(0,0,0,.3);
+}
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: .75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-icon svg { width: 18px; height: 18px; stroke: #fff; fill: none; }
+.logo-name { color: #fff; font-family: Georgia, serif; font-size: 1.2rem; font-weight: 700; letter-spacing: -.01em; }
+.logo-tag { color: rgba(255,255,255,.5); font-size: .68rem; margin-top: 1px; display: block; }
+
+.nav-links {
+  display: none;
+  flex: 1;
+  justify-content: center;
+  gap: .15rem;
+  list-style: none;
+}
+@media (min-width: 900px) { .nav-links { display: flex; } }
+.nav-links a {
+  color: rgba(255,255,255,.7);
+  text-decoration: none;
+  font-size: .8rem;
+  padding: .35rem .65rem;
+  border-radius: 7px;
+  transition: background .15s, color .15s;
+  white-space: nowrap;
+}
+.nav-links a:hover { background: rgba(255,255,255,.1); color: #fff; }
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.icon-btn {
+  width: 36px; height: 36px;
+  border: none;
+  background: rgba(255,255,255,.1);
+  color: #fff;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s;
+  position: relative;
+}
+.icon-btn:hover { background: rgba(255,255,255,.2); }
+.icon-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; }
+.lang-wrap { position: relative; }
+.lang-btn {
+  display: flex; align-items: center; gap: .4rem;
+  padding: 0 .75rem;
+  width: auto;
+  font-size: .78rem;
+  font-weight: 500;
+}
+.lang-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  padding: .35rem;
+  min-width: 170px;
+  display: none;
+  z-index: 70;
+}
+.lang-menu.open { display: block; }
+.lang-menu button {
+  display: flex; align-items: center; gap: .55rem;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: .55rem .7rem;
+  border-radius: 8px;
+  font-size: .85rem;
+  color: var(--text);
+  transition: background .12s;
+}
+.lang-menu button:hover { background: var(--bg-alt); }
+.lang-menu button.active { color: var(--violet); font-weight: 700; }
+.lang-menu .flag { font-size: 1rem; }
+.hamburger { display: flex; }
+@media (min-width: 900px) { .hamburger { display: none; } }
+
+/* ── Hero ────────────────────────────────────────────── */
+.hero {
+  background: var(--bg-hero);
+  color: #fff;
+  padding: 5rem 1.5rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 90% 40%, rgba(124,58,237,.35) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 10% 80%, rgba(214,59,99,.2) 0%, transparent 55%);
+  pointer-events: none;
+}
+/* subtle noise grain */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: .6;
+}
+.hero-inner {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+@media (min-width: 700px) {
+  .hero-inner { grid-template-columns: 1fr auto; }
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 100px;
+  padding: .25rem .85rem .25rem .6rem;
+  font-size: .75rem;
+  color: rgba(255,255,255,.7);
+  margin-bottom: 1.25rem;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+  flex-shrink: 0;
+}
+h1.display {
+  font-size: clamp(2.6rem, 6vw, 4.2rem);
+  color: #fff;
+  margin-bottom: 1.25rem;
+}
+.hero-sub {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,.65);
+  max-width: 50ch;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+.hero-ctas { display: flex; gap: .75rem; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: .45rem;
+  background: var(--rose);
+  color: #fff;
+  font-weight: 700;
+  font-size: .9rem;
+  padding: .75rem 1.5rem;
+  border-radius: 12px;
+  text-decoration: none;
+  border: none;
+  transition: background .15s, transform .15s, box-shadow .15s;
+  box-shadow: 0 4px 16px rgba(214,59,99,.4);
+}
+.btn-primary:hover { background: var(--rose-dk); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(214,59,99,.5); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: .45rem;
+  background: rgba(255,255,255,.08);
+  color: rgba(255,255,255,.85);
+  font-weight: 600;
+  font-size: .9rem;
+  padding: .75rem 1.4rem;
+  border-radius: 12px;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,.18);
+  transition: background .15s, transform .15s;
+}
+.btn-ghost:hover { background: rgba(255,255,255,.16); transform: translateY(-1px); }
+
+.hero-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+@media (max-width: 699px) {
+  .hero-stats { flex-direction: row; flex-wrap: wrap; margin-top: .5rem; }
+}
+.stat-block {
+  text-align: right;
+  padding: .85rem 1.1rem .85rem 1.4rem;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 14px;
+  min-width: 130px;
+}
+@media (max-width: 699px) { .stat-block { text-align: left; } }
+.stat-val {
+  font-family: Georgia, serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: .2rem;
+  font-variant-numeric: tabular-nums;
+}
+.stat-lbl { font-size: .72rem; color: rgba(255,255,255,.5); letter-spacing: .03em; }
+
+/* ── Section base ────────────────────────────────────── */
+section { padding: 4.5rem 1.5rem; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-header { margin-bottom: 2.75rem; }
+.eyebrow {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--violet);
+  margin-bottom: .6rem;
+  display: block;
+}
+h2.display { font-size: clamp(1.7rem, 3.5vw, 2.4rem); color: var(--text); margin-bottom: .6rem; }
+.section-sub { font-size: .95rem; color: var(--text-muted); max-width: 55ch; }
+
+/* ── Emergency section ───────────────────────────────── */
+.emergency-section { background: var(--bg-alt); }
+.emg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+.emg-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+}
+.emg-card-icon { font-size: 2rem; margin-bottom: 1rem; }
+.emg-card h3 { font-family: Georgia, serif; font-size: 1.05rem; color: var(--text); margin-bottom: .65rem; }
+.emg-card p { font-size: .83rem; color: var(--text-muted); line-height: 1.6; }
+.call-btn {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: var(--rose);
+  color: #fff;
+  font-weight: 700;
+  font-size: .82rem;
+  padding: .5rem 1.1rem;
+  border-radius: 9px;
+  text-decoration: none;
+  transition: background .15s;
+}
+.call-btn:hover { background: var(--rose-dk); }
+
+/* ── Hotlines ────────────────────────────────────────── */
+.hotlines-section { background: var(--bg); }
+.hotline-note {
+  font-size: .8rem;
+  color: var(--text-muted);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .6rem .9rem;
+  margin-bottom: 1.25rem;
+  max-width: 480px;
+}
+.search-wrap {
+  position: relative;
+  max-width: 480px;
+  margin-bottom: 1.5rem;
+}
+.search-wrap svg {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 17px; height: 17px;
+  stroke: var(--text-muted);
+  fill: none;
+  pointer-events: none;
+}
+.search-input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: .75rem 1rem .75rem 2.6rem;
+  font: inherit;
+  font-size: .9rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color .15s;
+}
+.search-input::placeholder { color: var(--text-faint); }
+.search-input:focus { border-color: var(--violet); }
+.country-list { display: flex; flex-direction: column; gap: .65rem; }
+.country-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.country-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  gap: 1rem;
+}
+.country-name { font-weight: 600; font-size: .92rem; color: var(--text); }
+.country-emg {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-shrink: 0;
+}
+.emg-num {
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.tel-link {
+  background: #dcfce7;
+  color: #15803d;
+  font-size: .75rem;
+  font-weight: 700;
+  padding: .25rem .7rem;
+  border-radius: 7px;
+  text-decoration: none;
+  transition: background .15s;
+  white-space: nowrap;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tel-link { background: #14532d; color: #86efac; }
+}
+.tel-link:hover { opacity: .85; }
+.country-detail {
+  padding: .75rem 1.25rem 1rem;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: .5rem;
+}
+.detail-line { font-size: .78rem; color: var(--text-muted); }
+.detail-line strong { color: var(--text); font-weight: 600; }
+.detail-line a { color: var(--link); text-decoration: none; }
+.detail-line a:hover { text-decoration: underline; }
+.no-results { text-align: center; padding: 2rem; color: var(--text-muted); font-size: .88rem; }
+.show-more-wrap { text-align: center; margin-top: 1.5rem; }
+
+/* ── Resources ───────────────────────────────────────── */
+.resources-section { background: var(--bg-alt); }
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.res-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.6rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s, transform .2s;
+}
+.res-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.res-icon {
+  width: 44px; height: 44px;
+  border-radius: 11px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+.res-card h3 { font-family: Georgia, serif; font-size: 1.05rem; color: var(--text); margin-bottom: .5rem; }
+.res-card p { font-size: .82rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 1rem; }
+.text-link {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--violet);
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: .2rem;
+  background: none; border: none; padding: 0;
+}
+.text-link:hover { text-decoration: underline; }
+
+/* ── Safety tips ─────────────────────────────────────── */
+.safety-section { background: var(--bg); }
+.tips-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 680px) { .tips-grid { grid-template-columns: 1fr 1fr; } }
+.tips-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+}
+.tips-title {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: 1.25rem;
+}
+.tips-title-icon { font-size: 1.2rem; }
+.tips-title h3 { font-family: Georgia, serif; font-size: 1.1rem; color: var(--text); }
+.tips-list { list-style: none; display: flex; flex-direction: column; gap: .75rem; }
+.tips-list li {
+  display: flex; align-items: flex-start; gap: .65rem;
+  font-size: .83rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.tip-check {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: #ede9fe;
+  color: var(--violet);
+  font-size: .65rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+  font-weight: 700;
+}
+:root[data-theme="dark"] .tip-check { background: #2e1f5e; }
+
+/* ── Legal ───────────────────────────────────────────── */
+.legal-section { background: var(--bg-alt); }
+.legal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.legal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.6rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s, transform .2s;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  width: 100%;
+}
+.legal-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.legal-card-icon { font-size: 1.5rem; margin-bottom: .85rem; }
+.legal-card h3 { font-family: Georgia, serif; font-size: 1rem; color: var(--text); margin-bottom: .5rem; }
+.legal-card p { font-size: .82rem; color: var(--text-muted); line-height: 1.65; }
+.legal-ctas { display: flex; flex-wrap: wrap; gap: .75rem; }
+.btn-solid {
+  background: var(--violet);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: .65rem 1.4rem;
+  font: inherit;
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s;
+}
+.btn-solid:hover { background: var(--plum-mid); }
+.btn-outline {
+  background: transparent;
+  color: var(--violet);
+  border: 1.5px solid var(--violet);
+  border-radius: 10px;
+  padding: .63rem 1.4rem;
+  font: inherit;
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s;
+}
+.btn-outline:hover { background: rgba(124,58,237,.08); }
+
+/* ── Community ───────────────────────────────────────── */
+.community-section {
+  background: linear-gradient(135deg, #2a1750 0%, #5b2fa0 55%, #a33060 100%);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.community-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: .5;
+}
+.community-section .section-inner { position: relative; }
+.community-section .eyebrow { color: rgba(255,255,255,.6); }
+.community-section h2.display { color: #fff; }
+.community-section .section-sub { color: rgba(255,255,255,.6); }
+.comm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+.comm-card {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 18px;
+  padding: 1.5rem;
+  transition: background .2s, transform .2s;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  width: 100%;
+}
+.comm-card:hover { background: rgba(255,255,255,.14); transform: translateY(-2px); }
+.comm-card-icon { font-size: 1.5rem; margin-bottom: .75rem; }
+.comm-card h3 { font-family: Georgia, serif; font-size: 1rem; color: #fff; margin-bottom: .4rem; }
+.comm-card p { font-size: .8rem; color: rgba(255,255,255,.55); line-height: 1.6; }
+.comm-cta { text-align: center; }
+.btn-white {
+  display: inline-flex; align-items: center; gap: .45rem;
+  background: #fff;
+  color: var(--plum);
+  font: inherit;
+  font-size: .95rem;
+  font-weight: 700;
+  padding: .85rem 2rem;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background .15s, transform .15s;
+  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+}
+.btn-white:hover { background: #f3f0f9; transform: translateY(-1px); }
+
+/* ── Footer ──────────────────────────────────────────── */
+footer {
+  background: #0a0710;
+  color: rgba(255,255,255,.45);
+  padding: 3.5rem 1.5rem 2rem;
+}
+.footer-inner { max-width: 1100px; margin: 0 auto; }
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+@media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
+.footer-logo { display: flex; align-items: center; gap: .5rem; margin-bottom: .85rem; }
+.footer-logo-icon {
+  width: 30px; height: 30px;
+  background: var(--violet);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.footer-logo-icon svg { width: 16px; height: 16px; stroke: #fff; fill: none; }
+.footer-name { color: #fff; font-family: Georgia, serif; font-size: 1.05rem; font-weight: 700; }
+.footer-mission { font-size: .78rem; line-height: 1.7; }
+.footer-col h4 { color: rgba(255,255,255,.7); font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .85rem; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
+.footer-col a { color: rgba(255,255,255,.4); text-decoration: none; font-size: .8rem; transition: color .15s; }
+.footer-col a:hover { color: rgba(255,255,255,.8); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+.crisis-note { font-size: .78rem; color: #f87171; font-weight: 600; }
+.copy { font-size: .73rem; color: rgba(255,255,255,.2); }
+.escape-note { text-align: center; font-size: .7rem; color: rgba(255,255,255,.18); margin-top: 1rem; }
+
+/* ── Focus ───────────────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 700px) {
+  .hero { padding: 3rem 1.25rem 3rem; }
+  section { padding: 3.5rem 1.25rem; }
+}
+
+/* ── Mobile nav drawer ───────────────────────────────── */
+.drawer-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(4px);
+}
+.drawer-overlay.open { display: block; }
+.drawer {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: 280px;
+  background: linear-gradient(160deg, #2a1750, #3d2472);
+  z-index: 51;
+  display: flex; flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform .25s ease;
+  box-shadow: 4px 0 24px rgba(0,0,0,.5);
+}
+.drawer.open { transform: translateX(0); }
+.drawer-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.drawer-name { color: #fff; font-family: Georgia, serif; font-size: 1.1rem; font-weight: 700; }
+.drawer-close { width: 32px; height: 32px; background: rgba(255,255,255,.1); border: none; border-radius: 8px; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.drawer-close:hover { background: rgba(255,255,255,.2); }
+.drawer-close svg { width: 14px; height: 14px; stroke: currentColor; fill: none; }
+.drawer-links { flex: 1; overflow-y: auto; padding: .75rem; list-style: none; display: flex; flex-direction: column; gap: .25rem; }
+.drawer-links a { display: block; color: rgba(255,255,255,.75); text-decoration: none; font-size: .875rem; padding: .65rem .85rem; border-radius: 9px; transition: background .15s, color .15s; }
+.drawer-links a:hover { background: rgba(255,255,255,.1); color: #fff; }
+.drawer-foot { padding: 1rem; border-top: 1px solid rgba(255,255,255,.1); }
+.drawer-emg {
+  display: flex; align-items: center; justify-content: center; gap: .4rem;
+  width: 100%;
+  background: var(--rose);
+  color: #fff;
+  font-weight: 700;
+  font-size: .85rem;
+  padding: .75rem;
+  border-radius: 10px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background .15s;
+}
+.drawer-emg:hover { background: var(--rose-dk); }
+
+/* ── Info modal ──────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 90;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 1.5rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  max-width: 540px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  padding: 2rem;
+  position: relative;
+}
+.modal-icon { font-size: 2rem; margin-bottom: .75rem; }
+.modal h3 { font-family: Georgia, serif; font-size: 1.45rem; color: var(--text); margin-bottom: 1rem; padding-right: 2.5rem; line-height: 1.2; }
+.modal p { font-size: .9rem; color: var(--text-mid); line-height: 1.7; margin-bottom: 1rem; }
+.modal ul { margin: 0 0 1.15rem 1.15rem; color: var(--text-mid); font-size: .88rem; line-height: 1.7; }
+.modal ul li { margin-bottom: .35rem; }
+.modal .modal-cta { margin-top: .25rem; }
+.modal-close {
+  position: absolute; top: 1.1rem; right: 1.1rem;
+  width: 34px; height: 34px;
+  border: none;
+  background: var(--bg-alt);
+  border-radius: 9px;
+  color: var(--text);
+  font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-close:hover { background: var(--border); }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip" data-i18n="skip">Skip to main content</a>
+
+<!-- Emergency Bar -->
+<div class="ebar" role="alert" aria-live="polite">
+  <span data-i18n="ebar_q">🚨 Are you in danger right now?</span>
+  <a href="tel:112" data-i18n="ebar_intl">📞 International: 112</a>
+</div>
+
+<!-- Header -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo" aria-label="SafeHer home">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+        </svg>
+      </div>
+      <div>
+        <span class="logo-name">SafeHer</span>
+        <span class="logo-tag" data-i18n="logo_tag">Because every woman deserves safety</span>
+      </div>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="#emergency" data-i18n="nav_emergency">Emergency</a></li>
+      <li><a href="#hotlines" data-i18n="nav_hotlines">Hotlines</a></li>
+      <li><a href="#resources" data-i18n="nav_resources">Resources</a></li>
+      <li><a href="#safety" data-i18n="nav_safety">Safety Tips</a></li>
+      <li><a href="#legal" data-i18n="nav_legal">Legal Rights</a></li>
+      <li><a href="#community" data-i18n="nav_community">Community</a></li>
+    </ul>
+
+    <div class="header-controls">
+      <!-- Dark mode toggle -->
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">
+        <svg id="iconSun" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg id="iconMoon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+        </svg>
+      </button>
+      <!-- Language -->
+      <div class="lang-wrap">
+        <button class="icon-btn lang-btn" id="langBtn" aria-label="Select language" aria-haspopup="true" aria-expanded="false" title="Change language">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+          <span id="langLabel">English</span>
+        </button>
+        <div class="lang-menu" id="langMenu" role="menu"></div>
+      </div>
+      <!-- Hamburger -->
+      <button class="icon-btn hamburger" id="menuOpen" aria-label="Open navigation" aria-expanded="false" aria-controls="drawer">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
+<nav class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="drawer-head">
+    <span class="drawer-name">SafeHer</span>
+    <button class="drawer-close" id="menuClose" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <ul class="drawer-links">
+    <li><a href="#emergency" data-i18n="nav_emergency">Emergency</a></li>
+    <li><a href="#hotlines" data-i18n="nav_hotlines">Hotlines</a></li>
+    <li><a href="#resources" data-i18n="nav_resources">Resources</a></li>
+    <li><a href="#safety" data-i18n="nav_safety">Safety Tips</a></li>
+    <li><a href="#legal" data-i18n="nav_legal">Legal Rights</a></li>
+    <li><a href="#community" data-i18n="nav_community">Community</a></li>
+  </ul>
+  <div class="drawer-foot">
+    <a href="tel:112" class="drawer-emg" data-i18n="drawer_emg">📞 Emergency: 112</a>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- Hero -->
+<section class="hero" aria-labelledby="h1">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">
+        <span class="hero-badge-dot" aria-hidden="true"></span>
+        <span data-i18n="hero_badge">200+ languages supported</span>
+      </div>
+      <h1 class="display" id="h1"><span data-i18n="hero_h1a">You Are</span><br><span data-i18n="hero_h1b">Not Alone.</span></h1>
+      <p class="hero-sub" data-i18n="hero_sub">Millions of women around the world face gender-based violence every day. SafeHer provides real emergency numbers, resources, and support — in every language.</p>
+      <div class="hero-ctas">
+        <a href="#emergency" class="btn-primary" data-i18n="cta_help">🆘 I Need Help Now</a>
+        <a href="#resources" class="btn-ghost" data-i18n="cta_browse">Browse Resources</a>
+      </div>
+    </div>
+    <div class="hero-stats" aria-label="Key statistics">
+      <div class="stat-block">
+        <div class="stat-val">1 in 3</div>
+        <div class="stat-lbl" data-i18n="stat1">women experience violence</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-val">80+</div>
+        <div class="stat-lbl" data-i18n="stat2">countries with hotlines</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-val">24/7</div>
+        <div class="stat-lbl" data-i18n="stat3">crisis support available</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Emergency -->
+<section class="emergency-section" id="emergency" aria-labelledby="h-emg">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow" data-i18n="ey_imm">Immediate Help</span>
+      <h2 class="display" id="h-emg" data-i18n="h_emg">Emergency Assistance</h2>
+      <p class="section-sub" data-i18n="sub_emg">If you're in immediate danger, contact emergency services in your country.</p>
+    </div>
+    <div class="emg-grid">
+      <div class="emg-card">
+        <div class="emg-card-icon">📞</div>
+        <h3>International: 112</h3>
+        <p style="margin-bottom:.9rem" data-i18n="emg1p">Connects to emergency services in most countries worldwide.</p>
+        <a href="tel:112" class="call-btn" data-i18n="call112">Call 112 Now</a>
+      </div>
+      <div class="emg-card">
+        <div class="emg-card-icon">🆘</div>
+        <h3 data-i18n="emg2h">Crisis Hotline</h3>
+        <p data-i18n="emg2p">Available 24/7 — find your country's specific crisis line in the hotlines section below.</p>
+      </div>
+      <div class="emg-card">
+        <div class="emg-card-icon">🔒</div>
+        <h3 data-i18n="emg3h">Safe Word</h3>
+        <p data-i18n="emg3p">Agree on a code word with a trusted person so you can signal for help without being heard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hotlines -->
+<section class="hotlines-section" id="hotlines" aria-labelledby="h-hot">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow" data-i18n="ey_country">By Country</span>
+      <h2 class="display" id="h-hot" data-i18n="h_hot">Find Help in Your Country</h2>
+      <p class="section-sub" data-i18n="sub_hot">Real emergency numbers and crisis lines for 80+ countries.</p>
+    </div>
+    <p class="hotline-note" data-i18n="note_hot">⚠️ Numbers are provided in good faith — always verify them locally, as they can change.</p>
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" class="search-input" placeholder="Search country…" aria-label="Search country" id="countrySearch" data-i18n-ph="search_ph">
+    </div>
+    <div class="country-list" id="countryList"></div>
+    <p class="no-results" id="noResults" style="display:none" data-i18n="no_results">No countries match your search.</p>
+    <div class="show-more-wrap">
+      <button class="btn-outline" id="toggleCountries" data-i18n="show_all">Show all countries</button>
+    </div>
+  </div>
+</section>
+
+<!-- Resources -->
+<section class="resources-section" id="resources" aria-labelledby="h-res">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow" data-i18n="ey_support">Support Available</span>
+      <h2 class="display" id="h-res" data-i18n="h_res">Resources &amp; Support</h2>
+      <p class="section-sub" data-i18n="sub_res">Find specialized help near you, across every need.</p>
+    </div>
+    <div class="resources-grid">
+      <div class="res-card">
+        <div class="res-icon">🏠</div>
+        <h3 data-i18n="res1h">Domestic Violence Support</h3>
+        <p data-i18n="res1p">Shelters, hotlines, and legal assistance for survivors of domestic abuse.</p>
+        <button class="text-link" data-modal="res1" data-i18n="learn_more">Learn more →</button>
+      </div>
+      <div class="res-card">
+        <div class="res-icon">💜</div>
+        <h3 data-i18n="res2h">Sexual Assault Support</h3>
+        <p data-i18n="res2p">Confidential support, counseling, and resources for reporting.</p>
+        <button class="text-link" data-modal="res2" data-i18n="learn_more">Learn more →</button>
+      </div>
+      <div class="res-card">
+        <div class="res-icon">🧠</div>
+        <h3 data-i18n="res3h">Mental Health</h3>
+        <p data-i18n="res3p">Counseling, therapy resources, and peer support groups.</p>
+        <button class="text-link" data-modal="res3" data-i18n="learn_more">Learn more →</button>
+      </div>
+      <div class="res-card">
+        <div class="res-icon">⚖️</div>
+        <h3 data-i18n="res4h">Legal Aid</h3>
+        <p data-i18n="res4p">Free and low-cost legal assistance for protection orders and rights.</p>
+        <button class="text-link" data-modal="res4" data-i18n="learn_more">Learn more →</button>
+      </div>
+      <div class="res-card">
+        <div class="res-icon">🏡</div>
+        <h3 data-i18n="res5h">Safe Shelters</h3>
+        <p data-i18n="res5p">Emergency and transitional housing for women and children.</p>
+        <button class="text-link" data-modal="res5" data-i18n="learn_more">Learn more →</button>
+      </div>
+      <div class="res-card">
+        <div class="res-icon">💪</div>
+        <h3 data-i18n="res6h">Economic Empowerment</h3>
+        <p data-i18n="res6p">Financial assistance, job training, and resources for independence.</p>
+        <button class="text-link" data-modal="res6" data-i18n="learn_more">Learn more →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Safety Tips -->
+<section class="safety-section" id="safety" aria-labelledby="h-saf">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow" data-i18n="ey_stay">Stay Safe</span>
+      <h2 class="display" id="h-saf" data-i18n="h_saf">Safety Tips</h2>
+      <p class="section-sub" data-i18n="sub_saf">Knowledge is power — protect yourself and those around you.</p>
+    </div>
+    <div class="tips-grid">
+      <div class="tips-card">
+        <div class="tips-title">
+          <span class="tips-title-icon">💻</span>
+          <h3 data-i18n="saf_digital">Digital Safety</h3>
+        </div>
+        <ul class="tips-list">
+          <li><span class="tip-check" aria-hidden="true">✓</span><span data-i18n="sd1">Use strong, unique passwords and enable two-factor authentication</span></li>
+          <li><span class="tip-check" aria-hidden="true">✓</span><span data-i18n="sd2">Be careful sharing your location on social media</span></li>
+          <li><span class="tip-check" aria-hidden="true">✓</span><span data-i18n="sd3">Know how to clear your browser history quickly</span></li>
+          <li><span class="tip-check" aria-hidden="true">✓</span><span data-i18n="sd4">Use encrypted messaging apps (Signal, WhatsApp) for sensitive conversations</span></li>
+          <li><span class="tip-check" aria-hidden="true">✓</span><span data-i18n="sd5">Check devices regularly for tracking software</span></li>
+          <li><span class="tip-check" aria-hidden="true">✓</span><span data-i18n="sd6">Use private browsing or incognito mode when searching for help</span></li>
+        </ul>
+      </div>
+      <div class="tips-card">
+        <div class="tips-title">
+          <span class="tips-title-icon">🛡️</span>
+          <h3 data-i18n="saf_physical">Physical Safety</h3>
+        </div>
+        <ul class="tips-list">
+          <li><span class="tip-check" aria-hidden="true">✓</span><span data-i18n="sp1">Trust your instincts — if something feels wrong, it probably is</span></li>
+          <li><span class="tip-check" aria-hidden="true">✓</span><span data-i18n="sp2">Share your location with a trusted person when going out</span></li>
+          <li><span class="tip-check" aria-hidden="true">✓</span><span data-i18n="sp3">Memorize emergency numbers, don't rely only on your phone</span></li>
+          <li><span class="tip-check" aria-hidden="true">✓</span><span data-i18n="sp4">Plan and practice escape routes from home and work</span></li>
+          <li><span class="tip-check" aria-hidden="true">✓</span><span data-i18n="sp5">Keep copies of important documents in a safe place outside your home</span></li>
+          <li><span class="tip-check" aria-hidden="true">✓</span><span data-i18n="sp6">Prepare an emergency bag with essentials you can grab quickly</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Legal -->
+<section class="legal-section" id="legal" aria-labelledby="h-leg">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow" data-i18n="ey_rights">Know Your Rights</span>
+      <h2 class="display" id="h-leg" data-i18n="h_leg">Legal Protections</h2>
+      <p class="section-sub" data-i18n="sub_leg">Legal protections exist for you — learn what they are.</p>
+    </div>
+    <div class="legal-grid">
+      <button class="legal-card" data-modal="leg1">
+        <div class="legal-card-icon">🛡️</div>
+        <h3 data-i18n="leg1h">Protection Orders</h3>
+        <p data-i18n="leg1p">You have the right to seek a restraining or protection order against an abuser in most countries.</p>
+      </button>
+      <button class="legal-card" data-modal="leg2">
+        <div class="legal-card-icon">💼</div>
+        <h3 data-i18n="leg2h">Workplace Rights</h3>
+        <p data-i18n="leg2p">Gender-based harassment and discrimination are illegal in most countries — you can report it.</p>
+      </button>
+      <button class="legal-card" data-modal="leg3">
+        <div class="legal-card-icon">✈️</div>
+        <h3 data-i18n="leg3h">Immigration &amp; Asylum</h3>
+        <p data-i18n="leg3p">Gender-based persecution and domestic violence may qualify you for asylum or special visa protections.</p>
+      </button>
+      <button class="legal-card" data-modal="leg4">
+        <div class="legal-card-icon">👩‍👧</div>
+        <h3 data-i18n="leg4h">Child Custody</h3>
+        <p data-i18n="leg4p">Your rights as a mother are protected — learn about custody rights and how to keep children safe.</p>
+      </button>
+    </div>
+    <div class="legal-ctas">
+      <button class="btn-solid" data-modal="lawyer" data-i18n="btn_lawyer">Find a Lawyer</button>
+      <button class="btn-outline" data-modal="un" data-i18n="btn_un">UN Women's Rights</button>
+    </div>
+  </div>
+</section>
+
+<!-- Community -->
+<section class="community-section" id="community" aria-labelledby="h-com">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="eyebrow" data-i18n="ey_belong">You Belong Here</span>
+      <h2 class="display" id="h-com" data-i18n="h_com">Join Our Community</h2>
+      <p class="section-sub" data-i18n="sub_com">Connect with other women, share your story, find strength together.</p>
+    </div>
+    <div class="comm-grid">
+      <button class="comm-card" data-modal="com1">
+        <div class="comm-card-icon">💬</div>
+        <h3 data-i18n="com1h">Support Forum</h3>
+        <p data-i18n="com1p">A safe, moderated space to share experiences and find support.</p>
+      </button>
+      <button class="comm-card" data-modal="com2">
+        <div class="comm-card-icon">🌟</div>
+        <h3 data-i18n="com2h">Survivor Stories</h3>
+        <p data-i18n="com2p">Read stories of strength and resilience from women worldwide.</p>
+      </button>
+      <button class="comm-card" data-modal="com3">
+        <div class="comm-card-icon">🤝</div>
+        <h3 data-i18n="com3h">Volunteer</h3>
+        <p data-i18n="com3p">Help other women by contributing your time, skills, or resources.</p>
+      </button>
+      <button class="comm-card" data-modal="com4">
+        <div class="comm-card-icon">❤️</div>
+        <h3 data-i18n="com4h">Donate</h3>
+        <p data-i18n="com4p">Support organizations that protect and empower women worldwide.</p>
+      </button>
+    </div>
+    <div class="comm-cta">
+      <button class="btn-white" data-modal="com1" data-i18n="btn_join">Join Our Community →</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <div class="footer-logo-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <span class="footer-name">SafeHer</span>
+        </div>
+        <p class="footer-mission" data-i18n="footer_mission">Dedicated to supporting women facing gender-based violence and hardship worldwide. Every woman deserves safety.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="foot_nav">Navigation</h4>
+        <ul>
+          <li><a href="#emergency" data-i18n="nav_emergency">Emergency</a></li>
+          <li><a href="#hotlines" data-i18n="nav_hotlines">Hotlines</a></li>
+          <li><a href="#resources" data-i18n="nav_resources">Resources</a></li>
+          <li><a href="#safety" data-i18n="nav_safety">Safety Tips</a></li>
+          <li><a href="#legal" data-i18n="nav_legal">Legal Rights</a></li>
+          <li><a href="#community" data-i18n="nav_community">Community</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="foot_legal">Legal</h4>
+        <ul>
+          <li><a href="#" data-i18n="foot_privacy">Privacy Policy</a></li>
+          <li><a href="#" data-i18n="foot_terms">Terms of Use</a></li>
+          <li><a href="#" data-i18n="foot_contact">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="crisis-note" data-i18n="crisis_note">🚨 In crisis? Call 112 (international) or your local emergency number</p>
+      <p class="copy">© 2025 SafeHer. All rights reserved.</p>
+    </div>
+    <p class="escape-note" data-i18n="escape_note">Press Escape at any time to quickly leave this site</p>
+  </div>
+</footer>
+
+<!-- Info modal -->
+<div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  DATA — Countries (national emergency numbers + helplines)
+// ═══════════════════════════════════════════════════════
+var COUNTRIES = [
+  { flag:"🇺🇸", name:"United States", emg:"911", lines:[["DV Hotline","1-800-799-7233","18007997233"],["Sexual Assault","1-800-656-4673","18006564673"],["Crisis Text","Text HOME to 741741",""]] },
+  { flag:"🇬🇧", name:"United Kingdom", emg:"999", lines:[["National DV","0808 200 0247","08082000247"],["Rape Crisis","0808 802 9999","08088029999"],["Samaritans","116 123","116123"]] },
+  { flag:"🇮🇳", name:"India", emg:"112", lines:[["Women's Helpline","1091","1091"],["Police","100","100"],["iCall","9152987821","9152987821"]] },
+  { flag:"🇩🇪", name:"Germany", emg:"110 / 112", lines:[["Women's Helpline","08000 116 016","08000116016"],["Crisis Line","0800 111 0 111","08001110111"]] },
+  { flag:"🇧🇷", name:"Brazil", emg:"190", lines:[["Ligue Mulher","180","180"],["CVV","188","188"]] },
+  { flag:"🇨🇦", name:"Canada", emg:"911", lines:[["Assaulted Women's Helpline","1-866-863-0511","18668630511"],["Kids Help Phone","1-800-668-6868","18006686868"]] },
+  { flag:"🇦🇺", name:"Australia", emg:"000", lines:[["1800RESPECT","1800 737 732","1800737732"],["Lifeline","13 11 14","131114"]] },
+  { flag:"🇫🇷", name:"France", emg:"112", lines:[["Violences Femmes Info","3919","3919"],["SOS Viols","0800 05 95 95","0800059595"]] },
+  { flag:"🇪🇸", name:"Spain", emg:"112", lines:[["Women's Helpline","016","016"]] },
+  { flag:"🇮🇹", name:"Italy", emg:"112", lines:[["Anti-violence","1522","1522"]] },
+  { flag:"🇲🇽", name:"Mexico", emg:"911", lines:[["Women's Line","800 108 4053","8001084053"]] },
+  { flag:"🇦🇷", name:"Argentina", emg:"911", lines:[["Línea Mujer","144","144"]] },
+  { flag:"🇨🇱", name:"Chile", emg:"133", lines:[["Women's Line (SernamEG)","1455","1455"]] },
+  { flag:"🇨🇴", name:"Colombia", emg:"123", lines:[["Línea 155","155","155"]] },
+  { flag:"🇵🇪", name:"Peru", emg:"105", lines:[["Línea 100","100","100"]] },
+  { flag:"🇿🇦", name:"South Africa", emg:"10111", lines:[["GBV Command Centre","0800 428 428","0800428428"]] },
+  { flag:"🇳🇬", name:"Nigeria", emg:"112", lines:[["Police","112 / 199","112"]] },
+  { flag:"🇰🇪", name:"Kenya", emg:"999 / 112", lines:[["GVRC Helpline","0800 720 565","0800720565"]] },
+  { flag:"🇪🇬", name:"Egypt", emg:"122", lines:[["Women's Complaints","15115","15115"]] },
+  { flag:"🇯🇵", name:"Japan", emg:"110", lines:[["Ambulance","119","119"]] },
+  { flag:"🇰🇷", name:"South Korea", emg:"112", lines:[["Women's Hotline","1366","1366"]] },
+  { flag:"🇨🇳", name:"China", emg:"110", lines:[["Ambulance","120","120"]] },
+  { flag:"🇷🇺", name:"Russia", emg:"112", lines:[["Police","102","102"]] },
+  { flag:"🇸🇬", name:"Singapore", emg:"999", lines:[["AWARE Helpline","1800 777 5555","18007775555"]] },
+  { flag:"🇲🇾", name:"Malaysia", emg:"999", lines:[["Talian Kasih","15999","15999"]] },
+  { flag:"🇮🇩", name:"Indonesia", emg:"112", lines:[["Police","110","110"]] },
+  { flag:"🇵🇭", name:"Philippines", emg:"911", lines:[["PNP Women's Desk","117","117"]] },
+  { flag:"🇹🇭", name:"Thailand", emg:"191", lines:[["Social Assistance","1300","1300"]] },
+  { flag:"🇵🇰", name:"Pakistan", emg:"15", lines:[["Women's Helpline","1099","1099"]] },
+  { flag:"🇧🇩", name:"Bangladesh", emg:"999", lines:[["National Helpline","109","109"]] },
+  { flag:"🇹🇷", name:"Turkey", emg:"112", lines:[["Women's Support (KADES app)","155","155"]] },
+  { flag:"🇦🇪", name:"United Arab Emirates", emg:"999", lines:[["Police","999","999"]] },
+  { flag:"🇸🇦", name:"Saudi Arabia", emg:"999", lines:[["Domestic Abuse","1919","1919"]] },
+  { flag:"🇳🇱", name:"Netherlands", emg:"112", lines:[["Veilig Thuis","0800 2000","08002000"]] },
+  { flag:"🇧🇪", name:"Belgium", emg:"112", lines:[["Helpline 1712","1712","1712"]] },
+  { flag:"🇮🇪", name:"Ireland", emg:"112 / 999", lines:[["Women's Aid","1800 341 900","1800341900"]] },
+  { flag:"🇵🇹", name:"Portugal", emg:"112", lines:[["APAV Victim Support","116 006","116006"]] },
+  { flag:"🇵🇱", name:"Poland", emg:"112", lines:[["Niebieska Linia","800 120 002","800120002"]] },
+  { flag:"🇦🇹", name:"Austria", emg:"112", lines:[["Frauen-Helpline","0800 222 555","0800222555"]] },
+  { flag:"🇨🇭", name:"Switzerland", emg:"112", lines:[["Police","117","117"]] },
+  { flag:"🇸🇪", name:"Sweden", emg:"112", lines:[["Kvinnofridslinjen","020 50 50 50","020505050"]] },
+  { flag:"🇳🇴", name:"Norway", emg:"112", lines:[["DIXI Support","22 44 40 50","22444050"]] },
+  { flag:"🇩🇰", name:"Denmark", emg:"112", lines:[["Lev Uden Vold","1888","1888"]] },
+  { flag:"🇫🇮", name:"Finland", emg:"112", lines:[["Nollalinja","080 005 005","080005005"]] },
+  { flag:"🇬🇷", name:"Greece", emg:"112", lines:[["SOS Line","15900","15900"]] },
+  { flag:"🇳🇿", name:"New Zealand", emg:"111", lines:[["Women's Refuge","0800 733 843","0800733843"]] }
+];
+
+// ═══════════════════════════════════════════════════════
+//  DATA — Translations
+// ═══════════════════════════════════════════════════════
+var LANGS = [
+  { code:"en", label:"English", flag:"🇬🇧" },
+  { code:"es", label:"Español", flag:"🇪🇸" },
+  { code:"fr", label:"Français", flag:"🇫🇷" },
+  { code:"de", label:"Deutsch", flag:"🇩🇪" },
+  { code:"pt", label:"Português", flag:"🇵🇹" }
+];
+
+var T = {
+  es: {
+    skip:"Saltar al contenido principal",
+    ebar_q:"🚨 ¿Estás en peligro ahora mismo?", ebar_intl:"📞 Internacional: 112",
+    logo_tag:"Porque toda mujer merece seguridad",
+    nav_emergency:"Emergencia", nav_hotlines:"Líneas de ayuda", nav_resources:"Recursos", nav_safety:"Consejos de seguridad", nav_legal:"Derechos legales", nav_community:"Comunidad",
+    drawer_emg:"📞 Emergencia: 112",
+    hero_badge:"Más de 200 idiomas", hero_h1a:"No Estás", hero_h1b:"Sola.",
+    hero_sub:"Millones de mujeres en todo el mundo sufren violencia de género cada día. SafeHer ofrece números de emergencia reales, recursos y apoyo — en todos los idiomas.",
+    cta_help:"🆘 Necesito ayuda ahora", cta_browse:"Ver recursos",
+    stat1:"de las mujeres sufren violencia", stat2:"países con líneas de ayuda", stat3:"apoyo en crisis disponible",
+    ey_imm:"Ayuda inmediata", h_emg:"Asistencia de emergencia", sub_emg:"Si estás en peligro inmediato, contacta a los servicios de emergencia de tu país.",
+    emg1p:"Conecta con los servicios de emergencia en la mayoría de los países.", call112:"Llamar al 112",
+    emg2h:"Línea de crisis", emg2p:"Disponible 24/7 — encuentra la línea de crisis de tu país en la sección de abajo.",
+    emg3h:"Palabra clave", emg3p:"Acuerda una palabra clave con alguien de confianza para pedir ayuda sin ser escuchada.",
+    ey_country:"Por país", h_hot:"Encuentra ayuda en tu país", sub_hot:"Números de emergencia y líneas de crisis reales para más de 80 países.",
+    note_hot:"⚠️ Los números se ofrecen de buena fe — verifícalos siempre localmente, ya que pueden cambiar.",
+    search_ph:"Buscar país…", no_results:"Ningún país coincide con tu búsqueda.",
+    show_all:"Ver todos los países", show_less:"Ver menos", lbl_emergency:"Emergencia:", lbl_call:"Llamar",
+    ey_support:"Apoyo disponible", h_res:"Recursos y apoyo", sub_res:"Encuentra ayuda especializada cerca de ti, para cada necesidad.", learn_more:"Más información →",
+    res1h:"Apoyo por violencia doméstica", res1p:"Refugios, líneas de ayuda y asistencia legal para sobrevivientes de abuso doméstico.",
+    res2h:"Apoyo por agresión sexual", res2p:"Apoyo confidencial, asesoramiento y recursos para denunciar.",
+    res3h:"Salud mental", res3p:"Asesoramiento, recursos de terapia y grupos de apoyo entre pares.",
+    res4h:"Asistencia legal", res4p:"Asistencia legal gratuita y de bajo costo para órdenes de protección y derechos.",
+    res5h:"Refugios seguros", res5p:"Vivienda de emergencia y transitoria para mujeres y niños.",
+    res6h:"Empoderamiento económico", res6p:"Asistencia financiera, formación laboral y recursos para la independencia.",
+    ey_stay:"Mantente segura", h_saf:"Consejos de seguridad", sub_saf:"El conocimiento es poder — protégete a ti misma y a quienes te rodean.",
+    saf_digital:"Seguridad digital", saf_physical:"Seguridad física",
+    sd1:"Usa contraseñas fuertes y únicas y activa la verificación en dos pasos", sd2:"Ten cuidado al compartir tu ubicación en redes sociales", sd3:"Aprende a borrar tu historial de navegación rápidamente", sd4:"Usa apps de mensajería cifrada (Signal, WhatsApp) para conversaciones delicadas", sd5:"Revisa tus dispositivos con regularidad en busca de software espía", sd6:"Usa navegación privada o incógnito al buscar ayuda",
+    sp1:"Confía en tu instinto — si algo se siente mal, probablemente lo esté", sp2:"Comparte tu ubicación con alguien de confianza al salir", sp3:"Memoriza los números de emergencia, no dependas solo de tu teléfono", sp4:"Planifica y practica rutas de escape de tu hogar y trabajo", sp5:"Guarda copias de documentos importantes en un lugar seguro fuera de casa", sp6:"Prepara una bolsa de emergencia con lo esencial que puedas tomar rápido",
+    ey_rights:"Conoce tus derechos", h_leg:"Protecciones legales", sub_leg:"Existen protecciones legales para ti — descubre cuáles son.",
+    leg1h:"Órdenes de protección", leg1p:"Tienes derecho a solicitar una orden de alejamiento o protección contra un agresor en la mayoría de los países.",
+    leg2h:"Derechos laborales", leg2p:"El acoso y la discriminación de género son ilegales en la mayoría de los países — puedes denunciarlo.",
+    leg3h:"Inmigración y asilo", leg3p:"La persecución de género y la violencia doméstica pueden calificarte para asilo o visas especiales.",
+    leg4h:"Custodia de menores", leg4p:"Tus derechos como madre están protegidos — infórmate sobre la custodia y cómo mantener seguros a tus hijos.",
+    btn_lawyer:"Encontrar un abogado", btn_un:"Derechos de la mujer (ONU)",
+    ey_belong:"Este es tu lugar", h_com:"Únete a nuestra comunidad", sub_com:"Conecta con otras mujeres, comparte tu historia, encuentra fuerza juntas.",
+    com1h:"Foro de apoyo", com1p:"Un espacio seguro y moderado para compartir experiencias y encontrar apoyo.",
+    com2h:"Historias de sobrevivientes", com2p:"Lee historias de fortaleza y resiliencia de mujeres de todo el mundo.",
+    com3h:"Voluntariado", com3p:"Ayuda a otras mujeres aportando tu tiempo, habilidades o recursos.",
+    com4h:"Donar", com4p:"Apoya a organizaciones que protegen y empoderan a las mujeres en todo el mundo.",
+    btn_join:"Únete a nuestra comunidad →",
+    footer_mission:"Dedicadas a apoyar a las mujeres que enfrentan violencia de género y adversidad en todo el mundo. Toda mujer merece seguridad.",
+    foot_nav:"Navegación", foot_legal:"Legal", foot_privacy:"Política de privacidad", foot_terms:"Términos de uso", foot_contact:"Contáctanos",
+    crisis_note:"🚨 ¿En crisis? Llama al 112 (internacional) o a tu número de emergencia local", escape_note:"Presiona Escape en cualquier momento para salir rápidamente de este sitio"
+  },
+  fr: {
+    skip:"Aller au contenu principal",
+    ebar_q:"🚨 Êtes-vous en danger en ce moment ?", ebar_intl:"📞 International : 112",
+    logo_tag:"Parce que chaque femme mérite la sécurité",
+    nav_emergency:"Urgence", nav_hotlines:"Lignes d'écoute", nav_resources:"Ressources", nav_safety:"Conseils de sécurité", nav_legal:"Droits juridiques", nav_community:"Communauté",
+    drawer_emg:"📞 Urgence : 112",
+    hero_badge:"Plus de 200 langues", hero_h1a:"Vous N'Êtes", hero_h1b:"Pas Seule.",
+    hero_sub:"Des millions de femmes dans le monde subissent des violences fondées sur le genre chaque jour. SafeHer fournit de vrais numéros d'urgence, des ressources et du soutien — dans toutes les langues.",
+    cta_help:"🆘 J'ai besoin d'aide maintenant", cta_browse:"Voir les ressources",
+    stat1:"des femmes subissent des violences", stat2:"pays avec lignes d'écoute", stat3:"soutien de crise disponible",
+    ey_imm:"Aide immédiate", h_emg:"Assistance d'urgence", sub_emg:"Si vous êtes en danger immédiat, contactez les services d'urgence de votre pays.",
+    emg1p:"Vous met en relation avec les services d'urgence dans la plupart des pays.", call112:"Appeler le 112",
+    emg2h:"Ligne de crise", emg2p:"Disponible 24h/24 — trouvez la ligne de crise de votre pays dans la section ci-dessous.",
+    emg3h:"Mot de sécurité", emg3p:"Convenez d'un mot de code avec une personne de confiance pour demander de l'aide discrètement.",
+    ey_country:"Par pays", h_hot:"Trouvez de l'aide dans votre pays", sub_hot:"De vrais numéros d'urgence et lignes de crise pour plus de 80 pays.",
+    note_hot:"⚠️ Les numéros sont fournis de bonne foi — vérifiez-les toujours localement, car ils peuvent changer.",
+    search_ph:"Rechercher un pays…", no_results:"Aucun pays ne correspond à votre recherche.",
+    show_all:"Voir tous les pays", show_less:"Voir moins", lbl_emergency:"Urgence :", lbl_call:"Appeler",
+    ey_support:"Soutien disponible", h_res:"Ressources et soutien", sub_res:"Trouvez une aide spécialisée près de chez vous, pour chaque besoin.", learn_more:"En savoir plus →",
+    res1h:"Aide violence domestique", res1p:"Refuges, lignes d'écoute et aide juridique pour les survivantes de violence domestique.",
+    res2h:"Aide aux agressions sexuelles", res2p:"Soutien confidentiel, accompagnement et ressources pour porter plainte.",
+    res3h:"Santé mentale", res3p:"Accompagnement, ressources thérapeutiques et groupes de parole.",
+    res4h:"Aide juridique", res4p:"Aide juridique gratuite ou peu coûteuse pour les ordonnances de protection et vos droits.",
+    res5h:"Refuges sûrs", res5p:"Hébergement d'urgence et de transition pour les femmes et les enfants.",
+    res6h:"Autonomie économique", res6p:"Aide financière, formation professionnelle et ressources pour l'indépendance.",
+    ey_stay:"Restez en sécurité", h_saf:"Conseils de sécurité", sub_saf:"Le savoir, c'est le pouvoir — protégez-vous et protégez celles qui vous entourent.",
+    saf_digital:"Sécurité numérique", saf_physical:"Sécurité physique",
+    sd1:"Utilisez des mots de passe forts et uniques et activez la double authentification", sd2:"Faites attention en partageant votre position sur les réseaux sociaux", sd3:"Sachez effacer rapidement votre historique de navigation", sd4:"Utilisez des messageries chiffrées (Signal, WhatsApp) pour les conversations sensibles", sd5:"Vérifiez régulièrement vos appareils pour détecter des logiciels espions", sd6:"Utilisez la navigation privée lorsque vous cherchez de l'aide",
+    sp1:"Faites confiance à votre instinct — si quelque chose semble anormal, ça l'est probablement", sp2:"Partagez votre position avec une personne de confiance quand vous sortez", sp3:"Mémorisez les numéros d'urgence, ne comptez pas seulement sur votre téléphone", sp4:"Planifiez et répétez des itinéraires de fuite du domicile et du travail", sp5:"Gardez des copies de vos documents importants dans un lieu sûr hors de chez vous", sp6:"Préparez un sac d'urgence avec l'essentiel que vous pouvez emporter rapidement",
+    ey_rights:"Connaissez vos droits", h_leg:"Protections juridiques", sub_leg:"Des protections juridiques existent pour vous — découvrez lesquelles.",
+    leg1h:"Ordonnances de protection", leg1p:"Vous avez le droit de demander une ordonnance d'éloignement ou de protection contre un agresseur dans la plupart des pays.",
+    leg2h:"Droits au travail", leg2p:"Le harcèlement et la discrimination fondés sur le genre sont illégaux dans la plupart des pays — vous pouvez les signaler.",
+    leg3h:"Immigration et asile", leg3p:"La persécution fondée sur le genre et la violence domestique peuvent vous ouvrir droit à l'asile ou à des visas spéciaux.",
+    leg4h:"Garde des enfants", leg4p:"Vos droits en tant que mère sont protégés — informez-vous sur la garde et la sécurité de vos enfants.",
+    btn_lawyer:"Trouver un avocat", btn_un:"Droits des femmes (ONU)",
+    ey_belong:"Votre place est ici", h_com:"Rejoignez notre communauté", sub_com:"Connectez-vous avec d'autres femmes, partagez votre histoire, trouvez la force ensemble.",
+    com1h:"Forum de soutien", com1p:"Un espace sûr et modéré pour partager des expériences et trouver du soutien.",
+    com2h:"Récits de survivantes", com2p:"Lisez des récits de force et de résilience de femmes du monde entier.",
+    com3h:"Bénévolat", com3p:"Aidez d'autres femmes en donnant votre temps, vos compétences ou vos ressources.",
+    com4h:"Faire un don", com4p:"Soutenez les organisations qui protègent et autonomisent les femmes dans le monde.",
+    btn_join:"Rejoignez notre communauté →",
+    footer_mission:"Dédiées au soutien des femmes confrontées aux violences de genre et à l'adversité dans le monde. Chaque femme mérite la sécurité.",
+    foot_nav:"Navigation", foot_legal:"Mentions légales", foot_privacy:"Politique de confidentialité", foot_terms:"Conditions d'utilisation", foot_contact:"Nous contacter",
+    crisis_note:"🚨 En crise ? Appelez le 112 (international) ou votre numéro d'urgence local", escape_note:"Appuyez sur Échap à tout moment pour quitter rapidement ce site"
+  },
+  de: {
+    skip:"Zum Hauptinhalt springen",
+    ebar_q:"🚨 Sind Sie gerade in Gefahr?", ebar_intl:"📞 International: 112",
+    logo_tag:"Weil jede Frau Sicherheit verdient",
+    nav_emergency:"Notfall", nav_hotlines:"Hotlines", nav_resources:"Ressourcen", nav_safety:"Sicherheitstipps", nav_legal:"Rechte", nav_community:"Gemeinschaft",
+    drawer_emg:"📞 Notruf: 112",
+    hero_badge:"Über 200 Sprachen", hero_h1a:"Sie Sind", hero_h1b:"Nicht Allein.",
+    hero_sub:"Millionen von Frauen weltweit erleben täglich geschlechtsspezifische Gewalt. SafeHer bietet echte Notrufnummern, Ressourcen und Unterstützung — in jeder Sprache.",
+    cta_help:"🆘 Ich brauche jetzt Hilfe", cta_browse:"Ressourcen ansehen",
+    stat1:"der Frauen erleben Gewalt", stat2:"Länder mit Hotlines", stat3:"Krisenhilfe verfügbar",
+    ey_imm:"Sofortige Hilfe", h_emg:"Notfallhilfe", sub_emg:"Wenn Sie in unmittelbarer Gefahr sind, kontaktieren Sie den Notruf in Ihrem Land.",
+    emg1p:"Verbindet Sie mit dem Notruf in den meisten Ländern weltweit.", call112:"112 anrufen",
+    emg2h:"Krisen-Hotline", emg2p:"Rund um die Uhr erreichbar — finden Sie die Krisenlinie Ihres Landes im Abschnitt unten.",
+    emg3h:"Codewort", emg3p:"Vereinbaren Sie ein Codewort mit einer Vertrauensperson, um unbemerkt um Hilfe zu bitten.",
+    ey_country:"Nach Land", h_hot:"Finden Sie Hilfe in Ihrem Land", sub_hot:"Echte Notrufnummern und Krisenlinien für über 80 Länder.",
+    note_hot:"⚠️ Die Nummern werden nach bestem Wissen bereitgestellt — überprüfen Sie sie stets lokal, da sie sich ändern können.",
+    search_ph:"Land suchen…", no_results:"Keine Länder entsprechen Ihrer Suche.",
+    show_all:"Alle Länder anzeigen", show_less:"Weniger anzeigen", lbl_emergency:"Notruf:", lbl_call:"Anrufen",
+    ey_support:"Unterstützung verfügbar", h_res:"Ressourcen & Unterstützung", sub_res:"Finden Sie spezialisierte Hilfe in Ihrer Nähe, für jeden Bedarf.", learn_more:"Mehr erfahren →",
+    res1h:"Hilfe bei häuslicher Gewalt", res1p:"Schutzhäuser, Hotlines und rechtliche Unterstützung für Überlebende häuslicher Gewalt.",
+    res2h:"Hilfe bei sexueller Gewalt", res2p:"Vertrauliche Unterstützung, Beratung und Ressourcen für eine Anzeige.",
+    res3h:"Psychische Gesundheit", res3p:"Beratung, Therapieangebote und Selbsthilfegruppen.",
+    res4h:"Rechtsberatung", res4p:"Kostenlose und günstige Rechtshilfe für Schutzanordnungen und Ihre Rechte.",
+    res5h:"Sichere Unterkünfte", res5p:"Not- und Übergangsunterkünfte für Frauen und Kinder.",
+    res6h:"Wirtschaftliche Stärkung", res6p:"Finanzielle Hilfe, Ausbildung und Ressourcen für die Unabhängigkeit.",
+    ey_stay:"Bleiben Sie sicher", h_saf:"Sicherheitstipps", sub_saf:"Wissen ist Macht — schützen Sie sich und die Menschen um Sie herum.",
+    saf_digital:"Digitale Sicherheit", saf_physical:"Körperliche Sicherheit",
+    sd1:"Verwenden Sie starke, einzigartige Passwörter und aktivieren Sie die Zwei-Faktor-Authentifizierung", sd2:"Seien Sie vorsichtig beim Teilen Ihres Standorts in sozialen Medien", sd3:"Wissen Sie, wie Sie Ihren Browserverlauf schnell löschen", sd4:"Nutzen Sie verschlüsselte Messenger (Signal, WhatsApp) für sensible Gespräche", sd5:"Prüfen Sie Ihre Geräte regelmäßig auf Überwachungssoftware", sd6:"Nutzen Sie den privaten Modus, wenn Sie nach Hilfe suchen",
+    sp1:"Vertrauen Sie Ihrem Instinkt — wenn sich etwas falsch anfühlt, ist es das wahrscheinlich", sp2:"Teilen Sie Ihren Standort mit einer Vertrauensperson, wenn Sie ausgehen", sp3:"Merken Sie sich Notrufnummern, verlassen Sie sich nicht nur auf Ihr Telefon", sp4:"Planen und üben Sie Fluchtwege von zu Hause und der Arbeit", sp5:"Bewahren Sie Kopien wichtiger Dokumente an einem sicheren Ort außerhalb Ihres Zuhauses auf", sp6:"Bereiten Sie eine Nottasche mit dem Nötigsten vor, die Sie schnell greifen können",
+    ey_rights:"Kennen Sie Ihre Rechte", h_leg:"Rechtlicher Schutz", sub_leg:"Es gibt rechtlichen Schutz für Sie — erfahren Sie, welchen.",
+    leg1h:"Schutzanordnungen", leg1p:"Sie haben in den meisten Ländern das Recht, eine Kontakt- oder Schutzanordnung gegen einen Täter zu beantragen.",
+    leg2h:"Rechte am Arbeitsplatz", leg2p:"Geschlechtsspezifische Belästigung und Diskriminierung sind in den meisten Ländern illegal — Sie können sie melden.",
+    leg3h:"Einwanderung & Asyl", leg3p:"Geschlechtsspezifische Verfolgung und häusliche Gewalt können Sie zu Asyl oder besonderen Visa berechtigen.",
+    leg4h:"Sorgerecht", leg4p:"Ihre Rechte als Mutter sind geschützt — informieren Sie sich über das Sorgerecht und die Sicherheit Ihrer Kinder.",
+    btn_lawyer:"Anwalt finden", btn_un:"Frauenrechte (UN)",
+    ey_belong:"Hier gehören Sie hin", h_com:"Werden Sie Teil unserer Gemeinschaft", sub_com:"Vernetzen Sie sich mit anderen Frauen, teilen Sie Ihre Geschichte, finden Sie gemeinsam Kraft.",
+    com1h:"Unterstützungsforum", com1p:"Ein sicherer, moderierter Raum, um Erfahrungen zu teilen und Unterstützung zu finden.",
+    com2h:"Geschichten von Überlebenden", com2p:"Lesen Sie Geschichten von Stärke und Widerstandskraft von Frauen weltweit.",
+    com3h:"Ehrenamt", com3p:"Helfen Sie anderen Frauen mit Ihrer Zeit, Ihren Fähigkeiten oder Ressourcen.",
+    com4h:"Spenden", com4p:"Unterstützen Sie Organisationen, die Frauen weltweit schützen und stärken.",
+    btn_join:"Werden Sie Teil unserer Gemeinschaft →",
+    footer_mission:"Wir unterstützen Frauen, die weltweit geschlechtsspezifische Gewalt und Not erleben. Jede Frau verdient Sicherheit.",
+    foot_nav:"Navigation", foot_legal:"Rechtliches", foot_privacy:"Datenschutz", foot_terms:"Nutzungsbedingungen", foot_contact:"Kontakt",
+    crisis_note:"🚨 In einer Krise? Rufen Sie 112 (international) oder Ihre örtliche Notrufnummer an", escape_note:"Drücken Sie jederzeit Esc, um diese Seite schnell zu verlassen"
+  },
+  pt: {
+    skip:"Ir para o conteúdo principal",
+    ebar_q:"🚨 Você está em perigo agora?", ebar_intl:"📞 Internacional: 112",
+    logo_tag:"Porque toda mulher merece segurança",
+    nav_emergency:"Emergência", nav_hotlines:"Linhas de apoio", nav_resources:"Recursos", nav_safety:"Dicas de segurança", nav_legal:"Direitos legais", nav_community:"Comunidade",
+    drawer_emg:"📞 Emergência: 112",
+    hero_badge:"Mais de 200 idiomas", hero_h1a:"Você Não", hero_h1b:"Está Sozinha.",
+    hero_sub:"Milhões de mulheres em todo o mundo enfrentam violência de gênero todos os dias. SafeHer oferece números de emergência reais, recursos e apoio — em todos os idiomas.",
+    cta_help:"🆘 Preciso de ajuda agora", cta_browse:"Ver recursos",
+    stat1:"das mulheres sofrem violência", stat2:"países com linhas de apoio", stat3:"apoio em crise disponível",
+    ey_imm:"Ajuda imediata", h_emg:"Assistência de emergência", sub_emg:"Se você está em perigo imediato, contate os serviços de emergência do seu país.",
+    emg1p:"Conecta aos serviços de emergência na maioria dos países.", call112:"Ligar para 112",
+    emg2h:"Linha de crise", emg2p:"Disponível 24 horas — encontre a linha de crise do seu país na seção abaixo.",
+    emg3h:"Palavra de segurança", emg3p:"Combine uma palavra-código com alguém de confiança para pedir ajuda sem ser ouvida.",
+    ey_country:"Por país", h_hot:"Encontre ajuda no seu país", sub_hot:"Números de emergência e linhas de crise reais para mais de 80 países.",
+    note_hot:"⚠️ Os números são fornecidos de boa-fé — verifique-os sempre localmente, pois podem mudar.",
+    search_ph:"Buscar país…", no_results:"Nenhum país corresponde à sua busca.",
+    show_all:"Ver todos os países", show_less:"Ver menos", lbl_emergency:"Emergência:", lbl_call:"Ligar",
+    ey_support:"Apoio disponível", h_res:"Recursos e apoio", sub_res:"Encontre ajuda especializada perto de você, para cada necessidade.", learn_more:"Saiba mais →",
+    res1h:"Apoio à violência doméstica", res1p:"Abrigos, linhas de apoio e assistência jurídica para sobreviventes de abuso doméstico.",
+    res2h:"Apoio à violência sexual", res2p:"Apoio confidencial, aconselhamento e recursos para denunciar.",
+    res3h:"Saúde mental", res3p:"Aconselhamento, recursos de terapia e grupos de apoio.",
+    res4h:"Assistência jurídica", res4p:"Assistência jurídica gratuita e de baixo custo para medidas protetivas e direitos.",
+    res5h:"Abrigos seguros", res5p:"Habitação de emergência e transitória para mulheres e crianças.",
+    res6h:"Autonomia econômica", res6p:"Assistência financeira, capacitação profissional e recursos para a independência.",
+    ey_stay:"Fique segura", h_saf:"Dicas de segurança", sub_saf:"Conhecimento é poder — proteja a si mesma e a quem está ao seu redor.",
+    saf_digital:"Segurança digital", saf_physical:"Segurança física",
+    sd1:"Use senhas fortes e únicas e ative a autenticação de dois fatores", sd2:"Tenha cuidado ao compartilhar sua localização nas redes sociais", sd3:"Saiba como limpar seu histórico de navegação rapidamente", sd4:"Use apps de mensagens criptografadas (Signal, WhatsApp) para conversas sensíveis", sd5:"Verifique seus dispositivos regularmente em busca de software de rastreamento", sd6:"Use a navegação privada ou anônima ao procurar ajuda",
+    sp1:"Confie no seu instinto — se algo parece errado, provavelmente está", sp2:"Compartilhe sua localização com alguém de confiança ao sair", sp3:"Memorize os números de emergência, não dependa só do seu telefone", sp4:"Planeje e pratique rotas de fuga de casa e do trabalho", sp5:"Guarde cópias de documentos importantes em um local seguro fora de casa", sp6:"Prepare uma bolsa de emergência com o essencial que você possa pegar rápido",
+    ey_rights:"Conheça seus direitos", h_leg:"Proteções legais", sub_leg:"Existem proteções legais para você — descubra quais são.",
+    leg1h:"Medidas protetivas", leg1p:"Você tem o direito de solicitar uma medida protetiva ou de afastamento contra um agressor na maioria dos países.",
+    leg2h:"Direitos no trabalho", leg2p:"O assédio e a discriminação de gênero são ilegais na maioria dos países — você pode denunciar.",
+    leg3h:"Imigração e asilo", leg3p:"A perseguição de gênero e a violência doméstica podem qualificar você para asilo ou vistos especiais.",
+    leg4h:"Guarda dos filhos", leg4p:"Seus direitos como mãe são protegidos — informe-se sobre a guarda e como manter seus filhos seguros.",
+    btn_lawyer:"Encontrar um advogado", btn_un:"Direitos da mulher (ONU)",
+    ey_belong:"Seu lugar é aqui", h_com:"Junte-se à nossa comunidade", sub_com:"Conecte-se com outras mulheres, compartilhe sua história, encontre força juntas.",
+    com1h:"Fórum de apoio", com1p:"Um espaço seguro e moderado para compartilhar experiências e encontrar apoio.",
+    com2h:"Histórias de sobreviventes", com2p:"Leia histórias de força e resiliência de mulheres de todo o mundo.",
+    com3h:"Voluntariado", com3p:"Ajude outras mulheres contribuindo com seu tempo, habilidades ou recursos.",
+    com4h:"Doar", com4p:"Apoie organizações que protegem e empoderam mulheres em todo o mundo.",
+    btn_join:"Junte-se à nossa comunidade →",
+    footer_mission:"Dedicadas a apoiar mulheres que enfrentam violência de gênero e dificuldades em todo o mundo. Toda mulher merece segurança.",
+    foot_nav:"Navegação", foot_legal:"Legal", foot_privacy:"Política de privacidade", foot_terms:"Termos de uso", foot_contact:"Fale conosco",
+    crisis_note:"🚨 Em crise? Ligue para 112 (internacional) ou para o número de emergência local", escape_note:"Pressione Esc a qualquer momento para sair rapidamente deste site"
+  }
+};
+
+// ═══════════════════════════════════════════════════════
+//  DATA — "More info" modal content (English)
+// ═══════════════════════════════════════════════════════
+var MODALS = {
+  res1: { icon:"🏠", title:"Domestic Violence Support",
+    html:"<p>You do not have to face domestic abuse alone. Support services can help you plan for safety, find emergency housing, and understand your options — confidentially and free of charge.</p><ul><li>24/7 confidential hotlines with trained advocates</li><li>Emergency shelters and safe housing for you and your children</li><li>Help creating a personal safety plan</li><li>Legal advocacy for protection orders</li></ul><p>If you are in immediate danger, call your local emergency number now.</p><a href='tel:112' class='call-btn modal-cta'>📞 Call 112</a>" },
+  res2: { icon:"💜", title:"Sexual Assault Support",
+    html:"<p>What happened is not your fault. Trained, confidential advocates can support you whether or not you choose to report, and can explain your options at your own pace.</p><ul><li>Confidential 24/7 crisis lines and online chat</li><li>Medical care and forensic exam information</li><li>Counseling and long-term emotional support</li><li>Guidance on reporting — only if and when you're ready</li></ul><a href='tel:112' class='call-btn modal-cta'>📞 Call 112</a>" },
+  res3: { icon:"🧠", title:"Mental Health",
+    html:"<p>Trauma, anxiety, and depression are common responses to abuse — and support is available. You deserve care for your mind as much as your body.</p><ul><li>Free and low-cost counseling and therapy</li><li>Trauma-informed and survivor-focused specialists</li><li>Peer support groups, in person and online</li><li>24/7 crisis and suicide-prevention lines</li></ul><a href='tel:112' class='call-btn modal-cta'>📞 Call 112</a>" },
+  res4: { icon:"⚖️", title:"Legal Aid",
+    html:"<p>Legal help is available even if you cannot afford a lawyer. Legal aid organizations can guide you through protection orders, custody, housing, and immigration matters.</p><ul><li>Free or low-cost legal advice and representation</li><li>Help filing for protection / restraining orders</li><li>Support with custody, divorce, and housing</li><li>Assistance for survivors regardless of immigration status</li></ul>" },
+  res5: { icon:"🏡", title:"Safe Shelters",
+    html:"<p>Shelters provide a secure, confidential place to stay when home isn't safe — for you and your children. Locations are kept private for your protection.</p><ul><li>Emergency beds available 24/7</li><li>Transitional housing while you rebuild</li><li>Food, clothing, and basic essentials provided</li><li>On-site advocates and childcare support</li></ul><a href='tel:112' class='call-btn modal-cta'>📞 Call 112</a>" },
+  res6: { icon:"💪", title:"Economic Empowerment",
+    html:"<p>Financial independence is a powerful part of safety and recovery. Programs exist to help you rebuild stability on your own terms.</p><ul><li>Emergency financial assistance and grants</li><li>Job training, résumé help, and placement</li><li>Free or subsidized childcare while you work or study</li><li>Banking and budgeting support to regain control</li></ul>" },
+  leg1: { icon:"🛡️", title:"Protection Orders",
+    html:"<p>A protection order (also called a restraining order) is a legal order that requires an abuser to stay away from you and stop contacting you. In most countries you can apply even without a lawyer.</p><ul><li>Can order the abuser to leave a shared home</li><li>May cover your children, workplace, and school</li><li>Emergency orders can often be granted the same day</li><li>Breaking the order is a criminal offense</li></ul><p>A local advocate or legal aid office can help you file.</p>" },
+  leg2: { icon:"💼", title:"Workplace Rights",
+    html:"<p>Gender-based harassment and discrimination at work are illegal in most countries. You have the right to a safe workplace and to report misconduct without retaliation.</p><ul><li>Protection from sexual harassment and discrimination</li><li>The right to report internally or to a labor authority</li><li>Protection against retaliation for reporting</li><li>Possible accommodations if you're experiencing abuse</li></ul>" },
+  leg3: { icon:"✈️", title:"Immigration & Asylum",
+    html:"<p>Your safety does not depend on your immigration status. Gender-based violence and persecution can, in many countries, form the basis of an asylum claim or a special visa.</p><ul><li>Domestic-violence survivors may qualify for special visas</li><li>Gender-based persecution can be grounds for asylum</li><li>Support services are available regardless of status</li><li>Immigration legal aid can advise you confidentially</li></ul>" },
+  leg4: { icon:"👩‍👧", title:"Child Custody",
+    html:"<p>Courts prioritize the safety and best interests of children. A history of abuse is highly relevant to custody and visitation decisions.</p><ul><li>You can request custody and supervised visitation</li><li>Protection orders can include your children</li><li>Document incidents to support your case</li><li>Family legal aid can guide you through the process</li></ul>" },
+  lawyer: { icon:"👩‍⚖️", title:"Find a Lawyer",
+    html:"<p>You don't need to navigate the legal system alone, and you don't need to be wealthy to get help.</p><ul><li>Contact your local <strong>legal aid</strong> office for free or low-cost representation</li><li>Ask domestic-violence hotlines for lawyer referrals</li><li>Many bar associations offer free legal clinics</li><li>Some lawyers take survivor cases pro bono (free)</li></ul><p>Bring any documentation you have — messages, photos, or a record of incidents.</p>" },
+  un: { icon:"🕊️", title:"UN Women — Your Rights",
+    html:"<p>International bodies affirm that every woman has the right to live free from violence and discrimination.</p><ul><li><strong>UN Women</strong> works globally to end violence against women</li><li>The Convention (CEDAW) protects women's rights worldwide</li><li>Many countries have national women's rights commissions</li><li>These frameworks back the local protections available to you</li></ul><p>Learn more at unwomen.org.</p>" },
+  com1: { icon:"💬", title:"Support Forum",
+    html:"<p>Connection is powerful. Our support community is a safe, moderated space where women support one another — anonymously if you prefer.</p><ul><li>Moderated 24/7 to keep it safe and respectful</li><li>Anonymous participation — no real name required</li><li>Topic groups for survivors, mothers, and more</li><li>Guidelines that protect your privacy</li></ul><p>Community features are illustrative in this demo — connect with a verified local organization for live peer support.</p>" },
+  com2: { icon:"🌟", title:"Survivor Stories",
+    html:"<p>You are not alone, and healing is possible. Survivor stories remind us of the strength it takes to move forward.</p><ul><li>Real stories of resilience and recovery</li><li>Shared with consent and privacy protected</li><li>A reminder that a safer future is possible</li></ul><p>If you'd like to share your own story one day, you'll always be in control of what and how much you share.</p>" },
+  com3: { icon:"🤝", title:"Volunteer",
+    html:"<p>If you're in a position to help, your time can change a life. Volunteers are the backbone of many women's support organizations.</p><ul><li>Answer hotlines (with full training provided)</li><li>Help at shelters and community centers</li><li>Offer professional skills — legal, medical, tech</li><li>Raise awareness in your community</li></ul><p>Reach out to a local women's organization to get started.</p>" },
+  com4: { icon:"❤️", title:"Donate",
+    html:"<p>Donations fund shelters, hotlines, and legal aid that keep women safe every day. Every contribution helps.</p><ul><li>Support 24/7 crisis hotlines</li><li>Fund emergency shelter beds</li><li>Provide legal and counseling services</li><li>One-time or recurring — any amount matters</li></ul><p>Please give to a verified, registered organization in your region.</p>" }
+};
+
+// ═══════════════════════════════════════════════════════
+//  Theme
+// ═══════════════════════════════════════════════════════
+(function() {
+  var stored = localStorage.getItem('theme');
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var theme = stored || (prefersDark ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', theme);
+  updateIcons(theme);
+
+  function updateIcons(t) {
+    var sun = document.getElementById('iconSun');
+    var moon = document.getElementById('iconMoon');
+    if (!sun || !moon) return;
+    sun.style.display = t === 'dark' ? 'block' : 'none';
+    moon.style.display = t === 'dark' ? 'none' : 'block';
+  }
+
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var cur = document.documentElement.getAttribute('data-theme');
+    var next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateIcons(next);
+  });
+})();
+
+// ═══════════════════════════════════════════════════════
+//  Language switching
+// ═══════════════════════════════════════════════════════
+(function() {
+  // Cache original English text/placeholder so we can switch back.
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    el.setAttribute('data-orig', el.innerHTML);
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
+    el.setAttribute('data-orig-ph', el.getAttribute('placeholder') || '');
+  });
+
+  var currentLang = 'en';
+
+  window.getLang = function() { return currentLang; };
+
+  window.applyLang = function(lang) {
+    currentLang = lang;
+    var dict = T[lang] || null;
+    document.documentElement.setAttribute('lang', lang);
+
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n');
+      if (!dict) { el.innerHTML = el.getAttribute('data-orig'); return; }
+      el.innerHTML = (dict[key] != null) ? dict[key] : el.getAttribute('data-orig');
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n-ph');
+      if (!dict) { el.setAttribute('placeholder', el.getAttribute('data-orig-ph')); return; }
+      el.setAttribute('placeholder', (dict[key] != null) ? dict[key] : el.getAttribute('data-orig-ph'));
+    });
+
+    // Update the language button label + active state
+    var meta = LANGS.filter(function(l){ return l.code === lang; })[0];
+    document.getElementById('langLabel').textContent = meta ? meta.label : 'English';
+    document.querySelectorAll('#langMenu button').forEach(function(b) {
+      b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+
+    try { localStorage.setItem('lang', lang); } catch(e) {}
+  };
+
+  // Build the language menu
+  var menu = document.getElementById('langMenu');
+  menu.innerHTML = LANGS.map(function(l) {
+    return '<button role="menuitem" data-lang="' + l.code + '"><span class="flag">' + l.flag + '</span>' + l.label + '</button>';
+  }).join('');
+
+  var langBtn = document.getElementById('langBtn');
+  function closeMenu() { menu.classList.remove('open'); langBtn.setAttribute('aria-expanded', 'false'); }
+  langBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var open = menu.classList.toggle('open');
+    langBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  menu.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-lang]');
+    if (!btn) return;
+    window.applyLang(btn.getAttribute('data-lang'));
+    renderCountries();
+    closeMenu();
+  });
+  document.addEventListener('click', function(e) {
+    if (!menu.contains(e.target) && e.target !== langBtn) closeMenu();
+  });
+
+  // Restore saved language
+  var savedLang = null;
+  try { savedLang = localStorage.getItem('lang'); } catch(e) {}
+  if (savedLang && (savedLang === 'en' || T[savedLang])) window.applyLang(savedLang);
+})();
+
+// ═══════════════════════════════════════════════════════
+//  Countries — render, search, expand
+// ═══════════════════════════════════════════════════════
+var COLLAPSED_COUNT = 8;
+var countriesExpanded = false;
+
+function tr(key, fallback) {
+  var dict = T[window.getLang()];
+  return (dict && dict[key] != null) ? dict[key] : fallback;
+}
+
+function renderCountries() {
+  var list = document.getElementById('countryList');
+  var lblEmg = tr('lbl_emergency', 'Emergency:');
+  var lblCall = tr('lbl_call', 'Call');
+
+  list.innerHTML = COUNTRIES.map(function(c) {
+    var telEmg = c.emg.split('/')[0].replace(/[^0-9]/g, '');
+    var details = c.lines.map(function(ln) {
+      if (ln[2]) {
+        return '<div class="detail-line"><strong>' + ln[0] + ':</strong> <a href="tel:' + ln[2] + '">' + ln[1] + '</a></div>';
+      }
+      return '<div class="detail-line"><strong>' + ln[0] + ':</strong> ' + ln[1] + '</div>';
+    }).join('');
+
+    return '<div class="country-card" data-name="' + c.name.toLowerCase() + '">' +
+        '<div class="country-header">' +
+          '<span class="country-name">' + c.flag + ' ' + c.name + '</span>' +
+          '<div class="country-emg">' +
+            '<span class="emg-num">' + lblEmg + ' ' + c.emg + '</span>' +
+            '<a href="tel:' + telEmg + '" class="tel-link">' + lblCall + ' ' + c.emg + '</a>' +
+          '</div>' +
+        '</div>' +
+        '<div class="country-detail">' + details + '</div>' +
+      '</div>';
+  }).join('');
+
+  updateCountryVisibility();
+}
+
+function updateCountryVisibility() {
+  var q = (document.getElementById('countrySearch').value || '').toLowerCase().trim();
+  var cards = document.querySelectorAll('#countryList .country-card');
+  var shown = 0, matches = 0;
+
+  cards.forEach(function(card, i) {
+    var match = !q || card.getAttribute('data-name').indexOf(q) !== -1;
+    if (match) matches++;
+    var visible = match && (q || countriesExpanded || i < COLLAPSED_COUNT);
+    card.style.display = visible ? '' : 'none';
+    if (visible) shown++;
+  });
+
+  document.getElementById('noResults').style.display = (matches === 0) ? '' : 'none';
+
+  // Toggle button: hidden while searching or when everything already fits
+  var toggle = document.getElementById('toggleCountries');
+  if (q || COUNTRIES.length <= COLLAPSED_COUNT) {
+    toggle.parentElement.style.display = 'none';
+  } else {
+    toggle.parentElement.style.display = '';
+    toggle.textContent = countriesExpanded
+      ? tr('show_less', 'Show fewer')
+      : tr('show_all', 'Show all countries');
+  }
+}
+
+document.getElementById('countrySearch').addEventListener('input', updateCountryVisibility);
+document.getElementById('toggleCountries').addEventListener('click', function() {
+  countriesExpanded = !countriesExpanded;
+  updateCountryVisibility();
+  if (!countriesExpanded) {
+    document.getElementById('hotlines').scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+renderCountries();
+
+// ═══════════════════════════════════════════════════════
+//  Info modals ("Learn more" / cards)
+// ═══════════════════════════════════════════════════════
+(function() {
+  var overlay = document.getElementById('modalOverlay');
+  var body = document.getElementById('modalBody');
+  var lastFocus = null;
+
+  function openModal(id) {
+    var data = MODALS[id];
+    if (!data) return;
+    lastFocus = document.activeElement;
+    body.innerHTML =
+      '<div class="modal-icon">' + data.icon + '</div>' +
+      '<h3 id="modalTitle">' + data.title + '</h3>' +
+      data.html;
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.getElementById('modalClose').focus();
+  }
+  function closeModal() {
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  window.closeInfoModal = closeModal;
+
+  document.querySelectorAll('[data-modal]').forEach(function(el) {
+    el.addEventListener('click', function() { openModal(el.getAttribute('data-modal')); });
+  });
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+})();
+
+// ═══════════════════════════════════════════════════════
+//  Mobile nav
+// ═══════════════════════════════════════════════════════
+var overlay = document.getElementById('drawerOverlay');
+var drawer = document.getElementById('drawer');
+function openDrawer() {
+  drawer.classList.add('open');
+  overlay.classList.add('open');
+  document.getElementById('menuOpen').setAttribute('aria-expanded', 'true');
+  overlay.removeAttribute('aria-hidden');
+}
+function closeDrawer() {
+  drawer.classList.remove('open');
+  overlay.classList.remove('open');
+  document.getElementById('menuOpen').setAttribute('aria-expanded', 'false');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+document.getElementById('menuOpen').addEventListener('click', openDrawer);
+document.getElementById('menuClose').addEventListener('click', closeDrawer);
+overlay.addEventListener('click', closeDrawer);
+drawer.querySelectorAll('a').forEach(function(a) {
+  a.addEventListener('click', closeDrawer);
+});
+
+// ═══════════════════════════════════════════════════════
+//  Escape key: close overlays first, else quick-exit
+// ═══════════════════════════════════════════════════════
+document.addEventListener('keydown', function(e) {
+  if (e.key !== 'Escape') return;
+  var modalOpen = document.getElementById('modalOverlay').classList.contains('open');
+  var drawerOpen = drawer.classList.contains('open');
+  var langOpen = document.getElementById('langMenu').classList.contains('open');
+  if (modalOpen) { e.stopPropagation(); window.closeInfoModal(); return; }
+  if (drawerOpen) { e.stopPropagation(); closeDrawer(); return; }
+  if (langOpen) { e.stopPropagation(); document.getElementById('langMenu').classList.remove('open'); return; }
+  // Quick exit
+  window.location.replace('https://weather.com');
+}, true);
+</script>
+</body>
+</html>
